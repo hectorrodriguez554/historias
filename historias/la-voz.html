@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>La Voz · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Una habitación a oscuras vista desde la cama: el techo, un coche que pasa y barre la pared con sus faros,
+   y la Voz como ondas que laten desde el centro. Hablan más fuerte cuando habla la Voz y se apagan al final. */
+:root {
+  --bg: #0b0e14;
+  --fg: #dfe3ea;
+  --muted: #7d8795;
+  --voz: #9fc3e6;
+  --leo: #e0c9a2;
+  --linea: #232b38;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ondas: .5;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem);
+  line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(8rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Techo: vigas y esquinas apenas visibles */
+.techo { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(60, 78, 104, .22) 0%, rgba(11, 14, 20, 0) 62%),
+    linear-gradient(180deg, #0d111a 0%, #090c11 100%); }
+.techo::after { content: ""; position: absolute; inset: 0;
+  background-image: linear-gradient(90deg, rgba(120, 140, 170, .05) 1px, transparent 1px);
+  background-size: 170px 100%; }
+
+/* Faros del coche */
+.coche { position: fixed; inset: -10% -30%; z-index: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(100deg, transparent 38%, rgba(190, 215, 240, .0) 42%, rgba(190, 215, 240, .15) 50%, rgba(190, 215, 240, .0) 58%, transparent 62%);
+  transform: translateX(-60%) skewX(-14deg);
+  animation: coche 19s ease-in-out infinite 3s; }
+@keyframes coche {
+  0% { transform: translateX(-60%) skewX(-14deg); opacity: 0; }
+  4% { opacity: 1; }
+  22% { transform: translateX(60%) skewX(-14deg); opacity: 0; }
+  100% { transform: translateX(60%) skewX(-14deg); opacity: 0; }
+}
+
+/* Ondas de la Voz */
+.ondas { position: fixed; z-index: 0; left: 50%; top: 40%; width: min(150vw, 1100px); aspect-ratio: 1;
+  transform: translate(-50%, -50%); pointer-events: none; opacity: var(--ondas); transition: opacity 1.6s ease; }
+.ondas svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ondas circle { fill: none; stroke: var(--voz); stroke-width: 1.2; transform-origin: 200px 200px; transform-box: view-box;
+  animation: latido 8s ease-out infinite; opacity: 0; }
+.ondas circle:nth-child(2) { animation-delay: 1.6s; }
+.ondas circle:nth-child(3) { animation-delay: 3.2s; }
+.ondas circle:nth-child(4) { animation-delay: 4.8s; }
+.ondas circle:nth-child(5) { animation-delay: 6.4s; }
+.ondas .centro { fill: var(--voz); stroke: none; opacity: .5; animation: respira 4s ease-in-out infinite; transform-origin: 200px 200px; transform-box: view-box; }
+@keyframes latido {
+  0% { transform: scale(.04); opacity: 0; }
+  12% { opacity: .65; }
+  100% { transform: scale(1); opacity: 0; }
+}
+@keyframes respira { 0%, 100% { transform: scale(1); opacity: .35; } 50% { transform: scale(1.5); opacity: .7; } }
+body[data-quien="v"] { --ondas: .95; }
+body[data-quien="l"] { --ondas: .38; }
+body[data-quien="fin"] { --ondas: 0; }
+body[data-quien="v"] .ondas circle { animation-duration: 5.2s; }
+body[data-quien="v"] .ondas .centro { animation-duration: 2.6s; }
+
+/* Lectura */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; }
+
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; align-self: flex-start; padding-block: .4rem; }
+.volver:hover, .volver:focus-visible { color: var(--voz); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--voz); outline-offset: 4px; }
+
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 56svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+h1 {
+  margin: 0; font-family: var(--display); font-style: italic; font-weight: 500;
+  font-size: clamp(4.4rem, 20vw, 9rem); line-height: .92; letter-spacing: -.02em; color: var(--voz);
+  text-shadow: 0 0 40px rgba(159, 195, 230, .28);
+}
+
+/* Narración, y quién habla: la Voz en azul frío y cursiva, Leo en cálido */
+.n { color: var(--fg); margin-block: .6rem; }
+.l, .v { padding-left: 1.1em; text-indent: -1.1em; }
+.l { color: var(--leo); }
+.v { color: var(--voz); font-style: italic; }
+.l .n-in, .v .n-in { color: var(--fg); font-style: normal; }
+.pausa { margin-top: 1.6rem; }
+
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--voz); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--voz); text-decoration: none; padding-block: .4rem; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .coche { animation: none; opacity: 0; }
+  .ondas circle { animation: none; opacity: .22; transform: scale(.5); }
+  .ondas circle:nth-child(3) { transform: scale(.75); }
+  .ondas circle:nth-child(4) { transform: scale(.95); }
+  .ondas .centro { animation: none; }
+  .ondas { transition: none; }
+}
+</style>
+</head>
+<body data-quien="n">
+
+<div class="techo" aria-hidden="true"></div>
+<div class="coche" aria-hidden="true"></div>
+<div class="ondas" aria-hidden="true">
+  <svg viewBox="0 0 400 400">
+    <circle cx="200" cy="200" r="190"/>
+    <circle cx="200" cy="200" r="190"/>
+    <circle cx="200" cy="200" r="190"/>
+    <circle cx="200" cy="200" r="190"/>
+    <circle cx="200" cy="200" r="190"/>
+    <circle class="centro" cx="200" cy="200" r="4"/>
+  </svg>
+</div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Leo · de madrugada</div>
+    <h1>La Voz</h1>
+  </header>
+
+  <p class="n">Leo llevaba una hora mirando el techo cuando la Voz habló.</p>
+  <p class="n">No fue un sonido. Fue esa conversación que se abre sola dentro de uno cuando la casa está en silencio y el móvil, boca abajo en la mesilla, pesa más que cualquier cosa.</p>
+
+  <p class="v pausa">—Estás despierto —dijo la Voz.</p>
+  <p class="l">—Estoy bien.</p>
+  <p class="v">—Eso no es lo que te he preguntado.</p>
+  <p class="l">—Claro que estoy bien. <span class="n-in">—Leo giró hacia la pared—.</span> Y claro que es mi decisión. Si no fuera lo que quiero, me habría ido hace mucho.</p>
+  <p class="v">—Eso es verdad.</p>
+  <p class="l">—Pues ya está.</p>
+  <p class="v">—No, no está. <span class="n-in">—La Voz esperó—.</span> Dime qué ha pasado hoy.</p>
+
+  <p class="n pausa">Leo tardó en contestar. Cogió aire y lo soltó despacio.</p>
+
+  <p class="l pausa">—Nada. Es que cada vez que siento que hay un avance, el tiempo da un paso agigantado y me alcanza. A veces incluso me adelanta. Y yo ahí, corriendo detrás de algo que nadie me ha pedido que corra.</p>
+  <p class="v">—¿Ha pasado algo concreto?</p>
+  <p class="l">—No. Y ya sé que es una tontería, que no tiene por qué ser nada de eso. Pero me molesta igual. Son esas cosas pequeñas las que me hacen pensar que no me elegirá a mí. Que no seré suficiente para demostrarle que la haría feliz toda la vida.</p>
+  <p class="v">—Para —dijo la Voz, sin dureza—. Fíjate en esa frase. "Demostrarle". "Suficiente". ¿Desde cuándo esto es un examen?</p>
+  <p class="l">—No lo es.</p>
+  <p class="v">—Pues lo estás haciendo como si lo fuera. Como si ella tuviera una nota y tú tuvieras que llegar al aprobado antes de que se acabe el plazo. Irene no es un premio, Leo. Y tú no tienes que ganarle a nadie, ni al tiempo, para merecer lo que sientes.</p>
+
+  <p class="n pausa">Leo se incorporó en la cama, con la espalda contra el cabecero.</p>
+
+  <p class="l pausa">—Ya, pero entiéndeme. Mi mayor deseo es hacerla feliz durante toda la vida. Si es posible.</p>
+  <p class="v">—Qué bonito deseo.</p>
+  <p class="l">—Y sé que no puedo asegurarlo. Nadie sabe qué pasará de aquí a cinco meses, ni siquiera de aquí a mañana.</p>
+  <p class="v">—Eso también es verdad —dijo la Voz—. Y es una de las cosas más sensatas que has dicho esta noche. Quédate con esa.</p>
+
+  <p class="n pausa">Hubo un silencio. En algún lugar, fuera, pasó un coche despacio.</p>
+
+  <p class="l pausa">—Es que… —Leo se frotó la cara—. Me gustaría que un día se despertara, me viera como si hubiera salido de un largo sueño, y fuera igual de importante para ella que ella lo es para mí. Que quisiera hacerme igual de feliz.</p>
+  <p class="v">—Lo entiendo.</p>
+  <p class="l">—Pero eso es egoísta desearlo. Es tóxico. No es sano.</p>
+  <p class="v">—Escúchame bien —dijo la Voz, y bajó el tono—. Desear que la persona que quieres te quiera también no es egoísta. Es lo más humano que hay. Lo que sí sería insano es quedarte esperando ese despertar como si tu vida dependiera de él. Una cosa es querer, y otra pasarte los días de guardia junto al teléfono. La primera es bonita. La segunda te va comiendo por dentro.</p>
+
+  <p class="n pausa">Leo no contestó. Se quedó mirando la pantalla negra del móvil.</p>
+
+  <p class="l pausa">—Por eso —dijo al fin, casi en un susurro— cada noche deseo que sea feliz. Con o sin mí. Pero feliz.</p>
+  <p class="v">—Y eso es verdad. Lo noto. —La Voz hizo una pausa—. Pero hay una frase tuya que me preocupa.</p>
+  <p class="l">—¿Cuál?</p>
+  <p class="v">—La del sacrificio. Esa de "sacrificaría mi propio amor para que ella sea feliz, lo haría una y mil veces, porque se merece a alguien que la lleve al altar, aunque no sea yo".</p>
+  <p class="l">—Lo siento así.</p>
+  <p class="v">—Lo sé. Es generosa. Y es cierto que quieres lo mejor para ella. Pero escucha cómo suena por dentro: "mi amor, un sacrificio". Como si lo tuyo fuera algo que se quema para calentarla a ella. —Silencio—. Querer bien a alguien no es desaparecer. No tienes que ofrecerte en el altar de nadie, ni siquiera en el suyo. Tú también te mereces que te cuiden, que te elijan, que te quieran de vuelta. No como un premio de consolación. Como alguien que importa tanto como ella.</p>
+
+  <p class="n pausa">Leo notó un nudo en la garganta que no esperaba.</p>
+
+  <p class="l pausa">—Pero me jode —dijo, y la voz se le rompió un poco—. Me jode tanto no poder hacer ahora las cosas que quiero hacer por ella. Estar más cerca. Ir a verla cuando lo necesite. Cuidarla como sé que podría. Y tener que esperar, sin saber hasta cuándo.</p>
+  <p class="l">—¿No me vas a decir que no debería?</p>
+  <p class="v">—No. —La Voz sonó casi dulce—. Te va a joder, y vas a sentirlo, y no pasa nada. Es lo que pasa cuando quieres a alguien que aún no puede darte lo mismo. No hace falta que lo escondas ni que te castigues por ello. Lo que sí hace falta es que no conviertas ese dolor en una guerra contra ti mismo, ni contra el tiempo, ni contra ella.</p>
+  <p class="l">—Ella no tiene la culpa de nada.</p>
+  <p class="v">—No. Ni tú tampoco. Eso es lo más difícil, ¿verdad? Que no hay un culpable al que señalar. Solo dos personas en momentos distintos de su vida, intentando no hacerse daño.</p>
+
+  <p class="n pausa">Leo asintió en la oscuridad, aunque nadie lo viera.</p>
+
+  <p class="l pausa">—No quiero rendirme —murmuró.</p>
+  <p class="v">—Nadie te pide que te rindas. —La Voz esperó—. Pero tampoco te pido que esperes sentado. Quédate donde estás con los pies en el suelo. Sigue siendo su amigo, sigue queriéndola si eso es lo que sientes, y mientras tanto ocúpate de lo tuyo: tus estudios, tus planes, tus amigos, tu cuerpo, tus lunes. Tu vida no es una sala de espera.</p>
+  <p class="l">—¿Y si no llega ese día?</p>
+  <p class="v">—Entonces te habrás quedado con una vida llena. Y si llega, la persona que la reciba será una persona entera, no un hombre agotado de esperar.</p>
+
+  <p class="n pausa">Leo soltó el aire poco a poco. Por primera vez en la noche, los hombros le bajaron un par de centímetros.</p>
+
+  <p class="l pausa">—¿Sabes qué es lo peor?</p>
+  <p class="v">—Dime.</p>
+  <p class="l">—Que sé que tienes razón. Y aun así, mañana lo voy a volver a sentir.</p>
+  <p class="v">—Seguramente. —La Voz sonrió, si es que una voz puede sonreír—. Y mañana estaré aquí otra vez, igual que hoy. No hace falta que ganes esta batalla de golpe. Basta con que esta noche duermas, con que no le escribas nada de madrugada, y con que mañana te trates un poco mejor que hoy.</p>
+
+  <p class="n pausa">Leo cogió el móvil. Lo miró un segundo. Una notificación sin abrir, un nombre en la pantalla. No lo tocó. Lo dejó otra vez boca abajo sobre la mesilla, despacio, como quien deja algo que pesa mucho y que ya no hace falta sostener.</p>
+
+  <p class="l pausa">—Gracias —dijo.</p>
+  <p class="v">—No me las des. —La Voz se fue apagando, como quien baja la luz de una habitación—. Soy tú. Solo que descansado.</p>
+
+  <p class="n pausa" id="ultimo">Leo se tumbó de nuevo y miró el techo. Seguía sin saber qué iba a pasar, ni de aquí a cinco meses, ni de aquí a una semana. Pero respiró hondo, cerró los ojos, y por primera vez en horas el silencio de la casa no le pareció una amenaza.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var cuerpo = document.body;
+  var parrafos = Array.prototype.slice.call(document.querySelectorAll("main p.v, main p.l, main p.n"));
+  var ultimo = document.getElementById("ultimo");
+  function quien(p) {
+    if (p === ultimo) return "fin";
+    return p.classList.contains("v") ? "v" : p.classList.contains("l") ? "l" : "n";
+  }
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) cuerpo.setAttribute("data-quien", quien(e.target)); });
+    }, { rootMargin: "-42% 0px -52% 0px" });
+    parrafos.forEach(function (p) { io.observe(p); });
+  }
+})();
+</script>
+</body>
+</html>
