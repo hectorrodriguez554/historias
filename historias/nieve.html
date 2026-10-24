@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nieve · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8eef3; --ink:#1d2a38; --muted:#5a6b7b; --glow:#e9a54a; --flake:#9db4c8; --line:#c5d3df;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1a26; --ink:#e6e9ec; --muted:#93a3b3; --glow:#f0b25c; --flake:#dfe9f2; --line:#27384a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1a26; --ink:#e6e9ec; --muted:#93a3b3; --glow:#f0b25c; --flake:#dfe9f2; --line:#27384a;
+  color-scheme:dark;
+}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Lora",Georgia,"Times New Roman",serif;font-size:1.125rem;line-height:1.8;
+}
+#nieve{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:36rem;margin:0 auto;padding:4.5rem 1.5rem 6rem}
+header{position:relative;margin-bottom:3.5rem}
+header::before{
+  content:"";position:absolute;left:-1.5rem;top:-2rem;width:9rem;height:9rem;border-radius:50%;
+  background:radial-gradient(circle,var(--glow) 0%,transparent 68%);opacity:.28;filter:blur(6px);
+}
+h1{
+  position:relative;margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:400;
+  font-size:clamp(4rem,17vw,6.5rem);line-height:.95;letter-spacing:-.01em;
+  opacity:0;animation:aparece 2.4s ease .2s forwards;
+}
+.sub{position:relative;margin:1.1rem 0 0;color:var(--muted);font-style:italic;font-size:1rem}
+p{margin:0 0 1.15rem}
+p.dialogo{margin-bottom:.7rem;padding-left:1rem;border-left:2px solid var(--line)}
+p.pausa{margin-top:2.4rem}
+em{font-style:italic}
+.fin{margin-top:3rem;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:1.5rem;color:var(--glow)}
+.volver{position:relative;display:inline-block;margin-bottom:2.2rem;color:var(--muted);font-style:italic;font-size:.95rem;text-decoration:none}
+.volver:hover,.volver:focus-visible{text-decoration:underline;text-underline-offset:.25em}
+.otra{display:inline-block;margin-top:1.6rem;color:var(--ink);text-underline-offset:.25em;text-decoration-color:var(--glow)}
+.volver:focus-visible,.otra:focus-visible{outline:2px solid var(--glow);outline-offset:4px}
+@keyframes aparece{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){h1{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+<canvas id="nieve" aria-hidden="true"></canvas>
+<main>
+<header>
+  <a class="volver" href="../index.html">← Historias jamás contadas</a><br>
+  <h1>Nieve</h1>
+  <p class="sub">Una escena de invierno</p>
+</header>
+
+<p>La nieve llevaba desde la tarde cayendo sin prisa, de esa que no hace ruido y lo cubre todo. Cuando Leo apagó el motor, el camino ya había desaparecido y solo quedaba la cabaña, con las ventanas encendidas en ámbar y el humo subiendo recto desde la chimenea.</p>
+
+<p class="dialogo">—Dime que es de verdad —dijo Irene, con la nariz roja y el gorro torcido.</p>
+<p class="dialogo">—Dos pisos, chimenea y ni una sola persona en tres kilómetros.</p>
+<p class="dialogo">—Eres un peligro.</p>
+
+<p class="pausa">Entraron sacudiéndose la nieve de las botas, entre risas y con las mochilas golpeando el marco de la puerta. Dentro olía a madera y a manta recién lavada. El salón era pequeño y cálido, con una alfombra gruesa frente al fuego y una escalera de madera que subía hasta un altillo donde se adivinaba la cama bajo el techo inclinado.</p>
+
+<p class="dialogo">—Yo subo las cosas —dijo Leo.</p>
+<p class="dialogo">—Y yo enciendo el fuego, que si no nos morimos de frío antes de cenar.</p>
+
+<p class="pausa">Cuando bajó, el fuego ya crepitaba y Irene estaba de rodillas en la alfombra, con las manos extendidas hacia las llamas y la luz bailándole en la cara. Leo se quedó un segundo en el último peldaño, solo mirándola. Pensó que podría acostumbrarse a eso. Pensó que no debía pensar en acostumbrarse a nada, que bastaba con estar ahí.</p>
+
+<p class="dialogo">—¿Qué haces ahí parado? —preguntó ella sin girarse.</p>
+<p class="dialogo">—Nada. Admirando el fuego.</p>
+<p class="dialogo">—Mentiroso.</p>
+
+<p class="pausa">La cena la hicieron juntos, apretados en una cocina donde apenas cabía uno. Él cortaba cebolla. Ella removía una salsa y le robaba trozos de queso con los dedos. Sonaba una lista de canciones suaves que ninguno de los dos había elegido a propósito, pero que parecía hecha para esa noche.</p>
+
+<p class="dialogo">—Pásame la copa —dijo Irene.</p>
+<p class="dialogo">—Tienes la tuya al lado.</p>
+<p class="dialogo">—Pero quiero la tuya.</p>
+
+<p class="pausa">Se la pasó. Ella bebió despacio, mirándolo por encima del borde, y se la devolvió con una media sonrisa que a Leo le hizo olvidar qué estaba cortando.</p>
+
+<p>Pusieron la mesa junto a la ventana, con una vela en el centro y la nieve cayendo al otro lado del cristal. Comieron sin prisa. Hablaron de todo y de nada: de la peor película que habían visto, del frío que hacía en la casa de su infancia, de lo absurdo que era que una cabaña tan bonita costara menos que una cena en la ciudad. En algún momento dejaron de hablar de cosas y empezaron a hablar de ellos, bajito, como se habla cuando no se quiere romper algo.</p>
+
+<p class="dialogo">—¿Sabes lo que más me gusta de esto? —dijo ella, con la barbilla apoyada en la mano.</p>
+<p class="dialogo">—¿Qué?</p>
+<p class="dialogo">—Que no tengo el móvil en la mano. Ni siquiera sé dónde lo he dejado.</p>
+<p class="dialogo">—Yo tampoco.</p>
+<p class="dialogo">—Qué raro es estar tranquila.</p>
+
+<p class="pausa">Leo tardó en contestar. Quería decir algo a la altura, algo que ella recordara. Al final solo dijo:</p>
+
+<p class="dialogo">—A mí me pasa contigo.</p>
+
+<p class="pausa">Irene no respondió con palabras. Alargó la mano por encima de la mesa y la dejó sobre la suya, con los dedos calientes por el vino y por el fuego. La vela titiló. Afuera, un trozo de nieve resbaló de una rama y cayó sin ruido.</p>
+
+<p>Recogieron entre los dos, sin mirar quién hacía qué. Después se sentaron en la alfombra, con una manta compartida sobre las piernas y las copas casi vacías. Ella apoyó la cabeza en su hombro. Él se quedó muy quieto, como quien teme espantar a un pájaro.</p>
+
+<p class="dialogo">—¿Y si nos quedamos aquí a vivir? —murmuró Irene.</p>
+<p class="dialogo">—Nos traen el pan en trineo.</p>
+<p class="dialogo">—Y los domingos hacemos chocolate.</p>
+<p class="dialogo">—Todos los días hacemos chocolate.</p>
+
+<p class="pausa">Rieron bajito. El fuego iba bajando, y la casa entera parecía respirar con ellos. Leo miró hacia arriba, hacia el altillo donde la luz se volvía más tenue, y luego hacia la ventana, donde la nieve seguía cayendo sobre el mundo entero, sin que nadie la apurara.</p>
+
+<p class="dialogo">—Leo —dijo ella.</p>
+<p class="dialogo">—Dime.</p>
+<p class="dialogo">—Gracias por traerme.</p>
+
+<p class="pausa">No le pidió nada más. No hizo falta. Él le apretó la mano bajo la manta, y se quedaron así, en silencio, mirando cómo se apagaba el fuego, sabiendo que arriba había una cama esperando y que no tenían ninguna prisa por subir.</p>
+
+<p class="fin">Fin</p>
+<a class="otra" href="../index.html">← Elegir otra historia</a>
+</main>
+
+<script>
+(function(){
+  var c=document.getElementById('nieve'),x=c.getContext('2d'),w,h,f=[],dpr=Math.min(window.devicePixelRatio||1,2);
+  var quieto=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function medir(){w=window.innerWidth;h=window.innerHeight;c.width=w*dpr;c.height=h*dpr;x.setTransform(dpr,0,0,dpr,0,0);}
+  function nueva(y){return{x:Math.random()*w,y:y,r:Math.random()*2.2+.6,v:Math.random()*.5+.25,d:Math.random()*Math.PI*2,a:Math.random()*.5+.35};}
+  function iniciar(){medir();f=[];var n=Math.round(Math.min(90,w/10));for(var i=0;i<n;i++)f.push(nueva(Math.random()*h));}
+  function dibujar(){
+    x.clearRect(0,0,w,h);
+    var col=getComputedStyle(document.documentElement).getPropertyValue('--flake').trim()||'#fff';
+    x.fillStyle=col;
+    for(var i=0;i<f.length;i++){
+      var p=f[i];
+      if(!quieto){p.y+=p.v;p.d+=.01;p.x+=Math.sin(p.d)*.3;if(p.y>h+5){f[i]=nueva(-5);}}
+      x.globalAlpha=p.a;x.beginPath();x.arc(p.x,p.y,p.r,0,6.2832);x.fill();
+    }
+    x.globalAlpha=1;
+    if(!quieto)requestAnimationFrame(dibujar);
+  }
+  window.addEventListener('resize',iniciar);
+  iniciar();dibujar();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marea · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --panel:rgba(255,250,244,.88); --ink:#2b2230; --muted:#6e5f70; --acento:#c4553a; --line:#e3cfc4;
+  --cielo-a:#ecb473; --cielo-b:#f4cd96; --mar:#d98b6a;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --panel:rgba(24,19,36,.82); --ink:#f1e9ee; --muted:#b5a5b8; --acento:#f2a07b; --line:#3d3150;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --panel:rgba(24,19,36,.82); --ink:#f1e9ee; --muted:#b5a5b8; --acento:#f2a07b; --line:#3d3150;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0;min-height:100vh;background:linear-gradient(var(--cielo-a),var(--cielo-b));background-attachment:fixed;
+  color:var(--ink);font-family:"Source Serif 4",Georgia,"Times New Roman",serif;font-size:1.125rem;line-height:1.75;
+}
+#sol{
+  position:fixed;left:50%;top:0;width:min(46vw,15rem);aspect-ratio:1;margin-left:calc(min(46vw,15rem) / -2);
+  border-radius:50%;background:#fff3c9;box-shadow:0 0 5rem 1.5rem rgba(255,214,140,.65);
+  transform:translateY(18vh);z-index:0;pointer-events:none;
+}
+#mar{position:fixed;left:0;right:0;bottom:0;height:26vh;background:var(--mar);z-index:1;pointer-events:none}
+#mar::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:.35rem;background:rgba(255,255,255,.22);
+}
+main{position:relative;z-index:2;max-width:38rem;margin:0 auto;padding:0 1rem}
+.portada{min-height:78vh;display:flex;flex-direction:column;justify-content:flex-start;padding:16vh 0 4rem}
+h1{
+  margin:0;font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:500;
+  font-size:clamp(4.2rem,19vw,7.5rem);line-height:.95;color:#2a1420;
+  opacity:0;animation:aparece 2.2s ease .2s forwards;
+}
+.sub{margin:1rem 0 0;font-style:italic;font-weight:600;color:#3d1f22}
+.texto{background:var(--panel);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:2.4rem 1.6rem 3rem;border-radius:1.1rem;margin-bottom:34vh}
+p{margin:0 0 1.15rem}
+p.dialogo{margin-bottom:.7rem;padding-left:1rem;border-left:2px solid var(--line)}
+p.pausa{margin-top:2.2rem}
+.destacado{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:1.35rem;line-height:1.5;color:var(--acento)}
+.fin{margin:2.5rem 0 0;font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:1.5rem;color:var(--acento)}
+.volver{position:absolute;top:1.1rem;left:1rem;font-size:.95rem;font-style:italic;color:#3d1f22;text-decoration:none;padding:.3rem 0}
+.volver:hover,.volver:focus-visible{text-decoration:underline;text-underline-offset:.25em}
+.otra{display:inline-block;margin-top:1.4rem;font-size:1.05rem;color:var(--acento);text-underline-offset:.25em}
+.volver:focus-visible,.otra:focus-visible{outline:2px solid var(--acento);outline-offset:4px}
+@keyframes aparece{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){h1{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+<div id="sol" aria-hidden="true"></div>
+<div id="mar" aria-hidden="true"></div>
+<main>
+<a class="volver" href="../index.html">← Historias jamás contadas</a>
+<section class="portada">
+  <h1>Marea</h1>
+  <p class="sub">Un atardecer en la playa</p>
+</section>
+
+<article class="texto">
+<p>El sol caía despacio sobre el mar, como si supiera que había alguien mirando. Desde el porche de la casa, con las piernas estiradas sobre la barandilla y el viento oliendo a sal, Leo pensó que ninguna escena podía ser más perfecta que esa. Y que, precisamente por eso, era el peor momento para tener miedo.</p>
+
+<p class="dialogo">—Mira el color —dijo Irene, señalando el horizonte con la copa—. Es como si alguien hubiera derramado naranja.</p>
+<p class="dialogo">—Y rosa.</p>
+<p class="dialogo">—Y un poco de morado, ahí, mira.</p>
+
+<p class="pausa">Habían llegado esa tarde a la casa de la playa, la que Leo encontró por casualidad y reservó sin pensarlo demasiado. Era pequeña y blanca, con persianas azules y un porche de madera gastada por el salitre. Cenaron fuera, con una mesa plegable, dos velas dentro de vasos para que el viento no las apagara, y pan, queso y pescado a la plancha que cocinaron entre risas y quemaduras mínimas.</p>
+
+<p>Ahora el plato estaba vacío y la conversación iba y venía despacio, de esas que no tienen destino.</p>
+
+<p class="dialogo">—Irene.</p>
+<p class="dialogo">—Dime.</p>
+
+<p class="pausa">Notó el pulso en las muñecas. Dejó la copa sobre la mesa para que no se notara el temblor.</p>
+
+<p class="dialogo">—Llevo semanas dándole vueltas a cómo decirte esto, y cada vez que lo ensayo me sale peor. Así que lo digo sin adornos: me gustas. Mucho. No como amiga. Hace tiempo.</p>
+
+<p class="pausa">El mar seguía ahí, moviéndose igual, ajeno a todo. Irene bajó la copa despacio. No se rio, no se apartó. Lo miró con una ternura que Leo reconoció antes de que ella hablara, y que le dolió y le alivió a la vez.</p>
+
+<p class="dialogo">—Leo… —Cogió aire—. Gracias por decírmelo. De verdad. Sé lo que cuesta.</p>
+<p class="dialogo">—Pero.</p>
+<p class="dialogo">—Pero ahora mismo no puedo. —Lo dijo bajito, sin esquivarlo—. No es por ti. Es que acabo de salir de algo, y estoy intentando entenderme yo sola, vivir esto sin atarme a nada. Si te dijera que sí, te estaría mintiendo. Y tú no te mereces eso.</p>
+
+<p class="pausa">Leo asintió. Esperó sentir el derrumbe que llevaba semanas imaginando, y lo que sintió fue algo más raro: un dolor limpio, sin rabia, de los que no necesitan culpables.</p>
+
+<p class="dialogo">—Lo entiendo —dijo.</p>
+<p class="dialogo">—No hace falta que lo entiendas hoy.</p>
+<p class="dialogo">—Lo entiendo —repitió—. Pero déjame decirte una cosa, y luego no insisto más. ¿Vale?</p>
+
+<p class="pausa">Ella asintió, con los ojos un poco brillantes.</p>
+
+<p class="dialogo">—No me voy a rendir contigo. —Sonrió, con la voz firme aunque le temblaban las manos—. Y no lo digo para presionarte, ni para que cambies de opinión, ni para que te sientas en deuda. Lo digo porque no quiero fingir que lo que siento se apaga porque hoy me hayas dicho que no. No se apaga. Ni mañana, ni el mes que viene.</p>
+<p class="dialogo">—Leo…</p>
+<p class="dialogo">—Y tampoco voy a desaparecer. Ni a ponerme raro, ni a hacerte sentir mal por lo que me has dicho. Voy a seguir aquí, como tu amigo, el que te manda memes a las tres de la mañana y te acompaña a comprar cosas que no necesitas. Tú vive tu soltería, haz lo que necesites hacer. Yo estoy cuidando lo mío, no pienso quedarme en una sala de espera.</p>
+
+<p class="pausa">Se hizo un silencio largo. El sol tocó el borde del agua y la luz se volvió dorada, casi líquida. Irene tardó en hablar, y cuando lo hizo, su voz sonaba distinta, más suave.</p>
+
+<p class="dialogo">—No te voy a prometer nada.</p>
+<p class="dialogo">—No te lo pido.</p>
+<p class="dialogo">—No sé qué voy a sentir dentro de un mes, ni de seis. No sé si algún día…</p>
+<p class="dialogo">—Lo sé. —Le sostuvo la mirada—. Y no pasa nada. Solo quería que supieras que, pase lo que pase, conmigo no tienes que cargar con nada. Si algún día quieres que hablemos de esto, la puerta está abierta. Y si no, seguimos igual de bien.</p>
+
+<p class="pausa">Irene se rio, bajito, con los ojos húmedos, y se pasó el dorso de la mano por la mejilla.</p>
+
+<p class="dialogo">—Qué rabia que seas así.</p>
+<p class="dialogo">—¿Así cómo?</p>
+<p class="dialogo">—Tan fácil de querer.</p>
+
+<p class="pausa">Leo no contestó. No hacía falta. Ella acercó la silla, despacio, hasta apoyar la cabeza en su hombro, y él se quedó muy quieto, sin intentar convertir ese gesto en nada más. Delante de ellos, el último trozo de sol se hundía en el mar, y el cielo entero se encendió durante unos segundos, como si el día quisiera despedirse bien.</p>
+
+<p class="dialogo">—Mira —susurró Irene.</p>
+<p class="dialogo">—Ya lo veo.</p>
+
+<p class="pausa">Se quedaron así, sin decir nada, hasta que las velas se apagaron solas y solo quedó el ruido de las olas. No había promesas ni respuestas. Pero esa noche, en un porche con olor a sal, él dijo todo lo que tenía que decir, ella lo escuchó sin miedo, y ninguno de los dos se fue con las manos vacías.</p>
+
+<p class="fin">Fin</p>
+<a class="otra" href="../index.html">← Elegir otra historia</a>
+</article>
+</main>
+
+<script>
+(function(){
+  var sol=document.getElementById('sol'),
+      raiz=document.documentElement,
+      A=[[236,180,115],[224,121,95],[27,26,58]],
+      B=[[244,205,150],[242,154,107],[58,37,82]],
+      M=[[217,139,106],[168,84,92],[22,22,48]],
+      glow=[[255,214,140],[255,150,110],[120,120,190]];
+  function mezcla(S,p){
+    var t=p*(S.length-1),i=Math.min(Math.floor(t),S.length-2),f=t-i,a=S[i],b=S[i+1];
+    return [Math.round(a[0]+(b[0]-a[0])*f),Math.round(a[1]+(b[1]-a[1])*f),Math.round(a[2]+(b[2]-a[2])*f)];
+  }
+  function rgb(c){return 'rgb('+c[0]+','+c[1]+','+c[2]+')';}
+  function pinta(){
+    var max=document.documentElement.scrollHeight-window.innerHeight,
+        p=max>0?Math.min(1,Math.max(0,window.scrollY/max)):0,
+        h=window.innerHeight,
+        y=h*0.18+p*(h*0.78),
+        g=mezcla(glow,p);
+    raiz.style.setProperty('--cielo-a',rgb(mezcla(A,p)));
+    raiz.style.setProperty('--cielo-b',rgb(mezcla(B,p)));
+    raiz.style.setProperty('--mar',rgb(mezcla(M,p)));
+    sol.style.transform='translateY('+y+'px)';
+    sol.style.boxShadow='0 0 5rem 1.5rem rgba('+g[0]+','+g[1]+','+g[2]+',.6)';
+  }
+  window.addEventListener('scroll',pinta,{passive:true});
+  window.addEventListener('resize',pinta);
+  pinta();
+})();
+</script>
+</body>
+</html>
