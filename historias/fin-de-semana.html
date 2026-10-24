@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d3a50">
+<title>Fin de semana · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Tres escenas que se cruzan al bajar: 1) la llegada a la cabaña, de día; 2) el salón, con la chimenea y el juego;
+   3) el porche de noche, con Leo como una silueta pequeña y lejana. La luz baja y se enfría igual que su ánimo. */
+:root {
+  --bg: #0a1018;
+  --fg: #f0e8da;
+  --muted: #9aa5b3;
+  --ambar: #e8b46a;
+  --frio: #a9c0dc;
+  --linea: rgba(240, 232, 218, .16);
+  --o1: 1; --o2: 0; --o3: 0; --dusk: 0;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem);
+  line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(8rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.capa svg.fondo { display: block; width: 100%; height: 100%; }
+
+/* ---------- Escena 1: la llegada ---------- */
+#e1 { opacity: var(--o1); }
+#e1 .cielo { }
+#e1 .colina1 { fill: #2b4a47; } #e1 .colina2 { fill: #213b3b; } #e1 .pino { fill: #16292b; }
+#e1 .prado { fill: #24382a; } #e1 .camino { fill: #7a6649; opacity: .85; }
+.sol { position: absolute; left: 14%; top: 54%; width: 70vmax; height: 70vmax; margin: -35vmax 0 0 -35vmax;
+  background: radial-gradient(circle, rgba(255, 214, 140, .55) 0%, rgba(255, 190, 110, .2) 22%, rgba(255, 170, 90, 0) 58%); }
+.crepusculo { position: absolute; inset: 0; opacity: var(--dusk);
+  background: linear-gradient(180deg, rgba(40, 22, 54, .86) 0%, rgba(110, 54, 52, .72) 60%, rgba(26, 14, 28, .9) 100%); }
+
+/* ---------- Escena 2: el salón ---------- */
+#e2 { opacity: var(--o2); background: #0b0605; }
+#e2 .resplandor { position: absolute; inset: 0; animation: parpadeo 3.7s steps(1, end) infinite;
+  background: radial-gradient(ellipse at 50% 92%, rgba(255, 150, 60, .5) 0%, rgba(214, 90, 30, .22) 32%, rgba(40, 14, 8, 0) 70%); }
+@keyframes parpadeo { 0% { opacity: 1; } 9% { opacity: .82; } 12% { opacity: 1; } 40% { opacity: .9; } 43% { opacity: .72; } 46% { opacity: 1; } 78% { opacity: .88; } 81% { opacity: 1; } 100% { opacity: 1; } }
+.hogar { position: absolute; left: 50%; bottom: 0; width: min(86vw, 600px); height: 40vh; transform: translateX(-50%);
+  background: radial-gradient(circle at 20% 30%, #241a16 0 2px, transparent 3px) 0 0 / 34px 26px, linear-gradient(180deg, #1c1411, #120c0a);
+  border-radius: 46% 46% 0 0 / 28% 28% 0 0; box-shadow: 0 0 60px rgba(0, 0, 0, .7); }
+.hogar::before { content: ""; position: absolute; left: 14%; right: 14%; bottom: 0; top: 24%; border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+  background: radial-gradient(ellipse at 50% 100%, #3a1608 0%, #120603 60%, #050201 100%); }
+#fuego { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mesa { position: absolute; left: 0; right: 0; bottom: 0; height: calc(6vh + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, #2b1c12 0%, #140c07 100%); border-top: 2px solid rgba(255, 170, 90, .35); }
+.vela { position: absolute; bottom: calc(6vh - 2px); width: 16px; height: 8vh; }
+.vela::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%; background: linear-gradient(90deg, #0f1c14, #1e3526 55%, #0b140e); border-radius: 3px 3px 1px 1px; }
+.vela::after { content: ""; position: absolute; left: 50%; bottom: 62%; width: 3px; height: 14px; margin-left: -1.5px; background: #e9dcc4; }
+.vela i { position: absolute; left: 50%; bottom: calc(62% + 12px); width: 8px; height: 15px; margin-left: -4px; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 70%, #fff3c4, #ffb84a 70%, rgba(255, 150, 40, 0)); box-shadow: 0 0 22px 8px rgba(255, 170, 70, .45); animation: llamita 2.3s ease-in-out infinite; }
+@keyframes llamita { 0%, 100% { transform: scale(1, 1) translateX(0); } 30% { transform: scale(.92, 1.08) translateX(.6px); } 60% { transform: scale(1.06, .94) translateX(-.5px); } }
+.latido { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 38%, rgba(70, 8, 8, .75) 100%); }
+body.lat .latido { opacity: 1; animation: pulso 1.7s ease-in-out infinite; }
+@keyframes pulso { 0%, 100% { opacity: .15; } 12% { opacity: .95; } 24% { opacity: .3; } 38% { opacity: 1; } 62% { opacity: .15; } }
+
+/* Mapa del juego: el círculo, la botella y a quién señala */
+.juego { position: absolute; z-index: 1; left: 87%; top: 36%; width: min(26vw, 270px); aspect-ratio: 1; transform: translate(-50%, -50%);
+  opacity: 0; transition: opacity 1.2s; }
+body.jug .juego { opacity: .85; }
+.juego .aro { position: absolute; inset: 14%; border: 1px solid rgba(240, 214, 170, .25); border-radius: 50%; }
+.juego .jug { position: absolute; width: 0; height: 0; }
+.juego .jug b { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; background: #3a2a1e; border: 1px solid #e8b46a; transition: all .8s; }
+.juego .jug span { position: absolute; font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: #cdb690; white-space: nowrap; transform: translate(-50%, -50%); }
+.juego .jug.elegida b { transition-delay: 4.1s; background: #ffd28a; box-shadow: 0 0 14px 4px rgba(255, 190, 100, .7); }
+.juego .botella { position: absolute; left: 50%; top: 50%; width: 22px; height: 84px; margin: -42px 0 0 -11px; transform: rotate(0deg);
+  transition: transform 4.6s cubic-bezier(.1, .62, .18, 1); }
+body.gira .juego .botella { transform: rotate(1476deg); }
+.juego .botella::before { content: ""; position: absolute; left: 5px; top: 0; width: 12px; height: 34px; background: linear-gradient(90deg, #14301f, #2c5a3d, #12281b); border-radius: 4px 4px 2px 2px; }
+.juego .botella::after { content: ""; position: absolute; left: 0; top: 28px; width: 22px; height: 56px; background: linear-gradient(90deg, #14301f, #2c5a3d 45%, #12281b); border-radius: 8px 8px 11px 11px; }
+
+/* ---------- Escena 3: el porche ---------- */
+#e3 { opacity: var(--o3); }
+#e3 .cielo3 { position: absolute; inset: 0; background: linear-gradient(180deg, #04070d 0%, #08101e 55%, #12203a 100%); }
+#e3 .via { position: absolute; left: -20%; right: -20%; top: 8%; height: 34%; transform: rotate(-16deg);
+  background: radial-gradient(ellipse at 50% 50%, rgba(190, 205, 235, .18), rgba(190, 205, 235, 0) 68%); }
+#estrellas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#e3 .arbol { fill: #05080e; } #e3 .suelo { fill: #060a12; }
+.bruma { position: absolute; left: 0; right: 0; bottom: 0; height: 22vh; background: linear-gradient(180deg, rgba(120, 150, 190, 0), rgba(120, 150, 190, .12)); }
+
+/* Cabaña (comparten forma las dos escenas) */
+.cabana { position: absolute; }
+.cabana svg { display: block; width: 100%; height: auto; overflow: visible; }
+.cabana .pared { fill: var(--pared); } .cabana .troncos { stroke: var(--troncos); stroke-width: 1; fill: none; }
+.cabana .techo { fill: var(--techo); } .cabana .chim { fill: var(--chim); } .cabana .poste, .cabana .baranda, .cabana .porche { fill: var(--madera); }
+.cabana .balaust { stroke: var(--madera); stroke-width: 2; }
+.cabana .puerta { fill: var(--puerta); } .cabana .marcoV { stroke: var(--troncos); stroke-width: 2; }
+.cabana .humo circle { fill: var(--humo); opacity: 0; animation: humo 7s ease-out infinite; }
+.cabana .humo circle:nth-child(2) { animation-delay: 2.3s; } .cabana .humo circle:nth-child(3) { animation-delay: 4.6s; }
+@keyframes humo { 0% { transform: translate(0, 0) scale(.5); opacity: 0; } 15% { opacity: .5; } 100% { transform: translate(16px, -46px) scale(2.8); opacity: 0; } }
+#cab1 { right: 8vw; bottom: 15vh; width: clamp(240px, 42vw, 560px);
+  --pared: #7a5638; --troncos: rgba(30, 16, 8, .38); --techo: #2a2a32; --chim: #5a4a40; --madera: #4a3220; --puerta: #ffc873; --humo: #d8d2c6; }
+#cab3 { right: 9vw; bottom: 9vh; width: clamp(130px, 22vw, 290px);
+  --pared: #0e1526; --troncos: rgba(255, 255, 255, .035); --techo: #06090f; --chim: #080c14; --madera: #070b13; --puerta: #070b13; --humo: #6f84a6; }
+#cab3 .humo circle { opacity: 0; }
+.vidrio1 { fill: #8fb7cc; } .vidrio3 { fill: url(#cal); }
+.fig { fill: #03050a; stroke: #03050a; }
+#dani { opacity: 0; transition: opacity 3s; } body.dani #dani { opacity: 1; }
+#lucia { opacity: 0; transition: opacity 1s; } body.lucia #lucia { opacity: 1; }
+.aliento { fill: #cfe0f5; opacity: 0; animation: aliento 5.5s ease-out infinite; }
+.aliento:nth-of-type(2) { animation-delay: 1.9s; } .aliento:nth-of-type(3) { animation-delay: 3.7s; }
+@keyframes aliento { 0% { transform: translate(0, 0) scale(.6); opacity: 0; } 20% { opacity: .35; } 100% { transform: translate(-9px, -11px) scale(2.4); opacity: 0; } }
+.vent-vivo { animation: parpadeo 4.1s steps(1, end) infinite; }
+
+/* ---------- Lectura ---------- */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(5, 8, 14, .85), 0 1px 3px rgba(5, 8, 14, .8); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #cfd8e3; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #05080e, 0 1px 2px #05080e; }
+.volver:hover, .volver:focus-visible { color: var(--ambar); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--ambar); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #d6dde6; text-shadow: 0 0 12px #05080e, 0 1px 2px #05080e; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(3.6rem, 16vw, 7.6rem);
+  line-height: .94; letter-spacing: -.02em; color: #fbf3e4; text-wrap: balance; text-shadow: 0 2px 30px rgba(5, 8, 14, .75), 0 0 8px rgba(5, 8, 14, .5); }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.mantra { color: var(--ambar); font-style: italic; }
+.cierre { margin-top: 2.4rem; font-family: var(--display); font-style: italic; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); line-height: 1.35; color: #f4f7fb; text-wrap: balance; }
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--frio); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--frio); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #05080e; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+#lugar { position: fixed; z-index: 2; right: max(16px, env(safe-area-inset-right, 0px)); top: calc(.9rem + env(safe-area-inset-top, 0px));
+  font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #d6dde6; text-shadow: 0 0 10px #05080e, 0 1px 2px #05080e; transition: opacity .5s; }
+
+@media (max-width: 1000px) { .juego { left: 50%; top: 30%; width: min(60vw, 300px); } body.jug .juego { opacity: .4; } }
+@media (max-width: 700px) { .juego { left: 50%; top: 30%; width: min(66vw, 300px); } body.jug .juego { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) {
+  #e2 .resplandor, .vela i, .cabana .humo circle, .aliento, .vent-vivo { animation: none; }
+  .cabana .humo circle { opacity: .25; }
+  body.lat .latido { animation: none; opacity: .5; }
+  .juego .botella { transition: none; } .juego, #dani, #lucia, .juego .jug b { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Escena 1: llegada, de día -->
+<div class="capa" id="e1" aria-hidden="true">
+  <svg class="fondo" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="c1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a354b"/><stop offset=".6" stop-color="#3b6076"/><stop offset="1" stop-color="#7a8f88"/></linearGradient>
+    </defs>
+    <rect width="1200" height="700" fill="url(#c1)"/>
+    <path class="colina1" d="M0 470 C160 410 300 430 460 450 C640 475 760 400 940 420 C1060 432 1140 450 1200 440 L1200 700 L0 700 Z"/>
+    <g id="pinos1"></g>
+    <path class="colina2" d="M0 520 C200 490 380 520 560 506 C760 492 960 520 1200 500 L1200 700 L0 700 Z"/>
+    <path class="prado" d="M0 580 C300 560 800 566 1200 576 L1200 700 L0 700 Z"/>
+    <path class="camino" d="M520 700 C560 650 640 620 760 586 L790 586 C720 630 700 660 740 700 Z"/>
+  </svg>
+  <div class="sol"></div>
+  <div class="cabana" id="cab1"></div>
+  <div class="crepusculo"></div>
+</div>
+
+<!-- Escena 2: el salón -->
+<div class="capa" id="e2" aria-hidden="true">
+  <div class="resplandor"></div>
+  <div class="hogar"></div>
+  <canvas id="fuego"></canvas>
+  <div class="mesa"></div>
+  <div class="vela" style="left:9%"><i></i></div>
+  <div class="vela" style="left:21%"><i style="animation-delay:-.9s"></i></div>
+  <div class="vela" style="right:11%"><i style="animation-delay:-1.6s"></i></div>
+  <div class="juego" id="juego">
+    <div class="aro"></div>
+    <div class="botella" id="botella"></div>
+  </div>
+  <div class="latido"></div>
+</div>
+
+<!-- Escena 3: el porche, de noche -->
+<div class="capa" id="e3" aria-hidden="true">
+  <div class="cielo3"></div>
+  <div class="via"></div>
+  <canvas id="estrellas"></canvas>
+  <svg class="fondo" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMax slice" style="position:absolute;inset:0">
+    <path class="suelo" d="M0 600 C300 585 800 590 1200 598 L1200 700 L0 700 Z"/>
+    <g id="pinos3"></g>
+  </svg>
+  <div class="bruma"></div>
+  <div class="cabana" id="cab3"></div>
+</div>
+
+<div id="lugar" aria-hidden="true">la llegada</div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Una cabaña · cinco personas</div>
+    <h1>Fin de semana</h1>
+  </header>
+
+  <p data-s="1" data-lugar="la llegada">Dani me había dicho "<span class="mantra">cuantos más, mejor</span>", y yo me lo creí. Lo repetí durante todo el camino, con las manos en el volante y la música baja: <span class="mantra">cuantos más, mejor</span>.</p>
+
+  <p class="pausa" data-lucia="1">Después apareció Lucía en la puerta, con una bolsa de hielo en una mano y una sonrisa de quien se sabe bien recibida.</p>
+
+  <p class="d pausa">—Sorpresa —dijo Dani, y se rio solo.</p>
+
+  <p class="pausa">Todos se rieron. Yo también, un segundo tarde.</p>
+
+  <p class="pausa" data-s="1.2">Cuatro habitaciones para cinco personas. Nora hizo la cuenta en voz alta, con ese tono práctico suyo, y antes de que nadie propusiera nada Lucía miró a Irene y dijo:</p>
+
+  <p class="d">—Nosotras podemos compartir, ¿no?</p>
+
+  <p class="pausa">No fue una pregunta. Irene me miró de reojo, medio segundo, y luego sonrió a Lucía.</p>
+
+  <p class="d pausa">—Claro.</p>
+
+  <p class="d">—Por mí perfecto —dije yo. Y me sorprendió lo normal que me salió la voz—. Yo me quedo con la pequeña del fondo.</p>
+
+  <p class="pausa">Nadie notó nada. Eso era lo que quería, ¿no? Que nadie notara nada.</p>
+
+  <p class="pausa" data-s="1.7" data-lugar="el salón" data-lucia="0">Cené sin saborear lo que comía. La mesa era larga y de madera, con velas mal puestas en botellas vacías, y los sitios se repartieron solos: Lucía a la izquierda de Irene, yo enfrente, con la vista fija en el plato y el oído fijo en todo lo demás. Ella le pasaba el pan sin que Irene lo pidiera. Irene se lo dejaba hacer. No pasaba nada, pero lo veía todo.</p>
+
+  <p class="pausa" data-s="2">Después de la cena sacaron la botella. Luego otra. La chimenea había convertido el salón en un horno suave, de esos que invitan a decir cosas que no se dirían con luz de día.</p>
+
+  <p class="d pausa" data-juego="1">—¡Verdad o reto! —propuso Dani, levantando el vaso.</p>
+
+  <p class="d">—Yo paso —dije, rápido, demasiado rápido.</p>
+
+  <p class="d">—Anda, Leo, no seas aburrido.</p>
+
+  <p class="d">—De verdad, estoy cansado, he conducido...</p>
+
+  <p class="d">—Venga —dijo Irene.</p>
+
+  <p class="pausa">Solo eso. Una palabra suave, desde el otro lado del fuego, sin ninguna intención que yo pudiera señalar. Pero me miraba, y yo conocía esa mirada, y supe que iba a perder.</p>
+
+  <p class="d pausa">—Está bien. Una ronda.</p>
+
+  <p class="pausa">Las primeras preguntas fueron tonterías: la peor cita, el mayor ridículo, el último mensaje que borraste. Me tocó contestar a mí una vez y salí bien parado. Respiré. Pensé que a lo mejor me había equivocado, que era una noche normal, que mi cabeza había inflado algo que no existía.</p>
+
+  <p class="pausa" data-gira="1">Entonces Nora giró la botella, con esa sonrisa lenta de quien lleva toda la noche esperando su turno, y se detuvo en Irene.</p>
+
+  <p class="d pausa">—Verdad —dijo Irene, confiada.</p>
+
+  <p class="d">—A ver... —Nora fingió pensarlo, golpeándose la barbilla con el dedo. Miró a Lucía. Me miró a mí. Volvió a Irene—. Si tuvieras que elegir entre Lucía y Leo para pasar una noche en una isla desierta, ¿con quién te quedarías?</p>
+
+  <p class="pausa">Todos se rieron. Dani silbó. Lucía levantó las cejas, encantada, esperando su victoria.</p>
+
+  <p class="pausa">Yo no me reí.</p>
+
+  <p class="pausa" data-latido="1">El crepitar del fuego se volvió enorme. Oí mi pulso en las muñecas, en las sienes, en la garganta. Tres segundos que duraron un año. Irene me miró, y en esa mirada había algo que no supe leer: ¿disculpa?, ¿súplica?, ¿diversión? Quizá solo estaba nerviosa. Quizá no había nada. Eso era lo peor: no saber.</p>
+
+  <p class="d pausa">—Qué difícil —dijo ella, riendo, jugando con el borde del vaso—. Es que las dos opciones son muy... —y dejó la frase en el aire, y todos aullaron, y Lucía le pasó un brazo por los hombros como quien reclama algo que ya es suyo.</p>
+
+  <p class="pausa" data-latido="0">Era una broma. Lo sabía. Nora no tenía ni idea de nada, ni de lo mío ni de lo suyo. Era una pregunta tonta de una noche tonta, y yo tenía que reírme y pasar el turno.</p>
+
+  <p class="d pausa" data-s="2.6" data-juego="0" data-gira="0">—Voy a por aire —dije.</p>
+
+  <p class="pausa">Me levanté con una sonrisa que me dolía en la cara. Nadie me siguió con la mirada. Eso, curiosamente, también dolió.</p>
+
+  <p class="pausa" data-s="3" data-lugar="el porche">El porche estaba helado. El cielo, enorme y sin una sola luz de ciudad. Apoyé las manos en la barandilla de madera y respiré hasta que el aire me raspó por dentro. Desde dentro llegaban las risas, amortiguadas por el cristal empañado, y se mezclaban con el silencio del campo hasta no parecer de nadie.</p>
+
+  <p class="pausa">Qué ridículo, pensé. Qué ridículo haber venido, haber dicho que sí a todo, haber convencido a mi propia cabeza de que podía con esto.</p>
+
+  <p class="pausa">Nadie me había hecho nada. Eso era lo más difícil de explicar, incluso a mí mismo: no había culpables. Irene no me había prometido nada, y Lucía no sabía que yo existía. Dani solo quería que fuera un buen fin de semana. Nora hizo una pregunta de verdad o reto. Todo había sido normal, y por eso dolía tanto: porque tenía que tragármelo sin poder señalar nada.</p>
+
+  <p class="pausa">Pensé en los planes que había hecho para este finde, en la versión que me había contado a mí mismo antes de salir de casa. Una mañana de café, una caminata, quizá un rato a solas con ella. No era una locura. Era solo una versión que no iba a ocurrir.</p>
+
+  <p class="pausa">Un fin de semana de parejas, y yo sosteniendo la vela.</p>
+
+  <p class="pausa">Me reí, bajito, solo. Salió una risa rara, medio rota, pero salió.</p>
+
+  <p class="pausa" data-dani="1">La puerta se abrió a mi espalda. No me giré.</p>
+
+  <p class="d pausa">—¿Todo bien? —preguntó Dani, con dos vasos.</p>
+
+  <p class="d">—Todo bien. Solo necesitaba aire.</p>
+
+  <p class="pausa">Me dio un vaso y se apoyó a mi lado, sin preguntar nada más. Dentro, alguien puso música. Fuera, el frío seguía siendo frío y las estrellas seguían ahí, indiferentes.</p>
+
+  <p class="d pausa">—<span class="mantra">Cuantos más, mejor</span> —dijo al rato, medio en broma, medio pidiendo perdón.</p>
+
+  <p class="d">—Eso dicen —contesté.</p>
+
+  <p class="pausa">Bebí. Sabía lo que venía: iba a volver dentro, a sentarme, a reírme en el momento justo. Iba a dormir en la habitación pequeña del fondo, y por la mañana habría café y una caminata, aunque no fuera la que yo había imaginado. Lo sabía. Lo aceptaba, o eso me dije.</p>
+
+  <p class="pausa">Pero el pulso seguía en mis muñecas. Y a través del cristal oí una risa que reconocí entre todas las demás, y me pregunté si Irene habría mirado hacia la puerta. Me pregunté si quería que lo hubiera hecho.</p>
+
+  <p class="pausa">Respiré hondo. No pasa nada, pensé.</p>
+
+  <p class="cierre">Esta vez no lo repetí tres veces. Solo una. Y casi me lo creí.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, cuerpo = document.body;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function suave(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+
+  /* ---------- Cabaña (una sola forma, dos escenas) ---------- */
+  function cabana(id, noche) {
+    var b = "", x;
+    for (x = 34; x < 184; x += 9) b += "M" + x + " 156V172";
+    var vidrio = noche
+      ? '<rect class="vidrio3 vent-vivo" x="150" y="112" width="52" height="38"/>' +
+        '<g filter="url(#bl' + id + ')" clip-path="url(#rc' + id + ')" fill="#2a1408" opacity=".75"><ellipse cx="160" cy="142" rx="5" ry="9"/><ellipse cx="173" cy="145" rx="5.5" ry="10"/><ellipse cx="188" cy="143" rx="5" ry="9"/></g>'
+      : '<rect class="vidrio1" x="150" y="112" width="52" height="38"/>';
+    var fig = noche
+      ? '<g id="leo"><circle class="fig" cx="100" cy="135" r="4.2"/><path class="fig" d="M90 148 Q90 140 100 140 Q110 140 110 148 L112 172 L88 172 Z"/><path class="fig" stroke-width="3" d="M93 147 L95 156 M107 147 L105 156"/>' +
+        '<circle class="aliento" cx="105" cy="132" r="1.6"/><circle class="aliento" cx="105" cy="132" r="1.4"/><circle class="aliento" cx="105" cy="132" r="1.5"/></g>' +
+        '<g id="dani"><circle class="fig" cx="130" cy="133" r="4.4"/><path class="fig" d="M119 148 Q119 138 130 138 Q141 138 141 148 L143 172 L117 172 Z"/><path class="fig" stroke-width="3" d="M122 146 L126 156 M138 146 L134 156"/></g>'
+      : '<g id="lucia"><circle fill="#1a0f08" cx="237" cy="131" r="4.4"/><path fill="#1a0f08" d="M229 160 Q229 140 237 140 Q245 140 245 160 L246 180 L228 180 Z"/><rect fill="#bfe4f2" x="247" y="157" width="6" height="7" rx="1"/><path stroke="#1a0f08" stroke-width="2.4" fill="none" d="M244 148 L250 156"/></g>';
+    var defs = noche
+      ? '<defs><linearGradient id="cal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6c47a"/><stop offset="1" stop-color="#d5883f"/></linearGradient>' +
+        '<radialGradient id="g' + id + '" cx="176" cy="131" r="85" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f0a850" stop-opacity=".13"/><stop offset="1" stop-color="#f0a850" stop-opacity="0"/></radialGradient>' +
+        '<filter id="bl' + id + '"><feGaussianBlur stdDeviation="2.2"/></filter><clipPath id="rc' + id + '"><rect x="150" y="112" width="52" height="38"/></clipPath></defs>'
+      : "";
+    var luzNoche = noche ? '<rect x="40" y="88" width="230" height="92" fill="url(#g' + id + ')"/>' : "";
+    return '<svg viewBox="0 0 300 200" aria-hidden="true">' + defs +
+      '<g class="humo"><circle cx="221" cy="26" r="5"/><circle cx="221" cy="26" r="5"/><circle cx="221" cy="26" r="5"/></g>' +
+      '<rect class="chim" x="209" y="28" width="24" height="52"/>' +
+      '<rect class="pared" x="40" y="88" width="230" height="92"/>' +
+      '<path class="troncos" d="M40 108H270M40 128H270M40 148H270M40 168H270"/>' +
+      '<polygon class="techo" points="22,94 155,22 288,94"/>' +
+      luzNoche + vidrio +
+      '<path class="marcoV" d="M176 112V150M150 131H202"/>' +
+      '<rect class="puerta" x="222" y="126" width="30" height="54"/>' +
+      '<rect class="porche" x="18" y="172" width="172" height="8"/>' +
+      '<rect class="techo" x="14" y="102" width="182" height="6"/>' +
+      '<rect class="poste" x="22" y="106" width="6" height="66"/><rect class="poste" x="180" y="106" width="6" height="66"/>' +
+      '<rect class="baranda" x="22" y="152" width="164" height="4"/><path class="balaust" d="' + b + '"/>' +
+      fig + '</svg>';
+  }
+  document.getElementById("cab1").innerHTML = cabana("1", false);
+  document.getElementById("cab3").innerHTML = cabana("3", true);
+
+  /* ---------- Pinos ---------- */
+  function pinos(idEl, semilla, y0, n, cuerpoY) {
+    var r = rng(semilla), s = "";
+    for (var i = 0; i < n; i++) {
+      var x = r() * 1200, h = 40 + r() * 80, w = h * 0.36, base = y0 + r() * 36;
+      s += '<polygon class="' + (idEl === "pinos1" ? "pino" : "arbol") + '" points="' + (x - w).toFixed(0) + ',' + base.toFixed(0) + ' ' + x.toFixed(0) + ',' + (base - h).toFixed(0) + ' ' + (x + w).toFixed(0) + ',' + base.toFixed(0) + '"/>';
+    }
+    document.getElementById(idEl).innerHTML = s;
+  }
+  pinos("pinos1", 12, 470, 42);
+  pinos("pinos3", 21, 596, 46);
+
+  /* ---------- Mapa del juego ---------- */
+  var jugadores = [["Irene", 36], ["Lucía", 108], ["Nora", 180], ["Leo", 252], ["Dani", 324]];
+  (function () {
+    var cont = document.getElementById("juego"), h = "";
+    jugadores.forEach(function (j) {
+      var a = j[1] * Math.PI / 180, px = 50 + Math.sin(a) * 36, py = 50 - Math.cos(a) * 36, lx = 50 + Math.sin(a) * 47, ly = 50 - Math.cos(a) * 47;
+      h += '<div class="jug' + (j[0] === "Irene" ? " elegida" : "") + '" style="left:' + px + '%;top:' + py + '%"><b></b></div>' +
+           '<div class="jug" style="left:' + lx + '%;top:' + ly + '%"><span>' + j[0] + '</span></div>';
+    });
+    cont.insertAdjacentHTML("beforeend", h);
+  })();
+
+  /* ---------- Estrellas ---------- */
+  var ce = document.getElementById("estrellas"), ex = ce.getContext("2d");
+  function estrellas() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), w = window.innerWidth, h = window.innerHeight;
+    ce.width = w * dpr; ce.height = h * dpr; ex.setTransform(dpr, 0, 0, dpr, 0, 0); ex.clearRect(0, 0, w, h);
+    var r = rng(9), n = Math.round(Math.min(420, w * h / 2400));
+    for (var i = 0; i < n; i++) {
+      var t = r(), x = r() * w, y = r() * h * 0.84;
+      var cerca = Math.abs(y - (h * 0.25 + (x / w) * -h * 0.12)) < h * 0.14;
+      if (cerca && r() < 0.5) { x = r() * w; }
+      ex.globalAlpha = 0.25 + r() * 0.7;
+      ex.fillStyle = t < 0.18 ? "#cfdcf5" : t < 0.3 ? "#ffe9c4" : "#f4f0e6";
+      ex.beginPath(); ex.arc(x, y, 0.35 + t * t * 1.5, 0, 6.2832); ex.fill();
+    }
+  }
+  estrellas();
+
+  /* ---------- Fuego ---------- */
+  var cf = document.getElementById("fuego"), fx = cf.getContext("2d"), W = 0, H = 0, llamas = [], chispas = [], intens = 1, intensObj = 1;
+  function medirFuego() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cf.width = W * dpr; cf.height = H * dpr; fx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  medirFuego();
+  window.addEventListener("resize", function () { medirFuego(); estrellas(); });
+  function nuevaLlama(ancho) { return { x: (Math.random() - .5) * ancho, y: 0, vx: (Math.random() - .5) * .35, vy: .9 + Math.random() * 1.3, life: 0, max: 48 + Math.random() * 40, r: 16 + Math.random() * 22 }; }
+  function pintaFuego() {
+    fx.clearRect(0, 0, W, H);
+    var bx = W / 2, by = H * 0.9, ancho = Math.min(W * 0.26, 190), i, p;
+    fx.globalCompositeOperation = "lighter";
+    var spawn = 1.6 * intens;
+    while (spawn > 0) { if (Math.random() < spawn) llamas.push(nuevaLlama(ancho)); spawn -= 1; }
+    for (i = llamas.length - 1; i >= 0; i--) {
+      p = llamas[i]; p.life++; p.y += p.vy * (0.9 + intens * 0.35); p.x += p.vx + Math.sin((p.life + i) * .15) * .25;
+      var t = p.life / p.max;
+      if (t >= 1) { llamas.splice(i, 1); continue; }
+      var rad = p.r * (1 - t * 0.85) * (0.9 + intens * 0.2), a = (1 - t) * 0.55;
+      var g = fx.createRadialGradient(bx + p.x, by - p.y, 0, bx + p.x, by - p.y, rad);
+      var c = t < 0.3 ? "255,226,140" : t < 0.65 ? "255,146,44" : "214,64,22";
+      g.addColorStop(0, "rgba(" + c + "," + a + ")"); g.addColorStop(1, "rgba(" + c + ",0)");
+      fx.fillStyle = g; fx.beginPath(); fx.arc(bx + p.x, by - p.y, rad, 0, 6.2832); fx.fill();
+    }
+    if (Math.random() < 0.12 * intens) chispas.push({ x: (Math.random() - .5) * ancho * .8, y: 0, vy: 1.2 + Math.random() * 1.8, ph: Math.random() * 6, life: 0, max: 70 + Math.random() * 60 });
+    for (i = chispas.length - 1; i >= 0; i--) {
+      p = chispas[i]; p.life++; p.y += p.vy; p.x += Math.sin(p.life * .08 + p.ph) * .7;
+      if (p.life > p.max) { chispas.splice(i, 1); continue; }
+      fx.fillStyle = "rgba(255,206,122," + (0.9 * (1 - p.life / p.max)) + ")";
+      fx.beginPath(); fx.arc(bx + p.x, by - 20 - p.y, 1.3, 0, 6.2832); fx.fill();
+    }
+    fx.globalCompositeOperation = "source-over";
+  }
+
+  /* ---------- Escena actual: se llega suavemente ---------- */
+  var s = 1, sObj = 1, corriendo = false;
+  function aplica() {
+    raiz.style.setProperty("--o1", (1 - suave(1.3, 2.0, s)).toFixed(3));
+    raiz.style.setProperty("--o2", (suave(1.4, 2.0, s) * (1 - suave(2.55, 3.0, s))).toFixed(3));
+    raiz.style.setProperty("--o3", suave(2.5, 3.0, s).toFixed(3));
+    raiz.style.setProperty("--dusk", suave(1.0, 1.95, s).toFixed(3));
+  }
+  var o2visible = false;
+  function bucle() {
+    var mov = false, d = sObj - s;
+    if (Math.abs(d) > 0.002) { s += d * 0.04; mov = true; } else s = sObj;
+    var di = intensObj - intens;
+    if (Math.abs(di) > 0.01) { intens += di * 0.05; mov = true; } else intens = intensObj;
+    aplica();
+    o2visible = s > 1.4 && s < 3.0;
+    if (o2visible) pintaFuego();
+    if (mov || o2visible) requestAnimationFrame(bucle); else { corriendo = false; fx.clearRect(0, 0, W, H); }
+  }
+  function arranca() { if (!corriendo) { corriendo = true; requestAnimationFrame(bucle); } }
+  aplica();
+
+  var lugar = document.getElementById("lugar");
+  var marcados = Array.prototype.slice.call(document.querySelectorAll("[data-s],[data-lugar],[data-juego],[data-gira],[data-latido],[data-lucia],[data-dani]"));
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  var pendiente = false;
+  function actualiza() {
+    pendiente = false;
+    var linea = window.innerHeight * 0.55, esc = 1, nombre = "la llegada", juego = 0, gira = 0, lat = 0, lucia = 0, dani = 0, k, p, v;
+    for (k = 0; k < marcados.length; k++) {
+      p = marcados[k];
+      if (p.getBoundingClientRect().top > linea) break;
+      if ((v = num(p, "data-s")) !== null) esc = v;
+      if (p.getAttribute("data-lugar")) nombre = p.getAttribute("data-lugar");
+      if ((v = num(p, "data-juego")) !== null) juego = v;
+      if ((v = num(p, "data-gira")) !== null) gira = v;
+      if ((v = num(p, "data-latido")) !== null) lat = v;
+      if ((v = num(p, "data-lucia")) !== null) lucia = v;
+      if ((v = num(p, "data-dani")) !== null) dani = v;
+    }
+    sObj = esc; intensObj = lat ? 1.7 : 1;
+    cuerpo.classList.toggle("jug", !!juego);
+    cuerpo.classList.toggle("gira", !!gira);
+    cuerpo.classList.toggle("lat", !!lat);
+    cuerpo.classList.toggle("lucia", !!lucia);
+    cuerpo.classList.toggle("dani", !!dani);
+    lugar.textContent = nombre;
+    if (reducir) { s = sObj; intens = intensObj; aplica(); if (s > 1.4 && s < 3) { for (var i = 0; i < 40; i++) pintaFuego(); } else fx.clearRect(0, 0, W, H); }
+    else arranca();
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  actualiza();
+})();
+</script>
+</body>
+</html>
