@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14110f">
+<meta name="description" content="Escenas, noches y conversaciones que se quedaron sin decir.">
+<title>Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Portada: un libro abierto sobre una mesa oscura. La página izquierda está llena y la derecha
+   a medio escribir; con cada historia nueva se escriben más líneas. */
+:root {
+  --bg: #14110f;
+  --fg: #e6dccb;
+  --muted: #9a8e7b;
+  --tan: #bfa98a;
+  --tan-hi: #dcc7a0;
+  --tan-dim: #4a4036;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: clamp(1.05rem, 1rem + .3vw, 1.18rem);
+  line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Libro */
+.book {
+  position: fixed; z-index: 0; left: 50%; top: 46%;
+  width: clamp(560px, 130vw, 1200px);
+  transform: translate(-50%, -50%) rotate(-2deg);
+  opacity: var(--book-op, 1);
+  pointer-events: none;
+}
+.book svg { display: block; width: 100%; height: auto; }
+.vignette {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 44%, rgba(20, 17, 15, 0) 28%, rgba(20, 17, 15, .88) 100%);
+}
+.book .cover { fill: #0c0a08; }
+.book .edge { fill: none; stroke: var(--tan-dim); stroke-width: 1; opacity: .5; }
+.book .page { stroke: #3a3128; stroke-width: 1.5; }
+.book .rule { stroke: var(--tan-dim); stroke-width: .8; opacity: .35; }
+.book .w { fill: none; stroke: var(--tan); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; opacity: .55;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: escribe .7s ease-out forwards; }
+.book .ribbon { fill: #3a2d24; }
+.book .tinta { fill: var(--tan-hi); opacity: .15; animation: tinta 1.9s ease-in-out infinite; animation-fill-mode: backwards; }
+@keyframes escribe { to { stroke-dashoffset: 0; } }
+@keyframes tinta { 0%, 100% { opacity: .15; } 50% { opacity: 1; } }
+
+.wrap { position: relative; z-index: 1; max-width: 52rem; margin-inline: auto; }
+
+/* Portada */
+.hero {
+  min-height: 88svh;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem;
+  padding-block: calc(3rem + env(safe-area-inset-top, 0px)) 3rem;
+}
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+h1 {
+  margin: 0; font-family: var(--display); font-style: italic; font-weight: 500;
+  font-size: clamp(3.4rem, 14vw, 8.2rem); line-height: .92; letter-spacing: -.02em; text-wrap: balance;
+  text-shadow: 0 2px 28px var(--bg), 0 0 6px var(--bg);
+}
+h1 em { font-style: italic; color: var(--tan-hi); }
+.lema { margin: 0; max-width: 28rem; color: var(--fg); text-shadow: 0 0 14px var(--bg); }
+.cue { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--tan-hi); text-decoration: none; align-self: flex-start; padding-block: .5rem; }
+.cue span { display: inline-block; animation: baja 2.2s ease-in-out infinite; }
+@keyframes baja { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+/* Lista */
+.lista-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 2rem 1rem; font-family: var(--mono); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.lista { display: flex; flex-direction: column; }
+.hist {
+  display: grid; gap: .55rem; padding-block: 1.9rem;
+  border-top: 1px solid var(--tan-dim); color: inherit; text-decoration: none;
+}
+.hist:last-child { border-bottom: 1px solid var(--tan-dim); }
+.hist h2 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(2rem, 6vw, 3.1rem); line-height: 1.05; text-wrap: balance; transition: color .2s; }
+.hist p { margin: 0; max-width: 36rem; }
+.hist .meta { font-family: var(--mono); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.hist .go { font-family: var(--mono); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--tan-hi); transition: transform .2s; justify-self: start; }
+.hist:hover h2, .hist:focus-visible h2 { color: var(--tan-hi); }
+.hist:hover .go, .hist:focus-visible .go { transform: translateX(.35rem); }
+.hist:focus-visible { outline: 2px solid var(--tan); outline-offset: 4px; }
+.pronto { padding-block: 2rem 0; font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .book .w { animation: none; stroke-dashoffset: 0; }
+  .book .tinta { animation: none; opacity: .8; }
+  .cue span { animation: none; }
+  .hist h2, .hist .go { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="book" id="book" aria-hidden="true">
+  <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="papelI" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#26211b"/>
+        <stop offset=".82" stop-color="#1d1915"/>
+        <stop offset="1" stop-color="#0e0c0a"/>
+      </linearGradient>
+      <linearGradient id="papelD" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#0e0c0a"/>
+        <stop offset=".18" stop-color="#1d1915"/>
+        <stop offset="1" stop-color="#26211b"/>
+      </linearGradient>
+    </defs>
+    <path class="cover" d="M50 52 C200 36 330 38 400 50 C470 38 600 36 750 52 L758 448 C610 430 470 436 400 458 C330 436 190 430 42 448 Z"/>
+    <path class="edge" d="M62 438 C200 420 330 426 400 448 C470 426 600 420 738 438"/>
+    <path class="edge" d="M64 443 C200 425 330 431 400 453 C470 431 600 425 736 443"/>
+    <path class="page" fill="url(#papelI)" d="M400 60 C330 48 210 46 70 70 L62 430 C200 412 330 418 400 440 Z"/>
+    <path class="page" fill="url(#papelD)" d="M400 60 C470 48 590 46 730 70 L738 430 C600 412 470 418 400 440 Z"/>
+    <path class="ribbon" d="M408 438 L408 492 L416 484 L424 492 L424 440 Z"/>
+    <g id="reglas"></g>
+    <g id="texto"></g>
+    <circle class="tinta" id="tinta" r="2.8" cx="0" cy="0"/>
+  </svg>
+</div>
+<div class="vignette"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="kicker">Relatos</div>
+    <h1>Historias <em>jamás</em> contadas</h1>
+    <p class="lema">Escenas, noches y conversaciones que se quedaron sin decir.</p>
+    <a class="cue" href="#historias">Elige una historia <span aria-hidden="true">↓</span></a>
+  </header>
+
+  <main id="historias">
+    <div class="lista-cab"><span>Historias</span><span id="cuenta"></span></div>
+    <div class="lista" id="lista">
+      <noscript><p>Activa JavaScript para ver la lista, o abre directamente <a href="historias/el-punto-final.html">El punto final</a>.</p></noscript>
+    </div>
+    <p class="pronto">Más historias en camino.</p>
+  </main>
+</div>
+
+<script>
+/* ============================================================
+   AÑADIR UNA HISTORIA NUEVA
+   1) Sube el archivo de la historia a la carpeta "historias/".
+   2) Copia un bloque { ... }, pégalo al principio de la lista
+      (la primera sale arriba) y cambia sus datos.
+   Cuida las comas entre bloques y las comillas.
+   El libro del fondo escribe dos líneas más por cada historia.
+   ============================================================ */
+var HISTORIAS = [
+  {
+    titulo: "El punto final",
+    resumen: "Un mensaje seco, un punto al final y tres horas imaginando lo peor.",
+    meta: "Álvaro y Elena · 9 min · octubre 2026",
+    url: "historias/el-punto-final.html"
+  }
+];
+
+/* Lista de historias */
+(function () {
+  var lista = document.getElementById("lista");
+  lista.textContent = "";
+  HISTORIAS.forEach(function (h) {
+    var a = document.createElement("a");
+    a.className = "hist";
+    a.href = h.url;
+    var t = document.createElement("h2"); t.textContent = h.titulo;
+    var p = document.createElement("p"); p.textContent = h.resumen;
+    var m = document.createElement("div"); m.className = "meta"; m.textContent = h.meta;
+    var g = document.createElement("span"); g.className = "go"; g.textContent = "Leer →";
+    a.appendChild(t); a.appendChild(p); a.appendChild(m); a.appendChild(g);
+    lista.appendChild(a);
+  });
+  var n = HISTORIAS.length;
+  document.getElementById("cuenta").textContent = n + (n === 1 ? " historia" : " historias");
+})();
+
+/* Libro: la página izquierda llena y la derecha a medio escribir */
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  var FILAS = 18, TOTAL = FILAS * 2;
+  var escritas = Math.min(TOTAL, FILAS + 7 + 2 * (HISTORIAS.length - 1));
+  var reglas = document.getElementById("reglas");
+  var texto = document.getElementById("texto");
+  var tinta = document.getElementById("tinta");
+
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    parent.appendChild(e);
+    return e;
+  }
+
+  var anteriorCorta = true;
+  for (var i = 0; i < TOTAL; i++) {
+    var pagina = i < FILAS ? 0 : 1;
+    var x0 = pagina ? 440 : 100;
+    var y = 100 + (i % FILAS) * 18;
+    var r = rng(1000 + i);
+    var corta = r() < 0.17;
+    var frac = corta ? 0.3 + r() * 0.4 : 1;
+    var sangria = anteriorCorta ? 22 : 0;
+    anteriorCorta = corta;
+    var ultima = (i === escritas - 1);
+    if (ultima) frac = 0.55;
+
+    el("line", { "class": "rule", x1: x0, y1: y + 4, x2: x0 + 260, y2: y + 4 }, reglas);
+    if (i >= escritas) continue;
+
+    var xFin = x0 + 260 * frac;
+    var x = x0 + sangria;
+    var d = "";
+    while (x < xFin - 10) {
+      var largo = 12 + r() * 34;
+      if (x + largo > xFin) largo = xFin - x;
+      var bumps = Math.max(2, Math.round(largo / 6));
+      var yy = (y + (r() - 0.5) * 1.2).toFixed(1);
+      d += "M" + x.toFixed(1) + " " + yy + "q3 -4 6 0";
+      for (var b = 1; b < bumps; b++) d += "t6 0";
+      x += bumps * 6 + 6 + r() * 3;
+    }
+    var p = el("path", { "class": "w", d: d, pathLength: "1" }, texto);
+    p.style.animationDelay = (i * 0.06).toFixed(2) + "s";
+    if (ultima) {
+      tinta.setAttribute("cx", (x + 2).toFixed(1));
+      tinta.setAttribute("cy", y);
+      tinta.style.animationDelay = (escritas * 0.06 + 0.7).toFixed(2) + "s";
+    }
+  }
+
+  /* El libro se apaga al bajar, para que la lista se lea bien */
+  var libro = document.getElementById("book");
+  function ajusta() {
+    var t = Math.min(1, window.scrollY / (window.innerHeight * 0.7));
+    libro.style.setProperty("--book-op", (1 - 0.72 * t).toFixed(3));
+  }
+  window.addEventListener("scroll", ajusta, { passive: true });
+  ajusta();
+})();
+</script>
+</body>
+</html>
