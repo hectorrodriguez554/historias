@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05080d">
+<title>El banco · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* El charco de luz: un callejón entre dos bloques, farolas que pasan con noche entre una y otra, un parque escondido
+   con un banco bajo una farola que parpadea y una Luna llena de trasfondo. Dos luces que no se mezclan:
+   la cálida de la farola y la fría de la Luna. Al final el hombre desaparece, la farola se apaga y amanece. */
+:root {
+  --bg: #05080d;
+  --fg: #e9e3d6;
+  --muted: #8a95a3;
+  --lampara: #f0b45c;
+  --fria: #9ab8e0;
+  --linea: rgba(233, 227, 214, .15);
+  --parque: 0; --calle: 1; --alba: 0; --lamp: 1;
+  --edif: #090d15;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem);
+  line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; z-index: 0; pointer-events: none; }
+
+/* Cielo y amanecer */
+.cielo { inset: 0; background: linear-gradient(180deg, #05080f 0%, #0a1220 60%, #111b2c 100%); }
+.alba { inset: 0; opacity: var(--alba); background: linear-gradient(180deg, #243140 0%, #55636f 55%, #939ea8 100%); }
+
+/* Luna llena, de trasfondo, con una rama que la cruza */
+.luna { left: 34%; top: 24%; width: clamp(150px, 22vw, 260px); aspect-ratio: 1; transform: translate(-50%, -50%);
+  opacity: calc(.78 - var(--alba) * .5); }
+.luna .halo { position: absolute; inset: -60%; background: radial-gradient(circle, rgba(165, 190, 230, .38) 0%, rgba(165, 190, 230, .12) 28%, rgba(165, 190, 230, 0) 62%); }
+.luna canvas { position: relative; display: block; width: 100%; height: 100%; }
+.luna svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.luna svg path { fill: none; stroke: #03050a; stroke-linecap: round; }
+@media (max-width: 700px) { .luna { left: 70%; top: 15%; } }
+
+/* Bloques de edificios con las ventanas apagadas */
+.bloque { top: 0; bottom: 0; background: var(--edif); display: grid; grid-template-columns: repeat(auto-fill, minmax(24px, 1fr)); grid-auto-rows: 34px; gap: 10px 9px; padding: 16px 12px; overflow: hidden; align-content: start; }
+.bloque i { display: block; border-radius: 1px; background: rgba(150, 175, 215, .05); }
+.bloque i.r { background: rgba(150, 180, 225, .13); }
+#izq { left: 0; width: clamp(90px, 21vw, 250px); box-shadow: inset -2px 0 0 rgba(150, 175, 215, .1); }
+#der { right: 0; width: clamp(90px, 24vw, 290px); box-shadow: inset 2px 0 0 rgba(150, 175, 215, .08); }
+
+/* Suelo y calle con farolas */
+.suelo { left: 0; right: 0; bottom: 0; height: 11vh; background: linear-gradient(180deg, #0a0f17, #04070b); }
+.calle { left: 0; right: 0; bottom: 0; height: 52vh; overflow: hidden; opacity: var(--calle); }
+.tira { position: absolute; left: 0; bottom: 0; width: 0; height: 100%; will-change: transform; }
+.farola { position: absolute; bottom: 8vh; width: 0; height: 100%; }
+.farola .poste { position: absolute; left: -2px; bottom: 0; width: 4px; height: 44vh; background: #06090e; }
+.farola .brazo { position: absolute; left: -2px; bottom: calc(44vh - 3px); width: 30px; height: 5px; background: #06090e; border-radius: 3px; }
+.farola .foco { position: absolute; left: 20px; bottom: calc(44vh - 6px); width: 18px; height: 5px; border-radius: 0 0 9px 9px; background: #ffd68a; box-shadow: 0 0 16px 4px rgba(255, 196, 110, .75); }
+.farola .cono { position: absolute; left: 29px; bottom: 0; width: 0; height: 44vh; }
+.farola .cono::before { content: ""; position: absolute; left: -17vh; bottom: -1vh; width: 34vh; height: 44vh; clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(255, 196, 110, .22), rgba(255, 196, 110, .02)); }
+.farola .pozo { position: absolute; left: -24vh; bottom: -3.2vh; width: 48vh; height: 7vh; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 190, 100, .62) 0%, rgba(255, 190, 100, .22) 40%, rgba(255, 190, 100, 0) 72%); }
+
+/* Parque */
+.parque { left: 50%; bottom: 8vh; width: clamp(340px, 64vw, 780px); transform: translateX(-50%); opacity: var(--parque); }
+.parque svg { display: block; width: 100%; height: auto; overflow: visible; }
+.parque .oscuro { fill: #04070c; } .parque .oscuro-l { stroke: #04070c; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.parque .fria { stroke: var(--fria); fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: .6; }
+.parque .calida { stroke: #ffc77a; fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: .55; }
+.parque .arbol { fill: #060a10; }
+.parque .lampara-luz { opacity: var(--lamp); }
+.parque .parpadeo { animation: parpadeo 4.6s steps(1, end) infinite; }
+@keyframes parpadeo {
+  0% { opacity: 1; } 6% { opacity: .35; } 8% { opacity: 1; } 11% { opacity: .5; } 12% { opacity: 1; }
+  45% { opacity: 1; } 46% { opacity: .25; } 47% { opacity: .9; } 48% { opacity: .3; } 50% { opacity: 1; }
+  80% { opacity: .95; } 81% { opacity: .5; } 83% { opacity: 1; } 100% { opacity: 1; }
+}
+body.st-alba .parpadeo { animation: none; }
+.hombre { opacity: 0; transition: opacity 1.6s; } body.st-hombre .hombre { opacity: 1; }
+.hombre .calida { opacity: .42; transition: opacity .5s; } body.st-habla.st-hombre .hombre .calida { opacity: 1; }
+.hombre .fria { opacity: .18; }
+.hombre .termo { fill: #131b26; stroke: rgba(255, 199, 122, .45); stroke-width: .8; }
+body.st-habla.st-hombre .hombre .termo { stroke: rgba(255, 199, 122, .95); }
+#el { opacity: 0; transition: opacity 1.4s; } body.st-sentado #el { opacity: 1; }
+#bolsa { transition: opacity 1.2s; } body.st-sinbolsa #bolsa { opacity: 0; }
+#vaso { opacity: 0; transition: opacity 2.5s; } body.st-vaso #vaso { opacity: 1; }
+.vapor path { fill: none; stroke: #d7e2f0; stroke-linecap: round; stroke-width: 1.6; opacity: 0; }
+body.st-vapor .vapor path { animation: vapor 3.6s ease-out infinite; }
+.vapor path:nth-child(2) { animation-delay: 1.2s !important; } .vapor path:nth-child(3) { animation-delay: 2.4s !important; }
+@keyframes vapor { 0% { transform: translateY(6px); opacity: 0; } 25% { opacity: .5; } 100% { transform: translateY(-16px); opacity: 0; } }
+#movil { opacity: 0; transition: opacity .8s; } body.st-movil #movil { opacity: 1; }
+#hoja { opacity: 0; transform-box: fill-box; transform-origin: center; } body.st-hoja #hoja { animation: hoja 6.5s ease-in-out forwards; }
+@keyframes hoja {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 8% { opacity: 1; }
+  35% { transform: translate(-16px, 62px) rotate(110deg); } 65% { transform: translate(8px, 118px) rotate(210deg); }
+  100% { transform: translate(-3px, 150px) rotate(330deg); opacity: 1; }
+}
+
+/* Lectura */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(4, 7, 12, .9), 0 1px 3px rgba(4, 7, 12, .85); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #c3ccd8; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #04070c; }
+.volver:hover, .volver:focus-visible { color: var(--lampara); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--lampara); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #aab5c3; text-shadow: 0 0 12px #04070c; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(4.2rem, 19vw, 8.6rem);
+  line-height: .94; letter-spacing: -.02em; color: #f6efe0; text-shadow: 0 0 40px rgba(240, 180, 92, .28), 0 2px 24px #04070c; }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.cierre { margin-top: 2.4rem; font-family: var(--display); font-style: italic; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); line-height: 1.35; color: #f6f1e6; text-wrap: balance; }
+
+/* Mensajes sin enviar: el malo se tacha cuando el hombre dice "Para" */
+.msg { max-width: 31rem; margin-block: .5rem; align-self: flex-end; }
+.msg .bub { font-family: var(--mono); font-size: .96rem; line-height: 1.6; padding: .95rem 1.15rem; background: rgba(34, 26, 17, .86); color: #f2e0bd; border: 1px dashed #6d5b43;
+  border-radius: 18px 18px 4px 18px; text-shadow: none; }
+.msg.limpio .bub { border-color: #c79a55; box-shadow: 0 0 26px rgba(240, 180, 92, .22); background: rgba(40, 29, 16, .9); }
+.quita { transition: color 1s, opacity 1s, text-decoration-color 1s; text-decoration: line-through; text-decoration-color: transparent; }
+body.st-tacha .quita { opacity: .38; text-decoration-color: #e08a6a; }
+
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--fria); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fria); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #04070c; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .parque .parpadeo, body.st-vapor .vapor path { animation: none; }
+  body.st-vapor .vapor path { opacity: .3; }
+  body.st-hoja #hoja { animation: none; opacity: 1; transform: translate(-3px, 150px) rotate(330deg); }
+  .hombre, #el, #bolsa, #vaso, #movil, .quita { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="capa cielo" aria-hidden="true"></div>
+<div class="capa alba" aria-hidden="true"></div>
+<div class="capa luna" aria-hidden="true">
+  <div class="halo"></div>
+  <canvas id="luna" width="260" height="260"></canvas>
+  <svg viewBox="0 0 100 100">
+    <path d="M-34 116 C 8 92 30 70 58 44 S 92 18 116 4" stroke-width="2.6"/>
+    <path d="M58 44 C 62 31 70 24 80 15" stroke-width="1.5"/>
+    <path d="M40 62 C 33 49 35 36 28 22" stroke-width="1.4"/>
+    <path d="M74 30 C 85 37 95 35 108 26" stroke-width="1.3"/>
+    <path d="M20 80 C 30 75 44 77 54 70" stroke-width="1.2"/>
+    <path d="M80 15 C 82 8 88 4 94 2" stroke-width=".9"/>
+    <path d="M28 22 C 26 14 30 8 36 4" stroke-width=".9"/>
+  </svg>
+</div>
+<div class="capa bloque" id="izq" aria-hidden="true"></div>
+<div class="capa bloque" id="der" aria-hidden="true"></div>
+<div class="capa suelo" aria-hidden="true"></div>
+
+<div class="capa calle" aria-hidden="true"><div class="tira" id="tira"></div></div>
+
+<div class="capa parque" aria-hidden="true">
+  <svg viewBox="0 0 600 300">
+    <defs>
+      <radialGradient id="pozo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffbe64" stop-opacity=".68"/><stop offset=".45" stop-color="#ffbe64" stop-opacity=".22"/><stop offset="1" stop-color="#ffbe64" stop-opacity="0"/></radialGradient>
+      <linearGradient id="cono" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc46e" stop-opacity=".3"/><stop offset="1" stop-color="#ffc46e" stop-opacity=".03"/></linearGradient>
+      <radialGradient id="mov" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#a9c6f0" stop-opacity=".6"/><stop offset="1" stop-color="#a9c6f0" stop-opacity="0"/></radialGradient>
+    </defs>
+    <g transform="translate(0 22)">
+      <!-- árboles -->
+      <g class="arbol">
+        <rect x="35" y="140" width="9" height="130"/><ellipse cx="40" cy="112" rx="42" ry="48"/><ellipse cx="14" cy="136" rx="26" ry="30"/><ellipse cx="66" cy="132" rx="26" ry="32"/>
+        <rect x="118" y="170" width="7" height="100"/><ellipse cx="121" cy="146" rx="30" ry="34"/><ellipse cx="102" cy="162" rx="18" ry="22"/>
+        <rect x="518" y="156" width="8" height="114"/><ellipse cx="522" cy="126" rx="38" ry="44"/><ellipse cx="548" cy="146" rx="24" ry="28"/>
+        <rect x="574" y="176" width="7" height="94"/><ellipse cx="578" cy="152" rx="28" ry="34"/>
+      </g>
+      <!-- fuente seca -->
+      <g>
+        <rect x="133" y="248" width="144" height="16" fill="#0b1119"/>
+        <ellipse cx="205" cy="248" rx="72" ry="11" fill="#05080d" stroke="#9ab8e0" stroke-opacity=".5" stroke-width="1.4"/>
+        <ellipse cx="205" cy="264" rx="72" ry="11" fill="#0b1119"/>
+        <rect x="200" y="214" width="10" height="34" fill="#0a0f17"/>
+        <ellipse cx="205" cy="214" rx="22" ry="4.5" fill="#05080d" stroke="#9ab8e0" stroke-opacity=".5" stroke-width="1.1"/>
+      </g>
+      <!-- papelera -->
+      <g><rect x="272" y="238" width="17" height="24" fill="#0b1119"/><rect x="270" y="235" width="21" height="4" fill="#111a25"/></g>
+      <!-- luz de la farola -->
+      <g class="lampara-luz"><g class="parpadeo">
+        <polygon points="391,62 409,62 500,266 320,266" fill="url(#cono)"/>
+        <ellipse cx="410" cy="268" rx="130" ry="13" fill="url(#pozo)"/>
+      </g></g>
+      <!-- banco -->
+      <g>
+        <rect x="300" y="236" width="150" height="7" fill="#3a2a1b"/>
+        <rect x="300" y="208" width="150" height="5" fill="#33261a"/><rect x="300" y="218" width="150" height="5" fill="#33261a"/>
+        <rect x="308" y="243" width="5" height="22" fill="#1a130d"/><rect x="437" y="243" width="5" height="22" fill="#1a130d"/>
+        <rect x="300" y="236" width="150" height="1.4" fill="#ffd9a0" opacity=".5"/>
+      </g>
+      <!-- farola -->
+      <g>
+        <rect x="468" y="60" width="5" height="206" fill="#06090e"/>
+        <path d="M470 64 C 468 46 440 44 412 52" stroke="#06090e" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="408" cy="55" rx="15" ry="6" fill="#0a0e14"/>
+        <g class="lampara-luz"><g class="parpadeo"><ellipse cx="408" cy="60" rx="9" ry="3" fill="#ffd68a"/><circle cx="408" cy="60" r="26" fill="#ffc46e" opacity=".22"/></g></g>
+      </g>
+      <!-- bolsa de basura -->
+      <g id="bolsa">
+        <path d="M296 262 C 292 248 304 240 316 246 C 330 240 340 252 334 262 Z" fill="#05080d"/>
+        <path d="M300 250 C 306 244 314 246 318 250" stroke="#9ab8e0" stroke-opacity=".35" stroke-width="1" fill="none"/>
+      </g>
+      <!-- Él, a la izquierda del banco -->
+      <g id="el">
+        <g class="fria" stroke-width="2" transform="translate(-1.6 -1.4)">
+          <path d="M317 236 Q312 214 322 198" stroke-width="17"/><circle cx="327" cy="186" r="8.5" stroke-width="2"/><path d="M322 206 Q336 204 334 188" stroke-width="5"/><path d="M318 236 L350 236" stroke-width="11"/><path d="M350 236 L352 262" stroke-width="9"/>
+        </g>
+        <g class="calida" stroke-width="2" transform="translate(1.6 .2)" style="opacity:.4">
+          <path d="M317 236 Q312 214 322 198" stroke-width="17"/><circle cx="327" cy="186" r="8.5" stroke-width="2"/><path d="M318 236 L350 236" stroke-width="11"/><path d="M350 236 L352 262" stroke-width="9"/>
+        </g>
+        <g class="oscuro-l">
+          <path d="M317 236 Q312 214 322 198" stroke-width="17"/><path d="M322 206 Q336 204 334 188" stroke-width="5"/><path d="M318 236 L350 236" stroke-width="11"/><path d="M350 236 L352 262" stroke-width="9"/>
+        </g>
+        <circle class="oscuro" cx="327" cy="186" r="8.5"/>
+        <ellipse id="movil" cx="341" cy="212" rx="22" ry="15" fill="url(#mov)"/>
+        <g class="vapor"><path d="M346 204 q-4 -6 0 -12 q4 -6 0 -12"/><path d="M350 204 q-4 -6 0 -12 q4 -6 0 -12"/><path d="M342 204 q-4 -6 0 -12 q4 -6 0 -12"/></g>
+      </g>
+      <!-- el hombre que nadie ve, a la derecha -->
+      <g class="hombre">
+        <g class="fria" stroke-width="2" transform="translate(-1.2 -1.4)">
+          <path d="M431 236 Q436 208 428 197" stroke-width="22"/><circle cx="426" cy="184" r="9.5"/><path d="M432 236 L404 236" stroke-width="12"/><path d="M404 236 L402 262" stroke-width="10"/>
+        </g>
+        <g class="calida" stroke-width="2.2" transform="translate(-1.8 -.4)">
+          <path d="M431 236 Q436 208 428 197" stroke-width="22"/><circle cx="426" cy="184" r="9.5"/><path d="M432 236 L404 236" stroke-width="12"/><path d="M404 236 L402 262" stroke-width="10"/>
+        </g>
+        <g class="oscuro-l"><path d="M431 236 Q436 208 428 197" stroke-width="22"/><path d="M432 236 L404 236" stroke-width="12"/><path d="M404 236 L402 262" stroke-width="10"/></g>
+        <circle class="oscuro" cx="426" cy="184" r="9.5"/>
+        <path d="M419 189 Q423 202 430 192" fill="#0c1018" stroke="#bfc8d4" stroke-opacity=".28" stroke-width="1.2"/>
+        <rect class="termo" x="408" y="219" width="7" height="17" rx="2"/>
+      </g>
+      <!-- el vaso que queda -->
+      <g id="vaso"><path d="M417 228 L426 228 L424.5 236 L418.5 236 Z" fill="#d9d3c5" opacity=".85"/><rect x="416.5" y="227" width="10.5" height="1.6" fill="#f2ecde"/></g>
+      <!-- hoja que cae sobre la fuente -->
+      <path id="hoja" d="M206 56 q7 -3 9 5 q-4 8 -11 6 q-3 -5 2 -11 z" fill="#8a5a22"/>
+    </g>
+  </svg>
+</div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Una noche · un parque escondido</div>
+    <h1>El banco</h1>
+  </header>
+
+  <p>Él no sabía qué hora era cuando se dio cuenta de que llevaba rato caminando sin rumbo.</p>
+
+  <p class="pausa">Había salido de casa con la excusa de tirar la basura, y la basura seguía en su mano, olvidada, cuando cruzó la tercera calle sin mirar. Las farolas dibujaban charcos amarillos en el asfalto, y entre un charco y otro la noche era un pozo. No se cruzó con nadie. Solo con su propia respiración, que sonaba demasiado fuerte, y con una frase que no dejaba de repetirse por dentro: “te daré tu espacio, te daré tu espacio, te daré tu espacio”. Como si, de tanto decirla, fuera a creérsela.</p>
+
+  <p class="pausa" data-parque="1">Acabó en un parque que no conocía. Estaba escondido entre dos bloques de edificios, al fondo de un callejón estrecho, con cuatro árboles, una fuente seca y un banco de madera bajo una farola que parpadeaba. De esos sitios que existen en todas las ciudades y que nadie recuerda hasta que lo necesita.</p>
+
+  <p class="pausa" data-sentado="1">Se sentó. Dejó la bolsa de basura en el suelo, a su lado, y se tapó la cara con las manos.</p>
+
+  <p class="d pausa h">—Esa bolsa lleva ya veinte minutos contigo —dijo una voz—. Si la vas a adoptar, al menos póntele nombre.</p>
+
+  <p class="pausa" data-hombre="1">Se sobresaltó. En el otro extremo del banco, medio escondido en la sombra, había un hombre. Mayor, con barba gris descuidada, un abrigo demasiado grande y un termo entre las rodillas. Tenía los ojos tranquilos de quien ya ha visto muchas noches.</p>
+
+  <p class="d pausa e">—Perdone, no lo había visto.</p>
+
+  <p class="d pausa h">—Nadie me ve. Es una de las ventajas. —Sonrió, con la mitad de los dientes—. ¿Quieres un poco de café? Está flojo, pero está caliente.</p>
+
+  <p class="pausa" data-vapor="1">Él dudó. Luego asintió. Cogió el vaso de plástico con las dos manos y notó el calor subiéndole por los dedos, y de pronto fue demasiado y se le llenaron los ojos.</p>
+
+  <p class="pausa">El hombre no dijo nada. Miró hacia los árboles, con esa discreción de quien sabe que a veces lo mejor que se le puede dar a alguien es no mirarlo.</p>
+
+  <p class="d pausa e">—Se acabó —dijo Él, por fin, sin saber muy bien a qué se refería—. O no. No sé. Ella me ha pedido que dejemos de hablar por un tiempo.</p>
+
+  <p class="d pausa h">—Ajá.</p>
+
+  <p class="d pausa e">—Llevo dos días fatal. Desde ayer. Todo empezó porque la otra persona iba a venir a verla, como siempre, y yo no pude con eso. Discutimos. Yo estaba dolido, y se lo dije mal, con rabia, como quien tira una piedra. Y ella luego no estaba bien, y yo, en vez de dejarla en paz, insistí. Le mandé un audio de ocho minutos.</p>
+
+  <p class="d pausa h">—¿Ocho minutos?</p>
+
+  <p class="d pausa e">—Es una idea que leí. Pedirle a alguien ocho minutos de atención. Pero yo no se los pedí: se los mandé. Hablando yo todo el rato.</p>
+
+  <p class="pausa">El hombre soltó una risa corta, sin burla.</p>
+
+  <p class="d pausa h">—Ocho minutos hablando tú solo. Eso no es una petición, hijo. Eso es un audio de ocho minutos.</p>
+
+  <p class="pausa">Él se rio también, a su pesar, y la risa se le rompió por la mitad.</p>
+
+  <p class="d pausa e">—Luego me contó que la otra persona había decidido apartarse. Que se había dado cuenta de que ella no estaba bien y se había echado atrás, que se quedarían como amigos. Y yo, por dentro... —Se frotó la cara—. No sé qué sentí. Un poco de alivio, y enseguida vergüenza por sentir alivio. Y miedo. Y rabia con no sé quién. Y después me dijo lo del tiempo.</p>
+
+  <p class="d pausa h">—Siéntate un momento con eso del alivio —dijo el hombre—. No lo tires. Pero tampoco lo cuentes como una victoria.</p>
+
+  <p class="d pausa e">—Es que no lo es.</p>
+
+  <p class="d pausa h">—No. —El hombre lo miró de lado—. Lo que ha pasado es que ella ha perdido algo, y está triste. A los que quieren de verdad no les sirve de nada ganar así. Si en algún sitio de ti hay una banderita pequeña que dice “bien”, guárdala en un cajón. Esa no es tu bandera.</p>
+
+  <p class="pausa" data-vapor="0">Él asintió despacio. El café ya se enfriaba entre sus manos.</p>
+
+  <p class="d pausa e">—Es que quiero esperarla —dijo—. Pase lo que pase. Y no sé cómo decírselo sin que parezca otra piedra más.</p>
+
+  <p class="d pausa h">—¿Cómo es la cosa que le ibas a escribir?</p>
+
+  <p class="pausa" data-movil="1">Él sacó el móvil. Lo tenía en el bolsillo desde hacía horas, con un mensaje a medias. Lo leyó en voz alta, con los ojos bajos, y aquello sonó más raro de lo que había parecido en la pantalla:</p>
+
+  <div class="msg"><div class="bub">“Entiendo que no quieras hablar ahora, que quieras darte un tiempo, lo acepto, te daré tu espacio<span class="quita"> y esperaré a que sanes porque mi amor por ti no va a cambiar, solo espero que un día reacciones y te des cuenta del hombre que tienes para ti...</span>”</div></div>
+
+  <p class="d pausa h" data-tacha="1" data-linea=".88">—Para —dijo el hombre, con suavidad—. Hasta ahí.</p>
+
+  <p class="d pausa e">—¿Qué?</p>
+
+  <p class="d pausa h">—Las dos primeras frases son buenas. Lo de “entiendo, lo acepto, te daré tu espacio”. Eso es una mano abierta. Pero “esperaré a que sanes” ya suena a que ella está enferma y tú eres el médico que aguarda en la puerta. Y “que te des cuenta del hombre que tienes” es una cuenta pendiente. Una deuda con la fecha en blanco. Eso no se le dice a alguien que acaba de pedirte espacio. Eso pesa.</p>
+
+  <p class="d pausa e">—Pero es lo que siento.</p>
+
+  <p class="d pausa h">—Claro que es lo que sientes. Y es tuyo. No hace falta que se lo cuentes todo, ni hoy, ni así. Lo que la persona necesita oír ahora es corto: “respeto lo que me pides, no tienes que contestarme, estoy bien, y la puerta no se cierra”. Nada más.</p>
+
+  <p class="d pausa e">—¿Y lo de esperarla?</p>
+
+  <p class="pausa" data-hoja="1">El hombre bebió un trago de su termo, en silencio. Una hoja cayó en el suelo seco de la fuente.</p>
+
+  <p class="d pausa h">—Yo esperé una vez a alguien —dijo al fin—. Mucho tiempo. Tanto, que acabé olvidando que yo también estaba vivo. Esperar no es malo. Esperar quieto sí. Si esperas, que sea moviéndote: con tu trabajo, con tus amigos, con tus lunes, con lo que se te antoje. La gente que espera sentada acaba pareciendo un banco. —Dio dos golpecitos con los nudillos en la madera—. Y mira, de bancos, aquí ya tenemos uno.</p>
+
+  <p class="pausa">Él soltó una risa mojada.</p>
+
+  <p class="d pausa e">—¿Y si no vuelve?</p>
+
+  <p class="d pausa h">—Entonces te habrás quedado con una vida entera. Y si vuelve, la persona que abrirá la puerta será alguien que no se ha pasado el tiempo mirando el pomo.</p>
+
+  <p class="pausa">Se quedaron un rato callados. La farola parpadeó, dejó de parpadear, y volvió. A lo lejos pasó una moto.</p>
+
+  <p class="d pausa h">—Escríbelo otra vez —dijo el hombre—. Aquí, conmigo. Yo no miro, pero te escucho.</p>
+
+  <p class="pausa">Él abrió el chat. Borró lo que había. Y escribió despacio, en voz alta, tecleando con los pulgares:</p>
+
+  <div class="msg limpio"><div class="bub">“Entiendo que necesites tu espacio y lo respeto de corazón. No tienes que contestarme ni darme explicaciones. Yo voy a estar bien, y voy a cuidarme. Si algún día te apetece volver a hablar, con un «hola big guy» sabré que eres tú, y me alegrará un montón. Pase lo que pase, aquí tienes a alguien que te quiere bien y que te espera, sin prisa y sin deudas. Cuídate mucho.”</div></div>
+
+  <p class="pausa">Lo leyó entero. Notó el nudo en la garganta, y después, debajo, algo más ligero. No era alivio. Era la sensación de haber soltado algo que pesaba y que no era suyo cargarlo.</p>
+
+  <p class="d pausa e">—¿Cómo suena? —preguntó.</p>
+
+  <p class="d pausa h">—Como alguien que sabe lo que quiere y no necesita apretar para tenerlo. —El hombre sonrió—. Pero no lo mandes ahora. A estas horas todo pesa el doble. Déjalo guardado. Lo envías por la mañana, con la cara lavada y un café de verdad.</p>
+
+  <p class="d pausa e">—Y después ¿qué hago?</p>
+
+  <p class="d pausa h">—Después te vas a dormir. Y mañana desayunas. Y pasado mañana llamas a algún amigo y le cuentas la mitad de esto. Y así. Poco a poco. Los pasos de hormiga son para los dos.</p>
+
+  <p class="pausa" data-movil="0">Él se quedó mirando el móvil. Lo apagó. Lo guardó en el bolsillo. Se pasó las manos por la cara, hondo, y por primera vez en dos días el aire le llegó entero.</p>
+
+  <p class="d pausa e">—Gracias —dijo—. De verdad. No sé ni cómo se llama.</p>
+
+  <p class="d pausa h">—Eso da igual. —El hombre cerró el termo y se levantó con un crujido de rodillas—. Y tú tira esa bolsa, que lleva media noche esperando destino.</p>
+
+  <p class="pausa" data-hombre="0" data-sentado="0" data-bolsa="0" data-vaso="1">Él cogió la bolsa y buscó una papelera. La encontró junto a la fuente. Cuando se giró para despedirse, el banco estaba vacío. Solo quedaba el vaso de plástico, con un poco de café frío, en el sitio donde antes había un hombre.</p>
+
+  <p class="pausa" data-alba="1">Salió del callejón con las manos en los bolsillos. El cielo, sobre los tejados, empezaba a aclararse, gris y limpio, sin prisa. Respiró despacio y echó a andar de vuelta a casa.</p>
+
+  <p class="cierre">Todavía le dolía. Pero ya caminaba hacia algún sitio.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, cuerpo = document.body;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function suave(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+
+  /* ---------- Bloques con ventanas apagadas ---------- */
+  ["izq", "der"].forEach(function (id, k) {
+    var r = rng(40 + k * 7), h = "";
+    for (var i = 0; i < 420; i++) h += '<i' + (r() < 0.07 ? ' class="r"' : "") + "></i>";
+    document.getElementById(id).innerHTML = h;
+  });
+
+  /* ---------- Luna llena (misma textura que La Luna) ---------- */
+  (function () {
+    var cv = document.getElementById("luna"), cx = cv.getContext("2d"), N = cv.width, C = N / 2, R = N / 2 - 3;
+    var r = rng(77), alb = new Float32Array(N * N), i, x, y;
+    for (i = 0; i < alb.length; i++) alb[i] = 0.9;
+    var mares = [];
+    for (i = 0; i < 9; i++) { var a = r() * 6.283, d = Math.sqrt(r()) * 0.62; mares.push([Math.cos(a) * d, Math.sin(a) * d - .05, 0.1 + r() * 0.2, 0.12 + r() * 0.14]); }
+    for (y = 0; y < N; y++) for (x = 0; x < N; x++) {
+      var nx = (x - C) / R, ny = (y - C) / R, v = 0;
+      for (i = 0; i < mares.length; i++) { var m = mares[i], dx = nx - m[0], dy = ny - m[1]; v -= m[3] * Math.exp(-(dx * dx + dy * dy) / (m[2] * m[2])); }
+      alb[y * N + x] += v;
+    }
+    for (i = 0; i < 70; i++) {
+      var ca = r() * 6.283, cd = Math.sqrt(r()) * 0.92, ccx = C + Math.cos(ca) * cd * R, ccy = C + Math.sin(ca) * cd * R;
+      var cr = (0.012 + r() * r() * 0.06) * R, box = Math.ceil(cr * 1.6);
+      for (y = Math.max(0, Math.floor(ccy - box)); y < Math.min(N, ccy + box); y++)
+        for (x = Math.max(0, Math.floor(ccx - box)); x < Math.min(N, ccx + box); x++) {
+          var q = Math.sqrt((x - ccx) * (x - ccx) + (y - ccy) * (y - ccy)) / cr;
+          alb[y * N + x] += -0.05 * Math.exp(-(q * q) / 0.45) + 0.05 * Math.exp(-((q - 1) * (q - 1)) / 0.06);
+        }
+    }
+    var img = cx.createImageData(N, N), px = img.data;
+    for (y = 0; y < N; y++) for (x = 0; x < N; x++) {
+      var nx2 = (x - C) / R, ny2 = (y - C) / R, rr = nx2 * nx2 + ny2 * ny2, o = (y * N + x) * 4;
+      if (rr >= 1.02) { px[o + 3] = 0; continue; }
+      var nz = Math.sqrt(Math.max(0, 1 - rr));
+      var v2 = (0.78 + 0.22 * nz) * alb[y * N + x];
+      var borde = Math.min(1, Math.max(0, (1 - Math.sqrt(rr)) * R / 1.6));
+      px[o] = Math.min(255, v2 * 226); px[o + 1] = Math.min(255, v2 * 234); px[o + 2] = Math.min(255, v2 * 248); px[o + 3] = 255 * borde;
+    }
+    cx.putImageData(img, 0, 0);
+  })();
+
+  /* ---------- Calle: farolas con noche entre una y otra ---------- */
+  var tira = document.getElementById("tira"), NF = 6, SP = 0.46;
+  (function () {
+    var h = "";
+    for (var i = 0; i < NF; i++) h += '<div class="farola" data-i="' + i + '"><div class="poste"></div><div class="brazo"></div><div class="foco"></div><div class="cono"></div><div class="pozo"></div></div>';
+    tira.innerHTML = h;
+    layout();
+  })();
+  function layout() {
+    var vw = window.innerWidth, f = tira.children;
+    for (var i = 0; i < f.length; i++) f[i].style.left = (i * SP * vw) + "px";
+  }
+  var w = 0;
+  function camina() {
+    var vw = window.innerWidth, recorrido = (NF - 1) * SP * vw + 0.55 * vw;
+    var bob = reducir ? 0 : Math.sin(w * 90) * 2.2;
+    tira.style.transform = "translate(" + (0.62 * vw - w * recorrido).toFixed(1) + "px," + bob.toFixed(1) + "px)";
+  }
+
+  /* ---------- Estado: dónde estás en el texto ---------- */
+  var P = 0, Pobj = 0, A = 0, Aobj = 0, corriendo = false;
+  var EDIF_N = [9, 13, 21], EDIF_A = [38, 49, 62];
+  function aplica() {
+    raiz.style.setProperty("--parque", suave(0, 1, P).toFixed(3));
+    raiz.style.setProperty("--calle", (1 - suave(0, 1, P)).toFixed(3));
+    raiz.style.setProperty("--alba", A.toFixed(3));
+    raiz.style.setProperty("--lamp", (1 - A * 0.92).toFixed(3));
+    var c = [0, 1, 2].map(function (i) { return Math.round(EDIF_N[i] + (EDIF_A[i] - EDIF_N[i]) * A * 0.8); });
+    raiz.style.setProperty("--edif", "rgb(" + c.join(",") + ")");
+  }
+  function bucle() {
+    var mov = false, d = Pobj - P, e = Aobj - A;
+    if (Math.abs(d) > 0.002) { P += d * 0.05; mov = true; } else P = Pobj;
+    if (Math.abs(e) > 0.002) { A += e * 0.025; mov = true; } else A = Aobj;
+    aplica();
+    if (mov) requestAnimationFrame(bucle); else corriendo = false;
+  }
+  function arranca() { if (!corriendo) { corriendo = true; requestAnimationFrame(bucle); } }
+
+  var marcados = Array.prototype.slice.call(document.querySelectorAll("main [data-parque],main [data-sentado],main [data-hombre],main [data-vapor],main [data-movil],main [data-tacha],main [data-hoja],main [data-bolsa],main [data-vaso],main [data-alba]"));
+  var habladores = Array.prototype.slice.call(document.querySelectorAll("main > p, main > .msg"));
+  var marcaParque = document.querySelector("[data-parque]");
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  var pendiente = false;
+  function actualiza() {
+    pendiente = false;
+    var H = window.innerHeight, linea = H * 0.55, k, p, v, f;
+    var st = { parque: 0, sentado: 0, hombre: 0, vapor: 0, movil: 0, tacha: 0, hoja: 0, bolsa: 1, vaso: 0, alba: 0 };
+    for (k = 0; k < marcados.length; k++) {
+      p = marcados[k];
+      f = num(p, "data-linea");
+      if (p.getBoundingClientRect().top > H * (f === null ? 0.55 : f)) continue;
+      for (var key in st) if ((v = num(p, "data-" + key)) !== null) st[key] = v;
+    }
+    /* quién habla: el último párrafo que ya pasó la línea de lectura */
+    var hab = false;
+    for (k = 0; k < habladores.length; k++) {
+      if (habladores[k].getBoundingClientRect().top > linea) break;
+      hab = habladores[k].classList.contains("h");
+    }
+    /* caminar: avanza con el scroll hasta llegar al parque */
+    var tope = marcaParque.getBoundingClientRect().top + window.scrollY - linea;
+    w = Math.min(1, Math.max(0, window.scrollY / Math.max(1, tope)));
+    camina();
+    Pobj = st.parque; Aobj = st.alba;
+    cuerpo.classList.toggle("st-sentado", !!st.sentado);
+    cuerpo.classList.toggle("st-hombre", !!st.hombre);
+    cuerpo.classList.toggle("st-habla", hab);
+    cuerpo.classList.toggle("st-vapor", !!st.vapor);
+    cuerpo.classList.toggle("st-movil", !!st.movil);
+    cuerpo.classList.toggle("st-tacha", !!st.tacha);
+    cuerpo.classList.toggle("st-hoja", !!st.hoja);
+    cuerpo.classList.toggle("st-sinbolsa", !st.bolsa);
+    cuerpo.classList.toggle("st-vaso", !!st.vaso);
+    cuerpo.classList.toggle("st-alba", !!st.alba);
+    if (reducir) { P = Pobj; A = Aobj; aplica(); } else arranca();
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", function () { layout(); pide(); });
+  aplica();
+  actualiza();
+})();
+</script>
+</body>
+</html>
