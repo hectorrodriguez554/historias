@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070d14">
+<title>Ocho minutos · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Una ventana a las tres y veinte: ciudad en sombra, una farola con su charco amarillo y lluvia en el cristal.
+   La lluvia empieza cuando el texto lo dice, ocho puntos se encienden con las ocho respiraciones
+   y al final amanece, gris y limpio, con la ciudad desperezándose. */
+:root {
+  --bg: #070d14;
+  --fg: #e4eaf0;
+  --muted: #7f8d9c;
+  --lluvia: #a9bdd1;
+  --calido: #ecd5ab;
+  --farola: #e9b45c;
+  --linea: #1c2733;
+  --dia: 0;
+  --oscuro: 0;
+  --edif: #070b11;
+  --vn: 1;
+  --vm: 0;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem);
+  line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Cielo: noche y mañana se cruzan */
+.noche, .manana { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.noche { background: linear-gradient(180deg, #060b12 0%, #0b151e 62%, #13202b 100%); }
+.manana { opacity: var(--dia); background: linear-gradient(180deg, #2d3f52 0%, #46596d 55%, #66798d 100%); }
+.manana::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
+  background: radial-gradient(ellipse at 50% 100%, rgba(214, 224, 233, .32), rgba(214, 224, 233, 0) 70%); }
+
+/* Ciudad */
+#ciudad { position: fixed; z-index: 0; left: 0; right: 0; bottom: 6vh; width: 100%; height: 36vh; pointer-events: none; }
+#ciudad .edif { fill: var(--edif); }
+#ciudad .vn { fill: #f2c377; opacity: var(--vn); }
+#ciudad .vm { fill: #f4dfb0; opacity: var(--vm); }
+
+/* Charco de la farola */
+.charco { position: fixed; z-index: 0; pointer-events: none; left: 70%; bottom: calc(6vh - 20px); width: 300px; height: 64px; margin-left: -150px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(233, 180, 92, .7) 0%, rgba(233, 180, 92, .22) 38%, rgba(233, 180, 92, 0) 70%);
+  opacity: calc(1 - var(--dia) * .96); animation: tiembla 5.4s steps(1, end) infinite; }
+@keyframes tiembla {
+  0% { filter: brightness(1); } 12% { filter: brightness(.82); } 14% { filter: brightness(1); }
+  47% { filter: brightness(.9); } 49% { filter: brightness(.7); } 51% { filter: brightness(1); } 100% { filter: brightness(1); }
+}
+
+/* Lluvia sobre el cristal */
+#lluvia { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+/* Marco de ventana, alféizar y luz apagada */
+.marco { position: fixed; inset: 0; z-index: 0; pointer-events: none; border: 10px solid #03060a; }
+.marco::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 7px; margin-left: -3px; background: #03060a; opacity: .55; }
+.marco::after { content: ""; position: absolute; left: 0; right: 0; top: 56%; height: 7px; background: #03060a; opacity: .55; }
+.alfeizar { position: fixed; z-index: 0; pointer-events: none; left: 0; right: 0; bottom: 0; height: calc(6vh + env(safe-area-inset-bottom, 0px)); background: linear-gradient(180deg, #05080d, #020407); border-top: 2px solid #0c121a; }
+.sombra { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: #02040a; opacity: var(--oscuro); }
+
+/* Lectura */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 14px rgba(5, 9, 14, .85), 0 0 4px rgba(5, 9, 14, .7); }
+
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 10px #05090e; }
+.volver:hover, .volver:focus-visible { color: var(--lluvia); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--lluvia); outline-offset: 4px; }
+
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); text-shadow: 0 0 10px #05090e; }
+h1 {
+  margin: 0; font-family: var(--display); font-style: italic; font-weight: 500;
+  font-size: clamp(3.6rem, 16vw, 7.6rem); line-height: .94; letter-spacing: -.02em; color: #eaf0f6; text-wrap: balance;
+  text-shadow: 0 0 40px rgba(169, 189, 209, .3), 0 2px 24px #05090e;
+}
+h1 em { color: var(--calido); font-style: italic; }
+
+.n { color: var(--fg); }
+.pausa { margin-top: 1.5rem; }
+.sentido { color: var(--calido); font-style: italic; }
+
+/* Mensajes */
+.msg { display: flex; flex-direction: column; gap: .35rem; max-width: 30rem; margin-block: .6rem; }
+.msg .bub { font-family: var(--mono); font-size: .98rem; line-height: 1.55; padding: .9rem 1.15rem; text-shadow: none; }
+.msg.el { align-self: flex-end; align-items: flex-end; }
+.msg.el .bub { background: #271f16; color: #f1deb9; border-radius: 18px 18px 4px 18px; border: 1px solid #4a3b27; }
+.msg.borrador .bub { background: transparent; border: 1px dashed #6a5a44; }
+.msg.ella { align-self: flex-start; }
+.msg.ella .bub { background: #17222c; color: #dbe6ef; border-radius: 18px 18px 18px 4px; border: 1px solid #2c3d4c; }
+.msg .pie { font-family: var(--mono); font-size: .78rem; letter-spacing: .08em; color: var(--muted); text-shadow: none; }
+
+/* Las ocho respiraciones: una secuencia de verdad, así que van numeradas */
+.ocho-lista { list-style: none; counter-reset: r; margin: .4rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 1.5rem; }
+.ocho-lista li { counter-increment: r; position: relative; padding-left: 3.1rem; opacity: .5; transition: opacity .6s; text-shadow: 0 0 14px rgba(5, 9, 14, .85); }
+.ocho-lista li.on { opacity: 1; }
+.ocho-lista li::before { content: counter(r); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; box-sizing: border-box; border: 1px solid var(--muted); border-radius: 50%;
+  display: grid; place-items: center; font-family: var(--mono); font-size: .8rem; color: var(--muted); transition: all .6s; }
+.ocho-lista li.on::before { border-color: var(--lluvia); color: #0b1219; background: var(--lluvia); }
+
+.cierre { margin-top: 2.2rem; font-family: var(--display); font-style: italic; font-size: clamp(1.45rem, 1.1rem + 1.4vw, 2rem); line-height: 1.35; color: #f0f4f8; text-wrap: balance; }
+
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--lluvia); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--lluvia); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #05090e; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+/* Reloj y contador de respiraciones */
+#reloj { position: fixed; z-index: 2; font-family: var(--mono); font-size: .85rem; letter-spacing: .16em; color: var(--muted); text-shadow: 0 0 8px #05090e;
+  left: max(20px, env(safe-area-inset-left, 0px)); bottom: calc(8vh + env(safe-area-inset-bottom, 0px)); }
+#puntos { position: fixed; z-index: 2; left: 50%; transform: translateX(-50%); bottom: calc(7.5vh + env(safe-area-inset-bottom, 0px));
+  display: flex; gap: .7rem; opacity: 0; transition: opacity .6s; pointer-events: none; }
+#puntos.ver { opacity: 1; }
+#puntos i { width: .7rem; height: .7rem; border-radius: 50%; border: 1px solid var(--muted); box-sizing: border-box; transition: all .6s; }
+#puntos i.on { background: var(--lluvia); border-color: var(--lluvia); box-shadow: 0 0 10px rgba(169, 189, 209, .6); }
+#puntos i.ult { animation: respira 4s ease-in-out infinite; }
+@keyframes respira { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .charco, #puntos i.ult { animation: none; }
+  .ocho-lista li, .ocho-lista li::before, #puntos, #puntos i { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="noche" aria-hidden="true"></div>
+<div class="manana" aria-hidden="true"></div>
+<svg id="ciudad" aria-hidden="true" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"></svg>
+<div class="charco" aria-hidden="true"></div>
+<canvas id="lluvia" aria-hidden="true"></canvas>
+<div class="marco" aria-hidden="true"></div>
+<div class="alfeizar" aria-hidden="true"></div>
+<div class="sombra" aria-hidden="true"></div>
+<div id="reloj" aria-hidden="true">noche</div>
+<div id="puntos" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Él · una noche con lluvia</div>
+    <h1>Ocho <em>minutos</em></h1>
+  </header>
+
+  <p class="n" data-hora="noche">Todo había empezado, como casi siempre, con un “buenas noches”.</p>
+
+  <p class="n pausa">Habían hablado un rato por la tarde, y luego otro rato más largo ya de noche, de cosas pequeñas: un vídeo, una queja del día, un cansancio compartido. Ella le había escrito “duerme bien” con ese tono suave que a Él le dejaba el pecho tibio durante unos minutos. Después, el silencio. Y en ese silencio, como una marea que sube sin avisar, había empezado todo lo demás.</p>
+
+  <p class="n pausa" data-hora="03:20">Eran las tres y veinte de la madrugada y Él llevaba un buen rato con el mismo mensaje escrito y sin enviar.</p>
+
+  <p class="n pausa">Era largo. Lo había escrito de un tirón, con los dedos temblando y la pantalla borrosa por las lágrimas. Hablaba de cómo es esperar sin saber cuánto. De cómo se ahoga uno a veces en su propia ansiedad, con la respiración corta y el pecho apretado, mientras al otro lado del mundo alguien vive con normalidad, con su tele, con sus planes, con otra gente. Hablaba de lo difícil que es querer a alguien que tiene miedo, y de que ese miedo no era culpa de Ella, sino de quienes se lo habían puesto. Y en medio, entre dos frases bonitas, había una palabra fea. Cobarde. La había escrito en caliente, con rabia, y ahí se había quedado, brillando como un cristal roto.</p>
+
+  <p class="n pausa">La leyó. Se le encogió el estómago.</p>
+
+  <p class="n pausa">No era verdad. Ella no era una cobarde. Era una persona que había aprendido a protegerse, y Él era alguien que, de tanto querer, había acabado empujando una puerta que seguía cerrada.</p>
+
+  <p class="n pausa">Borró el mensaje entero. Letra a letra, hasta que la pantalla quedó en blanco y solo el cursor parpadeaba, paciente.</p>
+
+  <p class="n pausa" data-lluvia=".14">Se levantó y abrió la ventana. La noche olía a lluvia lejana. Abajo, la calle estaba vacía, con la farola de siempre y su charco de luz amarilla. Respiró hondo, hasta que el aire le llegó donde antes no llegaba. Tenía las manos frías y la cara caliente, y por un momento le pareció que todo su cuerpo era una habitación con la calefacción mal puesta.</p>
+
+  <p class="n pausa">Pensó en algo que había leído hacía tiempo. Una idea sencilla, de esas que parecen demasiado pequeñas para servir de algo: ocho minutos. Pedirle a alguien ocho minutos de atención plena. No para arreglar nada, ni para que te dé la razón. Solo para que, durante ese rato, no te sientas solo con lo que llevas dentro.</p>
+
+  <p class="n pausa">Qué poco pedía. Y qué difícil era, a veces, pedirlo.</p>
+
+  <p class="n pausa">Volvió a sentarse en la cama con el móvil. Escribió, despacio, con los pulgares fríos:</p>
+
+  <div class="msg el borrador"><div class="bub">“¿Tienes 8 minutos? No es nada malo. Solo necesito hablar un poco y que alguien me escuche.”</div></div>
+
+  <p class="n pausa">Lo miró. Era corto. Era honesto. No pedía nada que Ella no pudiera dar. No decía “te quiero”, no decía “no puedo más”, no decía “me estás haciendo daño”. Decía solo lo que era verdad.</p>
+
+  <p class="n pausa">Y aun así, el dedo no se movía.</p>
+
+  <p class="n pausa">Porque sabía qué venía después. Lo había vivido otras veces. Si le pedía ocho minutos, Ella los tardaría en contestar. Y esos ocho minutos serían los más largos de la noche. Su cabeza, que no sabía descansar, llenaría el silencio con imágenes: Ella con otra gente, con la tele puesta, con una risa que no era para Él. Ella con el móvil lejos, dormida, ocupada, o simplemente en paz, mientras Él se ahogaba solo en una habitación a oscuras.</p>
+
+  <p class="n pausa">Lo sabía. Sabía cómo pesaba esa espera, y sabía también que no era culpa de nadie. Ella no le debía su atención a las tres de la madrugada. Tenía derecho a dormir, a vivir, a no estar disponible. Eso también era verdad, y era la parte que más costaba tragar.</p>
+
+  <p class="n pausa">Pero había algo más que sabía: que era su decisión. Que nadie lo había obligado a estar ahí. Que si seguía queriendo, era porque quería, no porque alguien se lo exigiera. Y que podía aguantar la tormenta más grande, el oleaje más bravo, con tal de que al final hubiera una orilla.</p>
+
+  <p class="n pausa">Pero no esa noche. No a las tres y veinte de la madrugada, con los ojos hinchados y el corazón a mil.</p>
+
+  <p class="n pausa">Borró el mensaje. Escribió otro:</p>
+
+  <div class="msg el"><div class="bub">“Buenas noches. Mañana te cuento algo con calma, si te va bien. Duerme tranquila.”</div><div class="pie" aria-hidden="true">✓</div></div>
+
+  <p class="n pausa">Lo envió.</p>
+
+  <p class="n pausa" data-lluvia="1">El tic gris apareció junto al texto, pequeño y silencioso. Él dejó el móvil sobre la mesilla, con la pantalla hacia abajo, y se quedó mirando el techo. Fuera, empezaba a llover de verdad, esa lluvia fina que no hace ruido y lo moja todo.</p>
+
+  <p class="n pausa">Contó hasta ocho. No ocho minutos: ocho respiraciones. Una por cada cosa que sí podía hacer esa noche.</p>
+
+  <ol class="ocho-lista">
+    <li data-resp="1" data-lluvia=".55">Cerrar la ventana, y que el ruido de la lluvia quedara al otro lado.</li>
+    <li data-resp="2">Beber agua, despacio, hasta notar cómo le bajaba por la garganta reseca.</li>
+    <li data-resp="3">Quitarse las lágrimas de la cara con las manos, sin vergüenza, porque nadie lo veía.</li>
+    <li data-resp="4" data-osc=".5">Apagar la luz.</li>
+    <li data-resp="5">Dejar el móvil lejos, en la otra punta de la mesilla, donde no pudiera alcanzarlo sin querer.</li>
+    <li data-resp="6">Tumbarse.</li>
+    <li data-resp="7">Cerrar los ojos.</li>
+    <li data-resp="8">Y permitirse no tener la respuesta todavía.</li>
+  </ol>
+
+  <p class="n pausa" data-resp="8">A la octava, el pecho ya no le dolía igual. No estaba curado. No estaba arreglado. Pero estaba entero, que no es poco.</p>
+
+  <p class="n pausa" data-resp="-1">Entonces el móvil vibró contra la madera de la mesilla.</p>
+
+  <p class="n pausa">Él no lo cogió enseguida. Lo dejó vibrar una vez, dos, hasta que se detuvo. Se quedó un momento en la oscuridad, escuchando la lluvia, sabiendo que fuera lo que fuera lo que hubiera en la pantalla, podría leerlo por la mañana, con la cabeza despejada, y que nada de lo que dijera lo iba a romper.</p>
+
+  <p class="n pausa" data-osc="0" data-dia=".3" data-lluvia=".5" data-hora="05:00">Se durmió tarde, y mal, como se duermen esas noches: a trozos, con sueños sin forma y un despertar a las cinco en el que no recordaba nada, salvo la sensación de haber estado nadando contra una corriente. Volvió a dormirse. Cuando abrió los ojos otra vez, la luz ya entraba por la persiana, gris y limpia, y la lluvia había parado.</p>
+
+  <p class="n pausa" data-dia=".8" data-lluvia="0">Se quedó un rato quieto, sin tocar nada. Después se levantó, se lavó la cara con agua fría y se hizo un café que le supo mejor de lo que esperaba. Solo entonces cogió el móvil.</p>
+
+  <p class="n pausa" data-dia=".9" data-hora="07:30">Había un mensaje. De Ella, de las siete y media de la mañana.</p>
+
+  <div class="msg ella"><div class="bub">“Buenos días. Perdona, anoche me quedé dormida y no vi nada hasta ahora. Hoy tengo tus 8 minutos, y más si los necesitas. Dime cuándo te va bien.”</div><div class="pie" aria-hidden="true">07:30</div></div>
+
+  <p class="n pausa">Él lo leyó una vez. Luego otra. Sonrió, con una sonrisa pequeña, cansada, sin euforia, de las que no prometen nada pero abren una ventana.</p>
+
+  <p class="n pausa">No había declaraciones ni promesas en ese mensaje. No cambiaba lo que Ella sentía ni lo que Él quería. Pero era una respuesta amable, y llegaba cuando él ya había aprendido a esperarla sin ahogarse.</p>
+
+  <p class="n pausa">Escribió: “Gracias. Después de comer, si te va bien.”</p>
+
+  <p class="n pausa" data-dia="1">Y mientras terminaba el café, mirando por la ventana cómo la ciudad se desperezaba bajo un cielo recién lavado, pensó en lo que había descubierto esa noche, y que no pensaba olvidar pronto: que esperar a alguien no significa dejar de cuidarse a uno mismo. Y que a veces, para estar bien con los demás, primero hay que pedirse a uno mismo esos ocho minutos.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function suave(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+  function mezcla(a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); }
+
+  /* ---------- Ciudad: edificios y ventanas ---------- */
+  (function () {
+    var svg = document.getElementById("ciudad"), NS = "http://www.w3.org/2000/svg", r = rng(31), x = -10, html = "";
+    while (x < 1210) {
+      var w = 58 + r() * 84, h = 80 + r() * r() * 190 + r() * 40, y = 300 - h;
+      html += '<rect class="edif" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + (h + 2).toFixed(1) + '"/>';
+      for (var wy = y + 12; wy < 292; wy += 15) for (var wx = x + 8; wx < x + w - 10; wx += 13) {
+        var q = r();
+        if (q < 0.045) html += '<rect class="vn" x="' + wx.toFixed(1) + '" y="' + wy.toFixed(1) + '" width="6" height="8"/>';
+        else if (q < 0.2) html += '<rect class="vm" x="' + wx.toFixed(1) + '" y="' + wy.toFixed(1) + '" width="6" height="8"/>';
+      }
+      x += w + 2 + r() * 8;
+    }
+    svg.innerHTML = html;
+  })();
+
+  /* ---------- Lluvia y ondas del charco ---------- */
+  var cv = document.getElementById("lluvia"), cx = cv.getContext("2d"), W = 0, H = 0, gotas = [], ondas = [];
+  var lluviaAct = 0, lluviaObj = 0;
+  function medir() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.round(Math.min(170, W / 6.5)), i;
+    gotas = [];
+    for (i = 0; i < n; i++) gotas.push({ x: Math.random() * (W + 80), y: Math.random() * H, l: 9 + Math.random() * 14, v: 9 + Math.random() * 8, a: .12 + Math.random() * .22, u: Math.random() });
+  }
+  medir(); window.addEventListener("resize", function () { medir(); dibuja(true); });
+
+  function dibuja(quieto) {
+    cx.clearRect(0, 0, W, H);
+    if (lluviaAct < 0.01) return;
+    var i, g, vis = Math.round(gotas.length * lluviaAct);
+    cx.strokeStyle = "#b4c8dc"; cx.lineWidth = 1; cx.lineCap = "round";
+    for (i = 0; i < vis; i++) {
+      g = gotas[i];
+      cx.globalAlpha = g.a * (0.5 + 0.5 * lluviaAct);
+      cx.beginPath(); cx.moveTo(g.x, g.y); cx.lineTo(g.x - g.l * 0.18, g.y + g.l); cx.stroke();
+      if (!quieto) { g.y += g.v; g.x -= g.v * 0.18; if (g.y > H + 20 || g.x < -20) { g.y = -20 - Math.random() * 60; g.x = Math.random() * (W + 80); } }
+    }
+    var px = W * 0.7, py = H * 0.94 - 8;
+    if (!quieto && Math.random() < 0.25 * lluviaAct) ondas.push({ x: px + (Math.random() - .5) * 220, y: py + (Math.random() - .5) * 26, r: 1, m: 14 + Math.random() * 26 });
+    cx.strokeStyle = "#f1cf8f";
+    for (i = ondas.length - 1; i >= 0; i--) {
+      var o = ondas[i]; o.r += 0.55;
+      if (o.r > o.m) { ondas.splice(i, 1); continue; }
+      cx.globalAlpha = 0.5 * (1 - o.r / o.m) * (1 - (+getComputedStyle(raiz).getPropertyValue("--dia") || 0));
+      cx.beginPath(); cx.ellipse(o.x, o.y, o.r, o.r * 0.28, 0, 0, 6.2832); cx.stroke();
+    }
+    cx.globalAlpha = 1;
+  }
+
+  /* ---------- Estado: se llega suavemente a cada objetivo ---------- */
+  var S = { dia: 0, oscuro: 0 }, T = { dia: 0, oscuro: 0 };
+  var NOCHE = [7, 11, 17], MAN = [88, 104, 122];
+  function aplica() {
+    raiz.style.setProperty("--dia", S.dia.toFixed(3));
+    raiz.style.setProperty("--oscuro", S.oscuro.toFixed(3));
+    var c = mezcla(NOCHE, MAN, suave(0, 1, S.dia) * 0.62);
+    raiz.style.setProperty("--edif", "rgb(" + c.join(",") + ")");
+    raiz.style.setProperty("--vn", (1 - suave(0, 0.5, S.dia)).toFixed(3));
+    raiz.style.setProperty("--vm", (suave(0.15, 0.55, S.dia) * (1 - suave(0.75, 1, S.dia))).toFixed(3));
+  }
+  var corriendo = false;
+  function bucle() {
+    var mov = false;
+    ["dia", "oscuro"].forEach(function (k) {
+      var d = T[k] - S[k];
+      if (Math.abs(d) > 0.001) { S[k] += d * 0.03; mov = true; } else S[k] = T[k];
+    });
+    var dl = lluviaObj - lluviaAct;
+    if (Math.abs(dl) > 0.004) { lluviaAct += dl * 0.03; mov = true; } else lluviaAct = lluviaObj;
+    aplica();
+    dibuja(false);
+    if (mov || lluviaAct > 0.01 || ondas.length) requestAnimationFrame(bucle); else corriendo = false;
+  }
+  function arranca() { if (!corriendo) { corriendo = true; requestAnimationFrame(bucle); } }
+  function fijar() {
+    if (reducir) { S.dia = T.dia; S.oscuro = T.oscuro; lluviaAct = lluviaObj; aplica(); dibuja(true); }
+    else arranca();
+  }
+  aplica(); dibuja(true);
+
+  /* ---------- Reloj, respiraciones y lectura ---------- */
+  var reloj = document.getElementById("reloj");
+  var puntos = document.getElementById("puntos"), pts = puntos.querySelectorAll("i");
+  var items = document.querySelectorAll(".ocho-lista li");
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  function respira(n) {
+    puntos.classList.toggle("ver", n >= 1);
+    for (var i = 0; i < pts.length; i++) {
+      pts[i].classList.toggle("on", i < n);
+      pts[i].classList.toggle("ult", i === n - 1 && !reducir);
+    }
+    for (i = 0; i < items.length; i++) items[i].classList.toggle("on", i < n);
+  }
+  var marcados = Array.prototype.slice.call(document.querySelectorAll("[data-hora],[data-dia],[data-lluvia],[data-osc],[data-resp]"));
+  var pendiente = false;
+  /* El estado se calcula según dónde estés: todo lo marcado por encima de la línea de lectura cuenta,
+     así también es correcto si saltas de golpe a otra parte. */
+  function actualiza() {
+    pendiente = false;
+    var linea = window.innerHeight * 0.55;
+    var dia = 0, osc = 0, llu = 0, resp = 0, hora = "noche", k, p, v;
+    for (k = 0; k < marcados.length; k++) {
+      p = marcados[k];
+      if (p.getBoundingClientRect().top > linea) break;
+      if ((v = num(p, "data-dia")) !== null) dia = v;
+      if ((v = num(p, "data-osc")) !== null) osc = v;
+      if ((v = num(p, "data-lluvia")) !== null) llu = v;
+      if ((v = num(p, "data-resp")) !== null) resp = Math.max(0, v);
+      if (p.getAttribute("data-hora")) hora = p.getAttribute("data-hora");
+    }
+    T.dia = dia; T.oscuro = osc; lluviaObj = llu;
+    respira(resp);
+    reloj.textContent = hora;
+    fijar();
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  actualiza();
+})();
+</script>
+</body>
+</html>
