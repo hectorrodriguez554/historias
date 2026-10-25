@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05080d">
+<title>El taxi · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* La carrera: una avenida de noche con farolas que pasan al hacer scroll, un taxímetro que va subiendo,
+   la costa con el mar al fondo y, al llegar a casa, el primer gris del amanecer. */
+:root {
+  --bg: #05080d; --fg: #e9e3d6; --muted: #8a95a3; --ambar: #f0b45c; --fria: #9ab8e0;
+  --linea: rgba(233, 227, 214, .15); --alba: 0; --mar: 0;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem); line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; z-index: 0; pointer-events: none; transition: opacity 2.5s ease; }
+.cielo { inset: 0; background: linear-gradient(180deg, #05080f 0%, #0a1220 62%, #111b2c 100%); }
+.alba { inset: 0; opacity: var(--alba); background: linear-gradient(180deg, #2b3948 0%, #66727e 60%, #b3a590 100%); }
+.mar { left: 0; right: 0; bottom: 0; height: 30vh; opacity: var(--mar); background: linear-gradient(180deg, #0b1626 0%, #060c16 100%); border-top: 1px solid rgba(154, 184, 224, .35); overflow: hidden; }
+.mar::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent 0 14px, rgba(154, 184, 224, .09) 14px 15px); animation: olas 9s linear infinite; }
+@keyframes olas { to { transform: translateY(15px); } }
+.calle { left: 0; right: 0; bottom: 0; height: 46vh; overflow: hidden; opacity: calc(1 - var(--mar)); }
+.tira { position: absolute; left: 0; bottom: 0; height: 100%; width: 0; will-change: transform; }
+.farola { position: absolute; bottom: 7vh; width: 0; height: 100%; }
+.farola .poste { position: absolute; left: -2px; bottom: 0; width: 4px; height: 38vh; background: #06090e; }
+.farola .foco { position: absolute; left: -9px; bottom: 38vh; width: 18px; height: 5px; border-radius: 0 0 9px 9px; background: #ffd68a; box-shadow: 0 0 16px 4px rgba(255, 196, 110, .75); }
+.farola .pozo { position: absolute; left: -22vh; bottom: -3vh; width: 44vh; height: 7vh; border-radius: 50%; background: radial-gradient(ellipse at 50% 50%, rgba(255, 190, 100, .55) 0%, rgba(255, 190, 100, .18) 42%, rgba(255, 190, 100, 0) 72%); }
+.suelo { left: 0; right: 0; bottom: 0; height: 8vh; background: linear-gradient(180deg, #0a0f17, #04070b); opacity: calc(1 - var(--mar)); }
+
+.taxi { position: fixed; z-index: 2; left: 50%; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; gap: 1.2rem; align-items: baseline;
+  font-family: var(--mono); padding: .55rem 1.1rem; background: rgba(8, 6, 4, .88); border: 1px solid #5a4528; border-radius: 6px; color: var(--ambar); letter-spacing: .12em; }
+.taxi small { font-size: .68rem; color: #a98a55; text-transform: uppercase; }
+.taxi b { font-weight: 400; font-size: 1.25rem; text-shadow: 0 0 10px rgba(240, 180, 92, .6); }
+
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(4, 7, 12, .9), 0 1px 3px rgba(4, 7, 12, .85); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #c3ccd8; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #04070c; }
+.volver:hover, .volver:focus-visible { color: var(--ambar); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--ambar); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #aab5c3; text-shadow: 0 0 12px #04070c; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(4.2rem, 19vw, 8.6rem); line-height: .94; letter-spacing: -.02em; color: #f6efe0; text-shadow: 0 0 40px rgba(240, 180, 92, .28), 0 2px 24px #04070c; }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.cierre { margin-top: 2.4rem; font-family: var(--display); font-style: italic; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); line-height: 1.35; color: #f6f1e6; text-wrap: balance; }
+.msg { max-width: 31rem; margin-block: .5rem; align-self: flex-end; }
+.msg .bub { font-family: var(--mono); font-size: .96rem; line-height: 1.6; padding: .95rem 1.15rem; background: rgba(34, 26, 17, .86); color: #f2e0bd; border: 1px dashed #6d5b43; border-radius: 18px 18px 4px 18px; text-shadow: none; }
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--fria); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fria); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #04070c; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+@media (prefers-reduced-motion: reduce) { .mar::before { animation: none; } }
+</style>
+</head>
+<body>
+
+<div class="capa cielo" aria-hidden="true"></div>
+<div class="capa alba" aria-hidden="true"></div>
+<div class="capa mar" aria-hidden="true"></div>
+<div class="capa suelo" aria-hidden="true"></div>
+<div class="capa calle" aria-hidden="true"><div class="tira" id="tira"></div></div>
+<div class="taxi" aria-hidden="true"><small id="estado">Ocupado</small><b id="tarifa">3,10 €</b></div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Una madrugada · una carrera sin destino</div>
+    <h1>El taxi</h1>
+  </header>
+
+  <p>Leo llevaba una hora andando cuando se dio cuenta de que no sabía dónde estaba.</p>
+
+  <p class="pausa">Había salido de casa sin plan y sin abrigo suficiente, con el móvil en el bolsillo y un vacío en el pecho que no se parecía a nada que hubiera sentido antes. No era rabia, aunque la rabia había pasado por allí. No era tristeza exactamente, aunque llevaba dos días llorando a ratos, de esa forma torpe en que se llora cuando uno intenta no hacerlo. Era algo más parecido al silencio después de un golpe: ese momento en que todo ha parado y todavía no sabes qué te ha dolido.</p>
+
+  <p class="pausa">Caminó por calles que conocía a medias, cruzó una plaza con un solo banco ocupado por una paloma, rodeó un edificio de oficinas con todas las luces apagadas menos una, la de algún vigilante que miraba su pantalla. Pensó en lo que había pasado. Pensó en lo que no había pasado. Pensó, otra vez, en las mil formas en que podría haberlo hecho distinto: haber dejado el tema para otro día, no haber dicho nada, hablar menos, esperar. Cada “y si” venía con su pequeña imagen, nítida, como una película corta que no pedía permiso para empezar.</p>
+
+  <p class="pausa">Y entonces, sin pensarlo, levantó la mano.</p>
+
+  <p class="pausa">El taxi se detuvo junto a la acera con ese suspiro de freno que hacen los coches cuando llevan toda la noche despiertos.</p>
+
+  <p class="pausa">Eran las cuatro y cuarto de la madrugada. Leo se montó atrás y cerró la puerta. Dentro olía a ambientador de pino y a café recalentado.</p>
+
+  <p class="d pausa">—Buenas noches —dijo el taxista. Era un hombre de unos sesenta años, de hombros anchos, con unas gafas que le colgaban de una cadenita al cuello—. ¿Adónde vamos?</p>
+
+  <p class="d pausa">—No sé.</p>
+
+  <p class="pausa">El hombre lo miró por el retrovisor. No se rio ni arqueó una ceja. Se limitó a asentir, como quien oye esa respuesta todas las semanas.</p>
+
+  <p class="d pausa">—Perfecto. Esas son las mejores carreras. —Puso el intermitente—. Dime cuando quieras que pare. Y si no, ya daremos vueltas.</p>
+
+  <p class="pausa">El taxi se incorporó a la avenida, vacía y larga, con los semáforos cambiando de color para nadie. Leo apoyó la frente en el cristal. Las farolas pasaban una tras otra, como pensamientos que no lograba atrapar.</p>
+
+  <p class="d pausa">—¿Mucho trabajo esta noche? —preguntó, por decir algo.</p>
+
+  <p class="d pausa">—Poco. Las noches tranquilas son las peores. Te dejan pensar. —El taxista sonrió por el retrovisor—. Pero tú pareces tener ya bastante en qué pensar por los dos.</p>
+
+  <p class="pausa">Leo soltó una risa corta, sin gracia.</p>
+
+  <p class="d pausa">—Es que no sé ni qué hacer. Tengo la sensación de que cualquier cosa que haga es un error. Llevo dos días dándole vueltas a todo lo que podría haber cambiado. Haber dejado el tema para otro día. No haber dicho nada. Hablar menos. Y me da una impotencia enorme, como si me hubieran quitado el suelo.</p>
+
+  <p class="d pausa">—Treinta y dos años llevo en esto —dijo el hombre—. ¿Sabes qué es lo que más oigo a las cuatro de la mañana?</p>
+
+  <p class="d pausa">—¿Qué?</p>
+
+  <p class="d pausa">—“Y si hubiera.” Lo oigo en todos los idiomas, con todos los acentos. Es el pasajero más pesado que hay. Se sube con todos y no paga nunca.</p>
+
+  <p class="pausa">Leo se quedó callado. La ciudad seguía deslizándose por la ventanilla, con los escaparates apagados y los carteles de las farmacias parpadeando en verde.</p>
+
+  <p class="d pausa">—Mira —continuó el taxista, girando por una calle ancha—. Yo no sé qué ha pasado. No me lo cuentes si no quieres. Pero te voy a decir dos cosas que he aprendido con los años, y luego tú haces lo que te dé la gana.</p>
+
+  <p class="d pausa">—Vale.</p>
+
+  <p class="d pausa">—Una. Casi nadie se equivoca por sentir. Uno se equivoca por cómo lo hace, por cuándo y cuánto. Y de eso se aprende. Pero decir lo que sientes no es un error. Que alguien no pueda devolvértelo ahora no lo convierte en uno.</p>
+
+  <p class="pausa">Leo notó un nudo en la garganta y miró hacia el techo del coche, parpadeando.</p>
+
+  <p class="d pausa">—Dos. Hay un momento, después de que algo se rompe, en que lo único que se puede hacer es dejar de empujar. Se siente como perder, pero no lo es. Es dejar que el suelo vuelva a estar firme debajo de los pies. —Hizo una pausa—. A veces, cuando alguien me pide espacio, ese espacio es lo único que me queda por dar. Y no es poco.</p>
+
+  <p class="pausa">Leo se rio, esta vez con los ojos húmedos.</p>
+
+  <p class="d pausa">—Es lo que me han pedido. Espacio.</p>
+
+  <p class="d pausa">—Pues ya tienes tu trabajo, entonces. —El taxista le guiñó el ojo—. Y no es el peor. Mucha gente ni eso sabe hacer.</p>
+
+  <p class="pausa">Dentro del coche, la radio murmuraba bajito. Sonaba una canción que Leo conocía demasiado bien, de esas que de pronto se pegan a la piel de una historia. Se le encogió el estómago. Se quedó mirando el altavoz, sin decir nada.</p>
+
+  <p class="pausa">El taxista lo notó. Sin preguntar, alargó la mano y apagó la radio.</p>
+
+  <p class="d pausa">—A estas horas la música es una traidora —dijo—. Te cuenta cosas que nadie le ha pedido.</p>
+
+  <p class="d pausa">—Gracias.</p>
+
+  <p class="d pausa">—De nada. Para eso estoy.</p>
+
+  <p class="pausa">Siguieron en silencio un rato, bordeando un río oscuro con las luces de los puentes temblando sobre el agua. El taxímetro avanzaba con un tictac apenas audible, como un corazón pequeño y constante. Leo lo miraba sin querer.</p>
+
+  <p class="d pausa">—Lo curioso —dijo el taxista, al ver que lo observaba— es que el taxímetro corre igual si sabes adónde vas que si no. El tiempo no pregunta. Lo único que cambia es lo que haces mientras tanto. Hay quien da vueltas y vueltas esperando que el destino aparezca solo en una esquina. Y hay quien dice, mira, vamos hacia allí, aunque no sepa si es el sitio. Los segundos se van igual. Lo que no se gasta es la decisión.</p>
+
+  <p class="d pausa">—Yo no sé ni cuál es el sitio.</p>
+
+  <p class="d pausa">—No hace falta. Un sitio cualquiera. Uno donde estés mejor que aquí. Una cama. Un amigo. Un desayuno. No tiene que ser el sitio de tu vida: es solo el siguiente.</p>
+
+  <p class="pausa">Pararon en una gasolinera abierta toda la noche, de esas con una luz blanca que lo vuelve todo irreal. El taxista dijo que necesitaba un café y que, ya que estaba, invitaba. Leo quiso protestar, pero el hombre ya había salido. Volvió con dos vasos de cartón y un paquete de galletas que partió por la mitad sin preguntar.</p>
+
+  <p class="d pausa">—Come algo —dijo—. Las penas con el estómago vacío pesan el doble.</p>
+
+  <p class="pausa">Leo cogió una galleta. Era la primera cosa que comía en todo el día, y le supo a gloria, a infancia, a merienda de los domingos. Se rio, con la boca llena, y el taxista también.</p>
+
+  <p class="d pausa">—¿Puedo contarte una cosa? —dijo el hombre, removiendo el café con un palito de plástico.</p>
+
+  <p class="d pausa">—Claro.</p>
+
+  <p class="d pausa">—Tengo una hija. Hace unos años estuvimos un año entero sin hablarnos. Una tontería gorda, de esas que empiezan por una palabra mal dicha y acaban en un portazo. Ella me pidió tiempo. Yo no lo supe dar. La llamé, le escribí, le mandé mensajes largos explicándole por qué tenía razón yo. Cuanto más empujaba, más lejos se iba.</p>
+
+  <p class="d pausa">—¿Y qué hiciste?</p>
+
+  <p class="d pausa">—Perder, sobre todo. —Sonrió, con algo de tristeza—. Hasta que un día mi mujer me dijo: “¿Y si le mandas algo sin pedirle nada?” Y empecé a mandarle una postal. Una al mes. Una foto de algo que me había gustado, una frase corta, “hoy ha salido el sol, pienso en ti, no hace falta que contestes”. Ni una pregunta. Ni un reproche. Solo una puerta con la luz encendida.</p>
+
+  <p class="d pausa">—¿Contestó?</p>
+
+  <p class="d pausa">—A los seis meses. Una línea. “Gracias por las postales.” —Los ojos se le humedecieron un instante, y miró hacia otro lado—. Ahora cenamos juntos los domingos. Pero no te cuento esto para que pienses que va a pasar lo mismo contigo. Cada historia es la suya. Te lo cuento porque lo que me salvó no fue esperar, sino dejar de pedir. Y mientras tanto, vivir.</p>
+
+  <p class="pausa">Leo se quedó con el vaso entre las manos, sintiendo el calor atravesarle los dedos.</p>
+
+  <p class="d pausa">—Gracias por contármelo —dijo.</p>
+
+  <p class="d pausa">—No es nada. Venga, que se enfría el coche.</p>
+
+  <p class="pausa">Volvieron a la carretera. La ciudad quedó atrás, y las calles se fueron ensanchando hasta convertirse en una autovía vacía, con las luces de los polígonos a lo lejos y algún camión durmiendo en el arcén.</p>
+
+  <p class="d pausa">—Siento que quiero esconderme en la cama —dijo Leo, muy bajo—. Pensar que todo es una pesadilla, que se arreglará, que podré contar con ella. Pero sé que no lo es. Que ha pasado. Que tengo que aceptarlo, aunque no quiera.</p>
+
+  <p class="d pausa">—Entonces lo has entendido antes que la mayoría. —El taxista lo miró con ternura por el retrovisor—. Lo difícil no es entenderlo, es dejar que duela sin hacer nada más a la vez. Sin escribir. Sin mirar sus cosas. Sin imaginar la película entera. Dejar que duela y ya está. Como la lluvia: no la detienes, esperas a que pase.</p>
+
+  <p class="d pausa">—¿Y cuánto dura?</p>
+
+  <p class="d pausa">—Ni idea. Más de lo que querrías, menos de lo que temes. —Sonrió—. Eso no es un consejo. Es estadística de taxista.</p>
+
+  <p class="pausa">Leo se rio de verdad, con esa risa limpia que a veces llega justo después de llorar. Se pasó la mano por la cara, y el cansancio le pesó de golpe en los hombros, pero era un cansancio distinto, más sano, de los que acaban en sueño y no en insomnio.</p>
+
+  <p class="d pausa">—Creo que ya sé adónde quiero ir —dijo.</p>
+
+  <p class="d pausa">—Dime.</p>
+
+  <p class="d pausa">—A casa.</p>
+
+  <p class="d pausa">—Buen sitio. —El taxista metió una marcha y giró hacia el este—. Pero te voy a llevar por la carretera de la costa. Es más larga. Cuesta unos cuantos euros más, así que si quieres la corto.</p>
+
+  <p class="d pausa">—No. Larga.</p>
+
+  <p class="d pausa">—Eso pensé.</p>
+
+  <p class="pausa" data-mar="1">Subieron por una cuesta y, al coronarla, el mar apareció abajo, inmenso y oscuro, con una línea apenas pálida en el horizonte. Aún no era el amanecer, pero ya se intuía. El cielo, a lo lejos, iba pasando del negro al azul más oscuro, y las olas rompían despacio contra la arena, siempre, siempre.</p>
+
+  <p class="d pausa">—¿Quieres parar un momento? —preguntó el taxista, reduciendo la velocidad—. Hay un mirador ahí delante. El taxímetro lo paro yo.</p>
+
+  <p class="pausa">Leo asintió.</p>
+
+  <p class="pausa">El taxi se detuvo en un apartadero de grava, junto a una barandilla de madera. Leo bajó y el aire le golpeó la cara, frío, salado, inmenso. Caminó hasta el borde y se apoyó con los antebrazos. Abajo, el mar se movía despacio, con esa paciencia antigua que no le debe nada a nadie. Una ola. Otra. Otra.</p>
+
+  <p class="pausa">Se acordó, sin querer, de una noche de bajamar en un porche, aunque era una noche que nunca había vivido. Era una imagen que había escrito, o que había soñado, o que simplemente deseaba: el mar que se retira del todo y que, sin que nadie lo apure, vuelve.</p>
+
+  <p class="pausa">Cerró los ojos. Respiró. Y por primera vez en dos días, el pecho le dejó entrar el aire hasta el fondo.</p>
+
+  <p class="pausa">No sabía qué iba a pasar. No sabía si ella escribiría un día, ni si él sabría cómo contestar si lo hacía. No sabía si lo suyo era un final o una pausa. Pero en ese mirador, con el mar delante y un desconocido esperándole en un coche con el motor encendido, entendió algo muy simple: que no tenía que saberlo hoy. Que su único trabajo, esa noche, era llegar a casa y dormir.</p>
+
+  <p class="pausa">Sacó el móvil. Tenía un mensaje a medias, con un nombre que conocía demasiado bien en la cabecera del chat. Lo miró un buen rato.</p>
+
+  <p class="pausa">Luego lo cerró. Fue a otro chat, el de un amigo al que no escribía desde hacía días, y tecleó despacio:</p>
+
+  <div class="msg"><div class="bub">“¿Podemos hablar hoy un rato? Lo estoy pasando mal y creo que me vendría bien contártelo.”</div></div>
+
+  <p class="pausa">Lo envió. Apagó la pantalla. Guardó el móvil en el bolsillo del abrigo y volvió al taxi. El taxista no preguntó nada; solo arrancó, ajustando de vez en cuando el retrovisor, discretamente, como quien vigila a un pasajero que está empezando a quedarse dormido.</p>
+
+  <p class="pausa" data-alba="1">Cuando el coche llegó a su calle, el cielo ya clareaba. Leo pagó, y se quedó un segundo con la puerta abierta.</p>
+
+  <p class="d pausa">—Gracias. De verdad.</p>
+
+  <p class="d pausa">—Cuídate, chaval. Y por la mañana, desayuna algo de verdad. Los problemas se ven distintos con una tostada dentro.</p>
+
+  <p class="pausa">Leo sonrió, cerró la puerta y se quedó en la acera mientras el taxi se alejaba, pequeño y amarillo, doblando la esquina con su luz verde encendida. Subió despacio las escaleras, con la sensación rara de haber hecho un viaje larguísimo sin moverse de la ciudad.</p>
+
+  <p class="pausa">En el bolsillo, el móvil vibró. Era su amigo:</p>
+
+  <div class="msg"><div class="bub">“Claro. Dame media hora y te llamo. Aguanta.”</div></div>
+
+  <p class="pausa">Leo se quedó un momento en el rellano, con la mano en la barandilla, respirando. Después abrió la puerta de casa, dejó las llaves en el plato de siempre y se sentó en el borde de la cama, sin quitarse el abrigo. La habitación estaba en penumbra, con el primer gris del día colándose por la persiana.</p>
+
+  <p class="pausa">Cuando el teléfono sonó, media hora después, ya se había lavado la cara y puesto agua a calentar.</p>
+
+  <p class="d pausa">—¿Qué pasa, tío? —dijo la voz de su amigo, adormilada pero despierta del todo.</p>
+
+  <p class="pausa">Leo abrió la boca para contestar y lo primero que le salió fue una risa rara, medio rota, medio de alivio.</p>
+
+  <p class="d pausa">—Pasa que necesito contarte una cosa larga. ¿Tienes tiempo?</p>
+
+  <p class="d pausa">—Para ti, todo el del mundo. Empieza por donde quieras.</p>
+
+  <p class="pausa">Y Leo empezó.</p>
+
+  <p class="pausa">Por el principio, o por donde le salió. Hablaron mientras amanecía del todo, mientras la tostada se tostaba y el café subía por la cafetera, mientras la luz entraba despacio en la cocina y la ciudad se desperezaba al otro lado de la ventana. No resolvieron nada. No hacía falta. Pero cuando colgaron, Leo se dio cuenta de que ya no llevaba el nudo en el pecho. Seguía ahí, quizá, en algún rincón, pero más pequeño, más manejable, de los que se pueden llevar encima sin que lo ocupen todo.</p>
+
+  <p class="pausa">Se sentó a la mesa y le dio un mordisco a la tostada. Estaba caliente, con un poco de aceite, con un poco de sal.</p>
+
+  <p class="cierre">Todavía no sabía qué iba a pasar. Pero ya tenía el siguiente sitio.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, tira = document.getElementById("tira");
+  var tarifa = document.getElementById("tarifa"), estado = document.getElementById("estado");
+  var NF = 8, SP = 0.5, i, h = "";
+  for (i = 0; i < NF; i++) h += '<div class="farola" style="left:' + (i * SP * 100) + 'vw"><div class="poste"></div><div class="foco"></div><div class="pozo"></div></div>';
+  tira.innerHTML = h;
+  function suave(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+  var marMarca = document.querySelector("[data-mar]"), albaMarca = document.querySelector("[data-alba]"), pend = false;
+  function actualiza() {
+    pend = false;
+    var H = window.innerHeight, max = Math.max(1, document.documentElement.scrollHeight - H), p = Math.min(1, Math.max(0, window.scrollY / max));
+    var vw = window.innerWidth, recorrido = (NF - 1) * SP * vw;
+    tira.style.transform = "translateX(" + (0.6 * vw - p * recorrido).toFixed(1) + "px)";
+    raiz.style.setProperty("--mar", marMarca.getBoundingClientRect().top < H * 0.55 ? "1" : "0");
+    raiz.style.setProperty("--alba", albaMarca.getBoundingClientRect().top < H * 0.55 ? "1" : "0");
+    var fin = p > 0.97;
+    tarifa.textContent = (3.1 + p * 31.4).toFixed(2).replace(".", ",") + " €";
+    estado.textContent = fin ? "Pagado" : "Ocupado";
+  }
+  function pide() { if (!pend) { pend = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  actualiza();
+})();
+</script>
+</body>
+</html>
