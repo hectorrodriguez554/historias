@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0604">
+<title>Última ronda · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Un bar de madrugada visto desde la punta de la barra: lluvia en la puerta, whiskies que se retiran,
+   sillas que suben a las mesas, una servilleta con una lista. Después la calle, el puente, el cuarto y la mañana. */
+:root {
+  --bg: #0a0604; --fg: #ece3d3; --ambar: #f0b45c; --linea: rgba(236, 227, 211, .15);
+  --o-bar: 1; --o-calle: 0; --o-casa: 0; --o-puente: 0; --alba: 0; --cafe: 0; --neon: 1; --persiana: 0; --mujer: 1; --agua: 0;
+  --cielo-a: #0d1420; --cielo-b: #1b2535;
+  --y: 24.4vh;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem); line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+/* ---------- EL BAR ---------- */
+.bar { opacity: var(--o-bar); background: linear-gradient(180deg, #1c120b 0%, #120b07 55%, #0a0604 100%); }
+.bar .lampara { position: absolute; top: 0; width: 2px; height: 11vh; background: #050302; }
+.bar .lampara::after { content: ""; position: absolute; left: -22px; bottom: -2px; width: 46px; height: 17px; background: #1a0f08; clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%); }
+.bar .cono { position: absolute; top: 11vh; width: 46vmax; height: 70vh; margin-left: -23vmax; background: radial-gradient(ellipse 36% 70% at 50% 0%, rgba(255, 190, 110, .26), rgba(255, 190, 110, 0) 100%); }
+.bar .estante { position: absolute; left: 31vw; right: 0; height: 4px; background: #2d1c10; box-shadow: 0 5px 0 rgba(0, 0, 0, .5); }
+.bar .botella { position: absolute; border-radius: 3px 3px 2px 2px; opacity: .9; }
+.bar .botella::before { content: ""; position: absolute; left: 30%; top: -9px; width: 40%; height: 11px; background: inherit; border-radius: 2px 2px 0 0; }
+.bar .tocadiscos { position: absolute; left: 41vw; top: calc(37vh - 22px); width: 76px; height: 22px; background: #140c07; border-top: 2px solid #3a2616; }
+.bar .plato-d { position: absolute; left: 7px; top: 0; width: 62px; height: 62px; transform: scaleY(.2); transform-origin: top; }
+.bar .plato-d i { display: block; width: 100%; height: 100%; border-radius: 50%; background: repeating-radial-gradient(circle, #060403 0 2px, #14100c 2px 4px); animation: gira 6s linear infinite; }
+.bar .plato-d i::after { content: ""; position: absolute; inset: 40%; border-radius: 50%; background: #b0442b; }
+.bar .plato-d i::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(rgba(255, 255, 255, .13), transparent 25%, transparent 50%, rgba(255, 255, 255, .13) 50%, transparent 75%); }
+@keyframes gira { to { transform: rotate(360deg); } }
+.bar .mesa { position: absolute; top: 59vh; height: 15.4vh; width: 11vw; }
+.bar .mesa::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: #2b190d; border-radius: 2px; }
+.bar .mesa::after { content: ""; position: absolute; left: 22%; right: 22%; top: 5px; bottom: 0; background: linear-gradient(90deg, #1b0f08 0 6%, transparent 6% 94%, #1b0f08 94%); }
+.bar .silla { position: absolute; width: 3.6vw; min-width: 20px; max-width: 34px; aspect-ratio: .68; transform: translate(calc(var(--dx) * var(--p, 0)), calc(var(--p, 0) * -8.8vh)) rotate(calc(var(--p, 0) * 180deg)); transform-origin: 50% 60%; }
+.bar .silla svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.bar .silla svg * { fill: #2b190d; stroke: #2b190d; }
+.bar .mujer { position: absolute; left: calc(78vw + 2.2vw); top: calc(59vh - 9vh); width: 5vw; min-width: 28px; max-width: 54px; opacity: var(--mujer); }
+.bar .mujer svg { display: block; width: 100%; height: auto; }
+.bar .mujer .taza { position: absolute; left: -4vw; top: 8.4vh; width: 16px; height: 9px; background: #d8cdb8; border-radius: 0 0 6px 6px; }
+.bar .cam { position: absolute; left: 60vw; bottom: calc(var(--y) - .6vh); width: max(92px, 15vw); max-width: 210px; transition: filter .6s; }
+.bar .cam svg { display: block; width: 100%; height: auto; overflow: visible; }
+.bar .cam .f { fill: #0a0503; stroke: rgba(255, 205, 140, .18); stroke-width: 1.5; transition: stroke .6s; }
+.bar .cam .b { fill: #3a2c20; }
+body.st-habla .bar .cam .f { stroke: rgba(255, 215, 160, .85); stroke-width: 2.2; }
+body.st-habla .bar .cam { filter: drop-shadow(0 0 14px rgba(255, 200, 130, .35)); }
+.barra { position: absolute; left: 0; right: 0; bottom: 0; height: 24vh; background: linear-gradient(180deg, #2b190d, #130b06 45%, #0b0604); }
+.barra::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3.2vh; background: linear-gradient(180deg, #5a3a22, #3a2312); box-shadow: 0 2px 0 #0a0503, 0 0 24px rgba(255, 190, 110, .15); }
+.barra::after { content: ""; position: absolute; left: 0; right: 0; top: 3.2vh; bottom: 0; background: repeating-linear-gradient(90deg, rgba(0, 0, 0, .25) 0 2px, transparent 2px 9vw); }
+.leo-fg { position: absolute; left: 1vw; bottom: 0; width: max(88px, 22vw); max-width: 280px; }
+.leo-fg svg { display: block; width: 100%; height: auto; }
+.leo-fg path, .leo-fg circle { fill: #060302; stroke: rgba(255, 190, 120, .2); stroke-width: 2; }
+.tel-b { position: absolute; left: 21vw; bottom: calc(var(--y) - 1.5vh); width: 36px; height: 4px; background: #0a0807; border-top: 1px solid #5a4d44; }
+.vaso { position: absolute; bottom: calc(var(--y) - 1.4vh); width: 22px; height: 28px; background: linear-gradient(180deg, rgba(235, 200, 130, .25) 0 30%, rgba(214, 140, 50, .78) 30% 100%); clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%); opacity: 0; box-shadow: inset 0 0 6px rgba(255, 220, 160, .5); }
+.vaso:nth-of-type(1) { left: 27vw; } .vaso:nth-of-type(2) { left: 32vw; } .vaso:nth-of-type(3) { left: 37vw; }
+.agua { position: absolute; left: 31vw; bottom: calc(var(--y) - 1.4vh); width: 18px; height: 44px; opacity: var(--agua); background: linear-gradient(90deg, rgba(180, 215, 245, .3), rgba(220, 240, 255, .5), rgba(150, 190, 225, .25)); border-radius: 7px 7px 3px 3px; border: 1px solid rgba(220, 240, 255, .3); }
+.agua::before { content: ""; position: absolute; left: 5px; top: -8px; width: 6px; height: 9px; background: rgba(200, 225, 250, .3); border-radius: 2px 2px 0 0; }
+.vent-b { position: absolute; left: 4vw; top: 12vh; width: 24vw; height: 40vh; border: 6px solid #0b0603; box-shadow: 0 0 0 2px #2d1c10, inset 0 0 30px rgba(0, 0, 0, .6); overflow: hidden; background: linear-gradient(180deg, #0c1726, #1b2c40); }
+.vent-b .vaho { position: absolute; inset: 0; background: radial-gradient(60% 50% at 30% 30%, rgba(210, 225, 245, .16), transparent 70%), radial-gradient(50% 50% at 75% 70%, rgba(210, 225, 245, .12), transparent 70%); }
+.vent-b canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.vent-b .farola { position: absolute; right: 18%; top: 38%; width: 8px; height: 8px; border-radius: 50%; background: #ffd89a; box-shadow: 0 0 22px 10px rgba(255, 205, 130, .45); }
+.vent-b .pers { position: absolute; inset: 0; transform: translateY(calc(-100% + var(--persiana) * 100%)); background: repeating-linear-gradient(180deg, #2e2a27 0 7px, #171412 7px 9px); box-shadow: 0 6px 12px rgba(0, 0, 0, .6); }
+.neon { position: absolute; left: 6vw; top: 5vh; font-family: var(--display); font-style: italic; font-size: clamp(1.3rem, 3.4vw, 2.2rem); letter-spacing: .04em; color: #ff8a66; opacity: var(--neon);
+  text-shadow: 0 0 6px #ff6a44, 0 0 18px #ff4a2a, 0 0 42px rgba(255, 60, 30, .55); animation: tubo 6s infinite; }
+@keyframes tubo { 0%, 18%, 22%, 62%, 100% { filter: none; } 20%, 63%, 65% { filter: brightness(.4); } 64% { filter: brightness(1.1); } }
+
+/* ---------- LA CALLE Y EL PUENTE ---------- */
+.calle { opacity: var(--o-calle); background: linear-gradient(180deg, #05080e 0%, #0e1622 68%, #1b2432 100%); }
+.calle .edif { position: absolute; left: 0; right: 0; bottom: 30vh; height: 46vh; background: #04070b;
+  clip-path: polygon(0 40%, 7% 40%, 7% 14%, 15% 14%, 15% 46%, 22% 46%, 22% 0, 31% 0, 31% 34%, 40% 34%, 40% 56%, 48% 56%, 48% 20%, 58% 20%, 58% 44%, 66% 44%, 66% 8%, 75% 8%, 75% 38%, 84% 38%, 84% 60%, 92% 60%, 92% 24%, 100% 24%, 100% 100%, 0 100%); }
+.calle .via { position: absolute; left: 0; right: 0; bottom: 0; height: 30vh; background: linear-gradient(180deg, #131b27, #0a0e15); transition: none; opacity: calc(1 - var(--o-puente)); }
+.calle .farola-c { position: absolute; bottom: 30vh; width: 5px; height: 38vh; background: #05080d; opacity: calc(1 - var(--o-puente)); }
+.calle .farola-c::before { content: ""; position: absolute; left: -26px; top: -4px; width: 58px; height: 58px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 205, 135, .75), rgba(255, 205, 135, 0) 68%); }
+.calle .farola-c::after { content: ""; position: absolute; left: -9px; top: 0; width: 22px; height: 5px; background: #ffe2b0; border-radius: 3px; }
+.calle .reflejo-c { position: absolute; bottom: 0; width: 7px; height: 30vh; background: linear-gradient(180deg, rgba(255, 205, 135, .5), rgba(255, 205, 135, 0)); opacity: calc(1 - var(--o-puente)); }
+.calle .rio { position: absolute; left: 0; right: 0; bottom: 0; height: 40vh; opacity: var(--o-puente); background: linear-gradient(180deg, #0a121c, #04070b); }
+.calle .rio::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, rgba(160, 195, 235, .09) 0 1px, transparent 1px 15px); animation: corre 9s linear infinite; }
+@keyframes corre { to { background-position: 0 30px; } }
+.calle .luz-r { position: absolute; bottom: 0; width: 6px; height: 40vh; background: linear-gradient(180deg, rgba(255, 205, 135, .5), rgba(255, 205, 135, 0)); opacity: var(--o-puente); animation: tiembla 3.5s ease-in-out infinite; }
+@keyframes tiembla { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(2.2); } }
+.calle .baranda { position: absolute; left: 0; right: 0; bottom: 38vh; height: 6px; background: #05080c; opacity: var(--o-puente); box-shadow: 0 1px 0 rgba(170, 200, 235, .18); }
+.calle .baranda::after { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 10vh; background: repeating-linear-gradient(90deg, #05080c 0 5px, transparent 5px 6vw); }
+.calle canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ---------- EL CUARTO Y LA MAÑANA ---------- */
+.casa { opacity: var(--o-casa); background: linear-gradient(180deg, #0e0b0d, #070506); }
+.casa .ventana { position: absolute; left: 10vw; top: 7vh; width: 36vw; height: 46vh; border: 7px solid #060405; background: linear-gradient(180deg, var(--cielo-a), var(--cielo-b)); overflow: hidden; }
+.casa .ventana::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, rgba(8, 6, 7, .86) 0 11px, transparent 11px 20px); }
+.casa .rayos { position: absolute; left: 6vw; top: 52vh; width: 56vw; height: 34vh; opacity: calc(var(--alba) * (.55 + var(--cafe) * .3)); transform: skewX(-26deg); transform-origin: top left;
+  background: repeating-linear-gradient(90deg, rgba(255, 214, 150, .32) 0 5vw, transparent 5vw 8vw); -webkit-mask-image: linear-gradient(180deg, #000, transparent); mask-image: linear-gradient(180deg, #000, transparent); }
+.casa .cama { position: absolute; left: 0; bottom: 0; width: 64vw; height: 17vh; background: linear-gradient(180deg, #1f1a1f, #120e12); border-top: 3px solid #2a232a; border-radius: 0 14px 0 0; }
+.casa .almohada { position: absolute; left: 5vw; bottom: 17vh; width: 15vw; max-width: 180px; height: 6vh; background: #2c262d; border-radius: 40% 40% 6px 6px; }
+.casa .mesilla { position: absolute; right: 5vw; bottom: 0; width: max(170px, 28vw); height: 26vh; background: linear-gradient(180deg, #2a2019, #120d09); border-top: 4px solid #3b2d22; }
+.casa .tel-m { position: absolute; right: calc(5vw + max(170px, 28vw) - 48px); bottom: 26vh; width: 38px; height: 5px; background: #0a0809; border-top: 1px solid #5a5260; }
+.casa .cafetera { position: absolute; left: 70vw; bottom: 26vh; width: 0; height: 0; opacity: var(--cafe); }
+.casa .vapor i { position: absolute; left: 0; bottom: 0; width: 9px; height: 26px; border-radius: 50%; border-left: 2px solid rgba(240, 235, 225, .55); opacity: 0; animation: sube 4.4s ease-out infinite; }
+.casa .vapor i:nth-child(2) { animation-delay: 1.5s; left: 11px; } .casa .vapor i:nth-child(3) { animation-delay: 3s; left: -9px; }
+@keyframes sube { 0% { transform: translateY(0) scale(.7); opacity: 0; } 25% { opacity: .6; } 100% { transform: translateY(-70px) scale(1.4); opacity: 0; } }
+
+/* ---------- LA SERVILLETA (fija a la derecha) ---------- */
+.servilleta { position: fixed; z-index: 0; right: 7vw; bottom: 26.5vh; width: 188px; padding: .8rem .9rem .9rem; background: linear-gradient(160deg, #efe7d4, #d8cdb4); color: #262c44; border-radius: 2px;
+  font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive; font-size: .78rem; line-height: 1.55; transform: rotate(-3deg); box-shadow: 0 8px 22px rgba(0, 0, 0, .55); opacity: 0; transition: opacity .7s; pointer-events: none; }
+.servilleta.ver { opacity: .96; }
+.servilleta .ln { opacity: 0; transition: opacity .6s; } .servilleta .ln.on { opacity: 1; }
+.servilleta .ln.f { color: #4a2a1a; font-weight: 700; }
+.servilleta.hl3 .ln:nth-child(3) { background: linear-gradient(transparent 55%, rgba(255, 190, 60, .55) 55%); }
+
+.rayo { background: #cfe0ff; opacity: 0; }
+
+/* ---------- Lectura ---------- */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(5, 3, 2, .95), 0 1px 3px rgba(5, 3, 2, .9); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #d1c5b2; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #050302; }
+.volver:hover, .volver:focus-visible { color: var(--ambar); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--ambar); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #bcae98; text-shadow: 0 0 12px #050302; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(3.6rem, 15vw, 8rem); line-height: .96; letter-spacing: -.02em; color: #fbf0dc; text-shadow: 0 0 40px rgba(255, 150, 80, .32), 0 2px 24px #050302; }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.c, .m { color: #d6e5f6; } .e { color: #f7e2bd; }
+.nota { font-family: var(--mono); font-size: 1rem; line-height: 1.6; margin: .25rem 0 0 1.2rem; padding-left: .9rem; border-left: 2px solid rgba(240, 180, 92, .55); color: #f3e3c0; text-shadow: 0 0 14px #050302; }
+.nota.f { margin-top: 1.5rem; color: #ffd68a; }
+.cierre { margin-top: 2.4rem; font-family: var(--display); font-style: italic; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); line-height: 1.35; color: #fbf4e6; text-wrap: balance; }
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--ambar); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ambar); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #050302; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+@media (max-width: 700px) {
+  .servilleta { width: 148px; font-size: .68rem; right: 3vw; }
+  .casa .ventana { left: 8vw; width: 46vw; }
+  .vent-b { left: 3vw; width: 28vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neon, .bar .plato-d i, .calle .rio::before, .calle .luz-r, .casa .vapor i { animation: none; }
+  .casa .vapor i { opacity: .35; }
+}
+</style>
+</head>
+<body>
+
+<div class="capa bar" aria-hidden="true">
+  <div class="lampara" style="left:20vw"></div><div class="cono" style="left:20vw"></div>
+  <div class="lampara" style="left:64vw"></div><div class="cono" style="left:64vw"></div>
+  <div class="estante" style="top:15vh"></div><div class="estante" style="top:26vh"></div><div class="estante" style="top:37vh"></div>
+  <div id="botellas"></div>
+  <div class="tocadiscos"><div class="plato-d"><i></i></div></div>
+  <div class="mesa" style="left:34vw"></div><div class="mesa" style="left:78vw"></div>
+  <div id="sillas"></div>
+  <div class="mujer">
+    <svg viewBox="0 0 54 70"><circle cx="27" cy="12" r="9" fill="#0d0705"/><path d="M6 70 Q4 28 27 24 Q50 28 48 70 Z" fill="#0d0705"/></svg>
+    <div class="taza"></div>
+  </div>
+  <div class="cam">
+    <svg viewBox="0 0 210 330">
+      <circle class="f" cx="105" cy="62" r="34"/>
+      <path class="f" d="M12 330 Q6 150 60 118 Q105 100 150 118 Q204 150 198 330 Z"/>
+      <path class="b" d="M136 120 Q168 130 184 176 L168 182 Q154 146 128 138 Z"/>
+    </svg>
+  </div>
+  <div class="barra"></div>
+  <div class="leo-fg"><svg viewBox="0 0 280 200"><circle cx="150" cy="52" r="42"/><path d="M8 200 Q14 104 90 94 Q150 86 210 96 Q276 108 272 200 Z"/></svg></div>
+  <div class="tel-b"></div>
+  <div class="vaso"></div><div class="vaso"></div><div class="vaso"></div>
+  <div class="agua"></div>
+  <div class="vent-b">
+    <div class="farola"></div><canvas id="lluviaB"></canvas><div class="vaho"></div><div class="pers"></div>
+  </div>
+  <div class="neon">abierto</div>
+</div>
+
+<div class="capa calle" aria-hidden="true">
+  <div class="edif"></div><div class="via"></div>
+  <div id="farolas"></div>
+  <div class="rio"></div><div id="lucesr"></div><div class="baranda"></div>
+  <canvas id="lluviaC"></canvas>
+</div>
+
+<div class="capa casa" aria-hidden="true">
+  <div class="ventana"></div><div class="rayos"></div>
+  <div class="cama"></div><div class="almohada"></div>
+  <div class="mesilla"></div><div class="tel-m"></div>
+  <div class="cafetera"><div class="vapor"><i></i><i></i><i></i></div></div>
+</div>
+
+<div class="servilleta" id="serv" aria-hidden="true">
+  <div class="ln">1. Beber agua y dormir.</div><div class="ln">2. Desayunar algo de verdad.</div><div class="ln">3. No escribirle esta noche.</div><div class="ln">4. Salir a que me dé el aire.</div><div class="ln">5. Llamar a alguien que esté vivo y cerca.</div><div class="ln f">6. Perdonarme.</div>
+</div>
+
+<div class="capa rayo" id="rayo" aria-hidden="true"></div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Leo · pasadas las diez</div>
+    <h1>Última ronda</h1>
+  </header>
+
+  <p>Llovía cuando Leo empujó la puerta del bar, y la lluvia entró con él.</p>
+
+  <p class="pausa">No había planeado ir allí. Había salido de casa a las diez, con la excusa de comprar algo que no necesitaba, y había acabado caminando sin rumbo hasta que vio una luz en una esquina, un cartel de cerveza que parpadeaba y una puerta de madera con el cristal empañado. Dentro olía a madera mojada y a limón, y sonaba un disco viejo, de esos que solo se ponen cuando ya no queda nadie a quien molestar.</p>
+
+  <p class="pausa">Se sentó en la punta de la barra, la más alejada de la puerta, y dejó el móvil boca abajo, junto al posavasos.</p>
+
+  <p class="d pausa c habla">—Buenas noches —dijo el camarero. Era un hombre de unos cincuenta años, ancho de hombros, con una cicatriz clara en el pulgar y una bayeta al hombro—. ¿Qué te pongo?</p>
+
+  <p class="d pausa e">—Un whisky.</p>
+
+  <p class="d pausa c">—¿Solo?</p>
+
+  <p class="d pausa e" data-copas="1">—Solo.</p>
+
+  <p class="pausa" data-copas="3">Se lo puso sin decir nada más. Leo lo bebió en tres tragos y notó cómo el calor le bajaba hasta el estómago sin llegar a ningún sitio. Pidió otro. Luego otro. Cada vez que el vaso se vaciaba, la cabeza le pesaba un poco más y el ruido de dentro no bajaba ni un punto, como si el alcohol solo le hubiera subido el volumen de lo que quería callar.</p>
+
+  <p class="pausa">En una mesa del fondo, una mujer mayor terminó su café, dejó unas monedas en el platillo y se levantó despacio.</p>
+
+  <p class="d pausa m">—Hasta mañana, Paco —dijo.</p>
+
+  <p class="d pausa c">—Hasta mañana. Cuidado con el charco de la esquina.</p>
+
+  <p class="pausa" data-mujer="0" data-sillas=".35">La mujer sonrió, se subió el cuello del abrigo y se perdió en la lluvia. La puerta se cerró con un tintineo, y entonces el bar quedó en silencio, con Leo como único cliente. El camarero empezó a subir las sillas sobre las mesas, una a una, sin prisa, como quien baja el telón de una función que lleva años haciendo.</p>
+
+  <p class="pausa">Cuando pasó junto a la barra, Leo empujó el vaso hacia él.</p>
+
+  <p class="d pausa e">—Otro.</p>
+
+  <p class="pausa" data-copas="0" data-agua="1">El camarero lo miró un segundo. Luego cogió el vaso, lo dejó en el fregadero y puso delante un botellín de agua con una servilleta debajo.</p>
+
+  <p class="d pausa c">—Ese es el que toca.</p>
+
+  <p class="d pausa e">—No te he pedido agua.</p>
+
+  <p class="d pausa c">—Lo sé. Por eso te la pongo.</p>
+
+  <p class="pausa">Leo soltó una risa corta, de las que sobran, y se pasó las manos por la cara.</p>
+
+  <p class="d pausa e">—Perdona. No suelo hacer esto.</p>
+
+  <p class="d pausa c">—Nadie suele. Y aquí viene todo el mundo.</p>
+
+  <p class="pausa" data-lluvia="1.4">Se quedaron callados. En la calle, la lluvia arreciaba contra el toldo con ese ruido de arena fina. El camarero siguió recogiendo, y Leo se quedó mirando el botellín sin abrir.</p>
+
+  <p class="d pausa e">—No sé qué escribir, la verdad —dijo al fin—. Quería poner por escrito cómo me siento y no me sale. Porque lo que siento es que no sé cómo ser suficiente para ella. Cómo hacerla feliz. Cómo saber que me elegirá a mí.</p>
+
+  <p class="pausa" data-sillas="1">El camarero no dijo nada. Terminó de subir la última silla, volvió detrás de la barra, dejó la bayeta en el hombro y se apoyó con los antebrazos cruzados.</p>
+
+  <p class="d pausa e">—Si hubiera algo que pudiera hacer para que estuviera bien, lo haría sin dudarlo. Quitarle todo ese dolor. Incluso si tuviera que dar mi propia vida a cambio, lo haría, si así ella vive tranquila. —Se le quebró la voz—. Hay noches en que se las pasa llorando, o sin poder dormir, por todo lo que le pasó. Y saber eso me destroza. Y yo aquí. Sin poder hacer nada.</p>
+
+  <p class="d pausa c">—¿Sin poder hacer nada? —repitió el camarero, con suavidad.</p>
+
+  <p class="d pausa e">—Es que haría cualquier cosa. Te lo prometo. Sería el villano por ella. Sacrificaría el mundo entero, lo haría arder. —Soltó una carcajada seca—. Joder, ¿por qué tiene que ser todo tan difícil? Saber que sus ojos gritan por alguien que la quiera de verdad, y que no me deje hacer nada.</p>
+
+  <p class="pausa">El camarero esperó a que se le acabara la frase. Luego dio dos golpecitos en la barra, justo delante del botellín.</p>
+
+  <p class="d pausa c">—Abre eso y bebe. Y después hablamos.</p>
+
+  <p class="pausa">Leo obedeció. El agua estaba fría, y le supo mejor de lo que esperaba. Se la bebió casi entera de un golpe, como quien se acuerda de pronto de que tenía sed.</p>
+
+  <p class="d pausa c">—Te voy a contar una cosa que oigo mucho a estas horas —dijo el camarero—. Y no es que tú seas uno más, porque no lo eres, pero la frase viene siempre en el mismo envase. “Daría mi vida por ella.” “Sería capaz de todo.” “Haría arder el mundo.”</p>
+
+  <p class="d pausa e">—Es verdad que lo siento así.</p>
+
+  <p class="d pausa c">—No lo dudo. Lo que digo es que suena grande y no sirve de nada.</p>
+
+  <p class="pausa">Leo levantó la vista.</p>
+
+  <p class="d pausa c">—Nadie necesita que arda el mundo, hijo. Y nadie necesita que alguien dé su vida para que ella duerma mejor. Si tu felicidad o tu vida fueran el precio de su calma, ella lo notaría. Y esa calma no la dejaría dormir. Se le caería encima.</p>
+
+  <p class="pausa">Hubo un silencio largo. La bayeta goteaba sobre el hombro del camarero.</p>
+
+  <p class="d pausa c">—Lo de los ojos —continuó— también lo he oído. “Sus ojos gritan por alguien que la ame de verdad.” Y puede que sea cierto. Pero fíjate en lo que gritan: no gritan por alguien que lo arregle todo ni que se inmole. Gritan por alguien que no le pida nada mientras se recompone. Eso es lo que es amor de verdad ahora mismo, y es lo más difícil que hay, porque no se nota.</p>
+
+  <p class="pausa">Leo se quedó con las manos alrededor del botellín. Algo se le movió por dentro, una pieza que llevaba semanas torcida.</p>
+
+  <p class="d pausa c">—Mi hermana —dijo el camarero, sin mirarlo, secando un vaso— pasó una época muy mala. Años. Yo quería rescatarla. Quería ser el que lo arreglara todo. Le buscaba médicos, le escribía todos los días, me presentaba en su casa a las tantas con la cena hecha. Y cuanto más empujaba, más cerraba ella la puerta.</p>
+
+  <p class="d pausa e">—¿Qué hiciste?</p>
+
+  <p class="d pausa c">—Perder, durante mucho tiempo. —Sonrió con algo de cansancio—. Hasta que dejé de intentar arreglarla y empecé a aparecer los domingos con el pan. Sin preguntar. Sin pedir nada. Me quedaba un rato, hablábamos del tiempo, y me iba. Y un día, sin que yo dijera nada, me preguntó si me quedaba a comer. —Se encogió de hombros—. Ayudar no es arreglar, hijo. Ayudar es estar al lado sin tocar la herida.</p>
+
+  <p class="pausa">Leo se frotó los ojos con el dorso de la mano.</p>
+
+  <p class="d pausa c">—Tú preguntas si hay algo más que esperar. —El camarero dejó el vaso en la estantería—. Hay tres cosas. Y las tres son aburridas.</p>
+
+  <p class="d pausa e">—Dime.</p>
+
+  <p class="d pausa c">—Una. No puedes quitarle el dolor. No es tuyo. Lo puedes acompañar, a veces, y solo si ella te lo permite. Ahora no te lo permite. Eso no es un fallo tuyo. Es el sitio donde está ella.</p>
+
+  <p class="pausa">Leo asintió despacio.</p>
+
+  <p class="d pausa c">—Dos. Lo mejor que puedes hacer es ser un sitio seguro. Y un sitio seguro no insiste. Está ahí, con la luz encendida y la puerta sin cerrar, y no se mueve. No empuja, no llama, no pregunta. Si ella un día quiere entrar, sabe dónde está.</p>
+
+  <p class="d pausa e">—Eso es esperar.</p>
+
+  <p class="d pausa c">—Es esperar bien. —El camarero sonrió—. Y tres. Esta es la que menos gusta. Cuanto mejor estés tú, menos culpa tendrá ella. Una persona que sabe que alguien lo está pasando mal por su causa carga con eso a todas horas, aunque no lo diga. Si de verdad quieres ayudarla a pasar esto más ameno, ayúdala a no tener que cuidar también de ti.</p>
+
+  <p class="d pausa e">—No había pensado eso.</p>
+
+  <p class="d pausa c">—Casi nadie lo piensa.</p>
+
+  <p class="pausa" data-trueno="1">Fuera, un trueno lejano hizo temblar los cristales. El camarero se agachó, rebuscó bajo la barra y sacó un bolígrafo y una servilleta de papel. Los puso delante de Leo.</p>
+
+  <p class="d pausa c">—Escribe.</p>
+
+  <p class="d pausa e">—¿Qué?</p>
+
+  <p class="d pausa c">—Lo que sí puedes hacer. Esta noche y mañana. Nada de gestas. Cosas pequeñas.</p>
+
+  <p class="pausa">Leo cogió el bolígrafo con la mano temblona. Se quedó un rato con la punta en el papel, sin saber por dónde empezar. Luego escribió despacio, con letra desigual:</p>
+
+  <div class="nota pausa" data-lista="1">1. Beber agua y dormir.</div>
+  <div class="nota" data-lista="2">2. Desayunar algo de verdad.</div>
+  <div class="nota" data-lista="3">3. No escribirle esta noche.</div>
+  <div class="nota" data-lista="4">4. Salir a que me dé el aire.</div>
+  <div class="nota" data-lista="5">5. Llamar a alguien que esté vivo y cerca.</div>
+
+  <p class="pausa">El camarero leyó la lista de lado, sin acercarse.</p>
+
+  <p class="d pausa c">—Falta una —dijo.</p>
+
+  <p class="d pausa e">—¿Cuál?</p>
+
+  <p class="d pausa c">—La que no se escribe, pero se hace. Perdonarte por no ser capaz de salvar a nadie. No es tu trabajo. Y tampoco eres un fracasado por no haberlo conseguido.</p>
+
+  <p class="pausa">Leo apretó los labios, y un par de lágrimas le cayeron sobre la servilleta sin que hiciera nada por detenerlas. El camarero no dijo nada. Le puso una mano un segundo en el hombro y la retiró enseguida, con esa discreción de quien sabe que a veces el consuelo se da en dosis pequeñas.</p>
+
+  <p class="d pausa e">—Y ella —preguntó Leo, en voz baja—. ¿Y esas noches de llorar?</p>
+
+  <p class="d pausa c">—Ella tiene su propio camino y sus propios pasos. No sabes cuántas noches lo pasa mal ni cuántas lo pasa bien. Tú solo ves la parte que te llega. Y aunque fuera cierto, tu desvelo no le quita ni un minuto de lágrimas. Lo que puedes hacer por ella es guardar tus fuerzas para el día que quiera apoyarse en alguien, si es que llega.</p>
+
+  <p class="d pausa e">—¿Y si no llega?</p>
+
+  <p class="d pausa c">—Entonces las habrás guardado para ti, que también las vas a necesitar.</p>
+
+  <p class="pausa" data-bolsillo="1">Leo dobló la servilleta con cuidado y se la guardó en el bolsillo interior de la chaqueta, como quien guarda un billete de tren. Dejó un billete sobre la barra. El camarero lo empujó de vuelta con dos dedos.</p>
+
+  <p class="d pausa c">—Esta ronda la invita la casa. Ha sido la más barata del mes.</p>
+
+  <p class="d pausa e">—Gracias. De verdad.</p>
+
+  <p class="d pausa c">—Y un taxi, si no te fías de las piernas. Te lo pido yo.</p>
+
+  <p class="d pausa e">—Me fío. Voy andando.</p>
+
+  <p class="d pausa c">—Pues anda despacio.</p>
+
+  <p class="pausa" data-persiana="1" data-neon="0">Leo se puso la capucha y se quedó un segundo con la mano en el pomo. Miró atrás: el camarero había vuelto a su bayeta, a su barra y a su disco bajito, como quien cierra un capítulo sin ceremonia. Cuando la puerta se cerró detrás de él, oyó cómo bajaba la persiana por dentro.</p>
+
+  <p class="pausa" data-s="1" data-lluvia=".3">Fuera, la lluvia había aflojado y era ya una llovizna fina, de esas que no mojan y lo cubren todo. Las calles brillaban bajo las farolas. Leo echó a andar sin prisa, con las manos en los bolsillos y la servilleta junto al pecho. Le dolía todo: la cabeza, el pecho, el cuerpo entero. Pero era un dolor sin vértigo, de los que se pueden llevar encima.</p>
+
+  <p class="pausa" data-puente="1">Se paró un momento en un puente, a mitad de camino. Abajo, el río llevaba el agua oscura y espesa de la lluvia. Pensó en ella. En cómo estaría. En si dormiría, o si estaría despierta mirando el techo. Notó el impulso de sacar el móvil, de escribirle algo, cualquier cosa, un “¿estás bien?” que fuera una puerta entreabierta.</p>
+
+  <p class="pausa" data-hl="3">Metió la mano en el bolsillo, pero no sacó el móvil. Sacó la servilleta. La desdobló bajo la luz de una farola y leyó la tercera línea: No escribirle esta noche.</p>
+
+  <p class="pausa" data-hl="0">Respiró hondo. Guardó la servilleta. Echó a andar.</p>
+
+  <p class="pausa" data-s="2" data-puente="0">Cuando llegó a casa, se quitó la chaqueta mojada, llenó un vaso de agua y se lo bebió despacio, de pie en la cocina, con la luz apagada. Puso el despertador. Se tumbó sin desvestirse del todo. Tardó en dormirse y, cuando lo hizo, fue a trozos, con sueños sin forma. Pero durmió.</p>
+
+  <p class="pausa" data-alba="1">Por la mañana lo despertó el sol, flaco y limpio, entrando por la persiana. Le dolía la cabeza y tenía la boca seca. Se quedó un rato quieto, mirando el techo, y sin que nadie se lo pidiera pensó en ella con una ternura distinta, más tranquila, sin la urgencia de ayer.</p>
+
+  <p class="pausa" data-bolsillo="0">En la mesilla, junto al móvil sin tocar, estaba la servilleta, doblada en cuatro.</p>
+
+  <p class="pausa">Se sentó en la cama, la desplegó y leyó la lista entera, una vez más. Luego cogió el bolígrafo del cajón y, debajo de la quinta línea, escribió con letra más firme:</p>
+
+  <div class="nota f pausa" data-lista="6">6. Perdonarme.</div>
+
+  <p class="pausa" data-cafe="1">Fue a la cocina, puso la cafetera y sacó pan y aceite. Mientras el café subía, miró por la ventana cómo la ciudad se desperezaba, lavada por la lluvia, con los charcos devolviendo un cielo recién estrenado.</p>
+
+  <p class="cierre">Todavía la quería. Todavía le dolía. Pero esa mañana había un desayuno que hacer, un amigo al que llamar y un paseo pendiente, y eso, por pequeño que fuera, era mucho.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, cuerpo = document.body;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; var t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function suave(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+  function hex(c) { return [parseInt(c.substr(1, 2), 16), parseInt(c.substr(3, 2), 16), parseInt(c.substr(5, 2), 16)]; }
+  function mezcla(a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); }
+  function rgb(c) { return "rgb(" + c.join(",") + ")"; }
+
+  /* Botellas, sillas, farolas y luces del río */
+  (function () {
+    var r = rng(11), h = "", sh = [15, 26, 37], cols = ["#7a4a1c", "#3a5a34", "#8a6a2a", "#5a3a28", "#9a8a6a", "#2f4a58"], i, s, x;
+    for (s = 0; s < 3; s++) for (x = 32; x < 98; x += 3.1 + r() * 1.8) {
+      var hh = 30 + Math.round(r() * 20), w = 11 + Math.round(r() * 6), c = cols[Math.floor(r() * cols.length)];
+      h += '<i class="botella" style="left:' + x.toFixed(1) + 'vw;top:calc(' + sh[s] + 'vh - ' + hh + 'px);width:' + w + 'px;height:' + hh + 'px;background:linear-gradient(90deg,' + c + ',rgba(255,200,130,.35),' + c + ')"></i>';
+    }
+    document.getElementById("botellas").innerHTML = h;
+    var sv = '<svg viewBox="0 0 24 36"><path d="M3 0 H5 L6 18 H18 L19 0 H21 L20 22 H4 Z" stroke-width="1.2"/><rect x="3" y="21" width="18" height="4" stroke-width="1"/><path d="M5 24 L4 36 M19 24 L20 36" stroke-width="2.2"/></svg>';
+    var def = [[33, 1], [45, -1], [77, 1], [89, -1]], sh2 = "", k;
+    for (k = 0; k < def.length; k++) sh2 += '<div class="silla" style="left:' + def[k][0] + 'vw;top:63.5vh;--dx:' + (def[k][1] * -2.4) + 'vw">' + sv + '</div>';
+    document.getElementById("sillas").innerHTML = sh2;
+    var f = "", fr = "", lr = "";
+    [12, 38, 64, 90].forEach(function (p) { f += '<div class="farola-c" style="left:' + p + 'vw"></div>'; fr += '<i class="reflejo-c" style="left:calc(' + p + 'vw - 3px)"></i>'; lr += '<i class="luz-r" style="left:calc(' + p + 'vw - 3px);animation-delay:' + (-p / 20) + 's"></i>'; });
+    document.getElementById("farolas").innerHTML = f + fr;
+    document.getElementById("lucesr").innerHTML = lr;
+  })();
+  var sillasEl = Array.prototype.slice.call(document.querySelectorAll(".silla")), vasos = Array.prototype.slice.call(document.querySelectorAll(".vaso"));
+
+  /* Lluvia */
+  function crea(id, n) {
+    var cv = document.getElementById(id), cx = cv.getContext("2d"), o = { cv: cv, cx: cx, W: 0, H: 0, g: [], n: n };
+    for (var i = 0; i < n; i++) o.g.push({ x: Math.random(), y: Math.random(), v: .55 + Math.random() * .9, l: .04 + Math.random() * .07 });
+    o.med = function () { var d = Math.min(window.devicePixelRatio || 1, 2); o.W = cv.clientWidth; o.H = cv.clientHeight; cv.width = o.W * d; cv.height = o.H * d; cx.setTransform(d, 0, 0, d, 0, 0); };
+    o.med(); return o;
+  }
+  var rB = crea("lluviaB", 90), rC = crea("lluviaC", 170);
+  function pinta(o, inten, dt, mueve) {
+    var cx = o.cx; cx.clearRect(0, 0, o.W, o.H);
+    var act = Math.min(o.n, Math.floor(o.n * inten * .75)), k;
+    cx.lineWidth = 1; cx.strokeStyle = "rgba(190,212,238," + Math.min(.55, .14 + .24 * inten).toFixed(3) + ")";
+    cx.beginPath();
+    for (k = 0; k < act; k++) { var g = o.g[k], x = g.x * o.W, y = g.y * o.H, l = g.l * o.H; cx.moveTo(x + l * .1, y - l); cx.lineTo(x, y); if (mueve) { g.y += g.v * dt * .0006 * (.7 + inten * .5); if (g.y > 1.05) { g.y = -.1; g.x = Math.random(); } } }
+    cx.stroke();
+  }
+  window.addEventListener("resize", function () { rB.med(); rC.med(); pide(); });
+
+  /* Estado suavizado */
+  var V = { bar: 1, calle: 0, casa: 0, puente: 0, alba: 0, cafe: 0, neon: 1, pers: 0, mujer: 1, agua: 0, copas: 0, sillas: 0, lluvia: 1, s: 0 };
+  var T = { s: 0, puente: 0, alba: 0, cafe: 0, neon: 1, pers: 0, mujer: 1, agua: 0, copas: 0, sillas: 0, lluvia: 1 };
+  var KN = [hex("#0d1420"), hex("#1b2535")], KM = [hex("#7a6a4c"), hex("#9a8260")], KC = [hex("#4a6a88"), hex("#7f93a2")];
+  function aplica() {
+    var s = V.s;
+    raiz.style.setProperty("--o-bar", (1 - suave(.3, .9, s)).toFixed(3));
+    raiz.style.setProperty("--o-calle", (suave(.1, .9, s) * (1 - suave(1.1, 1.9, s))).toFixed(3));
+    raiz.style.setProperty("--o-casa", suave(1.1, 1.9, s).toFixed(3));
+    raiz.style.setProperty("--o-puente", V.puente.toFixed(3));
+    raiz.style.setProperty("--alba", V.alba.toFixed(3));
+    raiz.style.setProperty("--cafe", V.cafe.toFixed(3));
+    raiz.style.setProperty("--neon", V.neon.toFixed(3));
+    raiz.style.setProperty("--persiana", V.pers.toFixed(3));
+    raiz.style.setProperty("--mujer", V.mujer.toFixed(3));
+    raiz.style.setProperty("--agua", V.agua.toFixed(3));
+    var a = mezcla(mezcla(KN[0], KM[0], V.alba), KC[0], V.cafe), b = mezcla(mezcla(KN[1], KM[1], V.alba), KC[1], V.cafe);
+    raiz.style.setProperty("--cielo-a", rgb(a)); raiz.style.setProperty("--cielo-b", rgb(b));
+    vasos.forEach(function (v, i) { v.style.opacity = Math.min(1, Math.max(0, V.copas - i)).toFixed(3); });
+    sillasEl.forEach(function (c, i) { c.style.setProperty("--p", Math.min(1, Math.max(0, V.sillas * sillasEl.length - i)).toFixed(3)); });
+  }
+  var ultimo = 0, rayoEl = document.getElementById("rayo");
+  function bucle(t) {
+    var dt = Math.min(50, t - (ultimo || t)); ultimo = t;
+    var f = function (k) { return 1 - Math.pow(1 - k, dt / 16.7); };
+    for (var key in T) V[key] += (T[key] - V[key]) * f(key === "s" ? .03 : key === "sillas" || key === "copas" ? .04 : .05);
+    aplica();
+    pinta(rB, V.lluvia, dt, true);
+    if (V.s > .1 && V.s < 1.95) pinta(rC, Math.max(.35, V.lluvia * 1.2), dt, true); else rC.cx.clearRect(0, 0, rC.W, rC.H);
+    requestAnimationFrame(bucle);
+  }
+
+  /* Texto -> estado */
+  var marcados = Array.prototype.slice.call(document.querySelectorAll("main [data-s],main [data-copas],main [data-agua],main [data-sillas],main [data-mujer],main [data-lluvia],main [data-trueno],main [data-neon],main [data-persiana],main [data-puente],main [data-alba],main [data-cafe],main [data-lista],main [data-hl],main [data-bolsillo]"));
+  var parrafos = Array.prototype.slice.call(document.querySelectorAll("main > p"));
+  var serv = document.getElementById("serv"), lns = Array.prototype.slice.call(serv.querySelectorAll(".ln")), truenoAntes = 0, pendiente = false;
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  function actualiza() {
+    pendiente = false;
+    var linea = window.innerHeight * .55, k, key, v;
+    var st = { s: 0, copas: 0, agua: 0, sillas: 0, mujer: 1, lluvia: 1, trueno: 0, neon: 1, persiana: 0, puente: 0, alba: 0, cafe: 0, lista: 0, hl: 0, bolsillo: 0 };
+    for (k = 0; k < marcados.length; k++) {
+      if (marcados[k].getBoundingClientRect().top > linea) break;
+      for (key in st) if ((v = num(marcados[k], "data-" + key)) !== null) st[key] = v;
+    }
+    var hab = false;
+    for (k = 0; k < parrafos.length; k++) { if (parrafos[k].getBoundingClientRect().top > linea) break; hab = parrafos[k].classList.contains("c") || parrafos[k].classList.contains("m"); }
+    cuerpo.classList.toggle("st-habla", hab);
+    lns.forEach(function (l, i) { l.classList.toggle("on", st.lista >= i + 1); });
+    serv.classList.toggle("ver", st.lista > 0 && (!st.bolsillo || st.hl > 0));
+    serv.classList.toggle("hl3", st.hl === 3);
+    T.s = st.s; T.copas = st.copas; T.agua = st.agua; T.sillas = st.sillas; T.mujer = st.mujer; T.lluvia = st.lluvia; T.neon = st.neon; T.pers = st.persiana; T.puente = st.puente; T.alba = st.alba; T.cafe = st.cafe;
+    if (st.trueno && !truenoAntes && !reducir && rayoEl.animate) rayoEl.animate([{ opacity: 0 }, { opacity: .38 }, { opacity: .04 }, { opacity: .26 }, { opacity: 0 }], { duration: 950 });
+    truenoAntes = st.trueno;
+    if (reducir) { for (key in T) V[key] = T[key]; aplica(); pinta(rB, V.lluvia, 16, false); if (V.s > .1 && V.s < 1.95) pinta(rC, Math.max(.35, V.lluvia * 1.2), 16, false); else rC.cx.clearRect(0, 0, rC.W, rC.H); }
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  actualiza();
+  if (reducir) { aplica(); pinta(rB, 1, 16, false); } else requestAnimationFrame(bucle);
+})();
+</script>
+</body>
+</html>
