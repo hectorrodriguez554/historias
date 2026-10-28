@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>Pasos de hormiga · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Un día entero, en cuatro luces: el cuarto antes de la alarma, el río al amanecer (con la imagen dorada del vestido blanco),
+   la cocina con el sol y el naranja del bajón, y el parque que pasa del naranja al violeta. */
+:root {
+  --bg: #0b1020; --fg: #ece6d8; --ambar: #f0b45c; --linea: rgba(236, 230, 216, .15);
+  --o-cuarto: 1; --o-rio: 0; --o-casa: 0; --o-parque: 0;
+  --sueno: 0; --sol: 0; --bajon: 0; --movilN: 1; --movilM: 1; --libro: 0; --ocaso: 0;
+  --vent-a: #f0d49c; --vent-b: #d9b678;
+  --psky-a: #7a4526; --psky-b: #d28a4e;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem); line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+/* ---------- CUARTO ---------- */
+.cuarto { opacity: var(--o-cuarto); background: linear-gradient(180deg, #0d1424, #080b14); }
+.cuarto .vent { position: absolute; left: 54vw; top: 9vh; width: 30vw; height: 40vh; border: 6px solid #05070c; background: linear-gradient(180deg, #2c4263, #4a6688); overflow: hidden; }
+.cuarto .vent::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, rgba(5, 7, 12, .9) 0 12px, transparent 12px 21px); }
+.cuarto .franja { position: absolute; left: 50vw; top: 52vh; width: 36vw; height: 28vh; opacity: .35; transform: skewX(-18deg); transform-origin: top left; background: repeating-linear-gradient(90deg, rgba(150, 185, 235, .5) 0 3vw, transparent 3vw 6vw); -webkit-mask-image: linear-gradient(180deg, #000, transparent); mask-image: linear-gradient(180deg, #000, transparent); }
+.cuarto .cama { position: absolute; left: 0; bottom: 0; width: 56vw; height: 21vh; background: linear-gradient(180deg, #1c2438, #10162a); border-top: 3px solid #26304a; border-radius: 0 16px 0 0; }
+.cuarto .almohada { position: absolute; left: 5vw; bottom: 21vh; width: 16vw; max-width: 190px; height: 6vh; background: #28324c; border-radius: 40% 40% 6px 6px; }
+.cuarto .mesilla { position: absolute; right: 6vw; bottom: 0; width: max(150px, 24vw); height: 25vh; background: linear-gradient(180deg, #1d1a22, #0c0a10); border-top: 4px solid #2c2834; }
+.cuarto .desp { position: absolute; right: calc(6vw + 18px); bottom: 25vh; width: 84px; height: 44px; background: #0b0a0e; border: 2px solid #1c1a22; border-radius: 6px 6px 3px 3px; font-family: var(--mono); font-size: 1.15rem; line-height: 40px; text-align: center; color: #ff7a5a; text-shadow: 0 0 10px #ff4a2a; letter-spacing: .06em; }
+.cuarto .movil-n { position: absolute; right: calc(6vw + max(150px, 24vw) - 54px); bottom: 25vh; width: 40px; height: 5px; background: #0a0a0e; border-top: 1px solid #66627a; opacity: var(--movilN); }
+
+/* ---------- RÍO ---------- */
+.rio { opacity: var(--o-rio); background: linear-gradient(180deg, #3b5778 0%, #6f8199 28%, #b78e90 52%, #c99c8a 100%); }
+.rio .sol { position: absolute; left: 68vw; top: calc(60vh - var(--sol) * 31vh); width: 64px; height: 64px; margin-left: -32px; border-radius: 50%; background: radial-gradient(circle, #fff1c8 0, #ffd89a 40%, rgba(255, 190, 120, 0) 70%); box-shadow: 0 0 80px 30px rgba(255, 190, 130, .4); }
+.rio .ciudad-l { position: absolute; left: 0; right: 0; top: 40vh; height: 12vh; background: rgba(46, 64, 94, .9);
+  clip-path: polygon(0 60%, 6% 60%, 6% 30%, 12% 30%, 12% 55%, 20% 55%, 20% 20%, 26% 20%, 26% 48%, 34% 48%, 34% 66%, 42% 66%, 42% 30%, 50% 30%, 50% 52%, 58% 52%, 58% 10%, 64% 10%, 64% 40%, 72% 40%, 72% 62%, 80% 62%, 80% 26%, 88% 26%, 88% 50%, 100% 50%, 100% 100%, 0 100%); }
+.rio .agua { position: absolute; left: 0; right: 0; top: 52vh; height: 26vh; background: linear-gradient(180deg, #a98a8e, #4f6482 60%, #2c3d57); }
+.rio .agua::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, rgba(255, 235, 215, .13) 0 1px, transparent 1px 11px); animation: corre 8s linear infinite; }
+@keyframes corre { to { background-position: 0 22px; } }
+.rio .reflejo-s { position: absolute; left: calc(68vw - 26px); top: 52vh; width: 52px; height: 26vh; opacity: var(--sol); background: repeating-linear-gradient(180deg, rgba(255, 224, 170, .6) 0 3px, transparent 3px 11px); -webkit-mask-image: linear-gradient(180deg, #000, transparent); mask-image: linear-gradient(180deg, #000, transparent); animation: brilla 4.5s ease-in-out infinite; }
+@keyframes brilla { 0%, 100% { transform: scaleX(1); opacity: calc(var(--sol) * .9); } 50% { transform: scaleX(.7); opacity: calc(var(--sol) * .55); } }
+.rio .arboles { position: absolute; left: 0; width: 3200px; will-change: transform; }
+.rio .arboles.lej { bottom: 20vh; height: 30vh; opacity: .85; }
+.rio .arboles.cer { bottom: 12vh; height: 52vh; }
+.rio .arboles svg { position: absolute; top: 0; height: 100%; width: 1600px; }
+.rio .orilla { position: absolute; left: 0; right: 0; bottom: 0; height: 22vh; background: linear-gradient(180deg, #1a2231, #0d121b); }
+.rio .orilla::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: #060910; box-shadow: 0 1px 0 rgba(255, 220, 190, .12); }
+.rio .farola-r { position: absolute; bottom: 22vh; width: 4px; height: 17vh; background: #0a0f18; }
+.rio .farola-r::before { content: ""; position: absolute; left: -3px; top: -3px; width: 10px; height: 5px; background: #ffe2a8; border-radius: 3px; opacity: var(--on); }
+.rio .farola-r::after { content: ""; position: absolute; left: -22px; top: -22px; width: 48px; height: 48px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 215, 150, .65), rgba(255, 215, 150, 0) 68%); opacity: var(--on); }
+
+/* La imagen dorada del vestido blanco */
+.sueno { opacity: var(--sueno); background: radial-gradient(70% 60% at 62% 58%, rgba(255, 226, 160, .7), rgba(255, 200, 120, .35) 45%, rgba(40, 24, 8, .55) 100%); }
+.sueno .flor { position: absolute; border-radius: 50%; filter: blur(5px); }
+.sueno .hierba { position: absolute; left: 0; right: 0; bottom: 0; height: 24vh; background: linear-gradient(180deg, rgba(120, 100, 40, .0), rgba(80, 64, 20, .6)); }
+.sueno .hierba i { position: absolute; bottom: 0; width: 3px; height: 9vh; background: linear-gradient(0deg, rgba(90, 76, 28, .9), rgba(220, 200, 120, .6)); border-radius: 3px 3px 0 0; transform-origin: bottom center; animation: mece 4s ease-in-out infinite; }
+@keyframes mece { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+.sueno .ella { position: absolute; left: 66vw; bottom: 22vh; width: max(54px, 8vw); max-width: 100px; transform-origin: bottom center; transform: scale(calc(.55 + var(--sueno) * .5)); transition: transform 3s ease-out; }
+.sueno .ella svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* ---------- CASA ---------- */
+.casa { opacity: var(--o-casa); background: linear-gradient(180deg, #2b2119, #17110c); }
+.casa .vent { position: absolute; left: 8vw; top: 8vh; width: 30vw; height: 42vh; border: 7px solid #0b0806; background: linear-gradient(180deg, var(--vent-a), var(--vent-b)); }
+.casa .vent::after { content: ""; position: absolute; left: calc(50% - 3px); top: 0; bottom: 0; width: 6px; background: #0b0806; box-shadow: 0 0 0 0 #0b0806; }
+.casa .rayos { position: absolute; left: 14vw; top: 46vh; width: 46vw; height: 34vh; opacity: calc(.6 * (1 - var(--bajon))); transform: skewX(-24deg); transform-origin: top left; background: linear-gradient(180deg, rgba(255, 214, 150, .55), rgba(255, 190, 110, 0)); }
+.casa .mesa { position: absolute; left: 24vw; right: 22vw; bottom: 0; height: 26vh; background: linear-gradient(180deg, #4a3523, #1d130b); border-top: 4px solid #6a4c33; }
+.casa .taza { position: absolute; left: 30vw; bottom: 26vh; width: 22px; height: 20px; background: #d8cdb8; border-radius: 0 0 8px 8px; }
+.casa .taza::after { content: ""; position: absolute; right: -7px; top: 4px; width: 8px; height: 9px; border: 3px solid #d8cdb8; border-left: 0; border-radius: 0 6px 6px 0; }
+.casa .movil-m { position: absolute; left: 46vw; bottom: 26vh; width: 40px; height: 5px; background: #0a0907; border-top: 1px solid #6a5e50; opacity: var(--movilM); box-shadow: 0 -2px 22px 6px rgba(150, 195, 250, calc(var(--bajon) * .6)); }
+.casa .libro { position: absolute; left: 56vw; bottom: 26vh; width: 58px; height: 9px; background: linear-gradient(180deg, #7a3a2a, #4a2018); border-top: 2px solid #e6dcc6; opacity: var(--libro); }
+.casa .aparador { position: absolute; right: 5vw; bottom: 0; width: 14vw; min-width: 80px; height: 24vh; background: linear-gradient(180deg, #2c2016, #130d08); border-top: 3px solid #4a3523; }
+.casa .aparador::before { content: ""; position: absolute; left: 10%; right: 10%; top: 22%; height: 22%; background: #1b1209; border: 1px solid #3a2a1b; }
+.casa .aparador::after { content: ""; position: absolute; left: calc(50% - 8px); top: 30%; width: 16px; height: 4px; background: #8a7a60; border-radius: 2px; }
+.casa .naranja { position: absolute; inset: 0; opacity: var(--bajon); background: linear-gradient(180deg, rgba(205, 100, 38, .5), rgba(80, 34, 16, .55)); }
+
+/* ---------- PARQUE ---------- */
+.parque { opacity: var(--o-parque); background: linear-gradient(180deg, var(--psky-a), var(--psky-b) 62%, #c9885a 100%); }
+.parque .solp { position: absolute; left: 14vw; top: calc(50vh + var(--ocaso) * 16vh); width: 70px; height: 70px; margin-left: -35px; border-radius: 50%; background: radial-gradient(circle, #ffe0b0, #f6a85a 45%, rgba(255, 150, 80, 0) 72%); opacity: calc(1 - var(--ocaso) * .92); }
+.parque .colinas { position: absolute; left: 0; right: 0; top: 48vh; height: 14vh; background: #2a1d2a; opacity: .85; clip-path: polygon(0 60%, 12% 40%, 26% 54%, 40% 30%, 56% 52%, 70% 36%, 86% 56%, 100% 38%, 100% 100%, 0 100%); }
+.parque .suelo { position: absolute; left: 0; right: 0; bottom: 0; height: 26vh; background: linear-gradient(180deg, #23190f, #0e0a07); }
+.parque .tronco { position: absolute; right: 9vw; bottom: 24vh; width: max(18px, 3vw); height: 38vh; background: linear-gradient(90deg, #120c08, #2a1c10, #120c08); }
+.parque .copa { position: absolute; right: 0; top: 8vh; width: 44vw; height: 36vh; }
+.parque .copa i { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(222, 164, 58, .95), rgba(190, 120, 36, .85) 55%, rgba(120, 70, 20, 0) 74%); filter: blur(1.5px); }
+.parque .banco { position: absolute; left: 36vw; bottom: 24vh; width: max(120px, 18vw); height: 8vh; }
+.parque .banco::before { content: ""; position: absolute; left: 0; right: 0; top: 40%; height: 6px; background: #0a0705; }
+.parque .banco::after { content: ""; position: absolute; left: 4%; right: 4%; top: 0; height: 40%; border-top: 5px solid #0a0705; border-bottom: 3px solid #0a0705; }
+.parque .banco .pat { position: absolute; top: 55%; width: 5px; height: 45%; background: #0a0705; } .parque .banco .pat.a { left: 8%; } .parque .banco .pat.b { right: 8%; }
+.parque .leo-p { position: absolute; left: calc(36vw + max(120px, 18vw) * .28); bottom: calc(24vh + 3.6vh); width: max(54px, 7.4vw); transition: opacity 1.2s; opacity: 0; }
+body.st-parque .parque .leo-p { opacity: 1; }
+body.st-va .parque .leo-p { transition: transform 11s ease-in-out, opacity 9s ease-in 1s; transform: translateX(38vw) scale(.62); opacity: 0; }
+.parque .leo-p svg { display: block; width: 100%; height: auto; }
+.parque .leo-p path, .parque .leo-p circle, .parque .leo-p rect { fill: #07050a; }
+.parque .leo-p .lib { fill: #7a4a30; }
+.parque .farola-p { position: absolute; bottom: 24vh; width: 4px; height: 24vh; background: #0a0705; }
+.parque .farola-p::before { content: ""; position: absolute; left: -4px; top: -3px; width: 12px; height: 5px; background: #ffe2a8; border-radius: 3px; opacity: var(--on); }
+.parque .farola-p::after { content: ""; position: absolute; left: -30px; top: -28px; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 215, 150, .7), rgba(255, 215, 150, 0) 68%); opacity: var(--on); }
+.parque .hormiga { position: absolute; left: 36vw; bottom: calc(24vh + 3.2vh); width: 6px; height: 3px; background: #07050a; border-radius: 2px; animation: pasea 46s linear infinite; }
+.parque .hormiga::after { content: ""; position: absolute; left: 0; right: 0; top: 2px; height: 2px; background: repeating-linear-gradient(90deg, #07050a 0 1px, transparent 1px 2px); }
+@keyframes pasea { 0% { left: 36vw; } 100% { left: calc(36vw + max(120px, 18vw) - 8px); } }
+.hoja { position: absolute; left: 74vw; top: 32vh; width: 18px; height: 18px; opacity: 0; transition: left 7s ease-in-out, top 7s cubic-bezier(.3, .1, .6, 1), opacity .8s; }
+.hoja svg { display: block; width: 100%; height: 100%; animation: balancea 3s ease-in-out infinite; }
+@keyframes balancea { 0%, 100% { transform: rotate(-35deg); } 50% { transform: rotate(40deg); } }
+body.st-hoja1 .hoja { opacity: 1; left: calc(36vw + max(120px, 18vw) * .6); top: 61vh; }
+body.st-hoja2 .hoja { opacity: 0; transform: scale(.4); transition: opacity .9s, transform .9s; }
+
+.velo { background: rgba(6, 8, 14, .3); }
+#particulas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ---------- Lectura ---------- */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(5, 6, 10, .95), 0 1px 3px rgba(5, 6, 10, .9); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #cdd2dc; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #05060a; }
+.volver:hover, .volver:focus-visible { color: var(--ambar); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--ambar); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #b4bccb; text-shadow: 0 0 12px #05060a; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(3.4rem, 14vw, 8rem); line-height: .96; letter-spacing: -.02em; color: #f9f1de; text-shadow: 0 0 40px rgba(255, 190, 120, .3), 0 2px 24px #05060a; }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.v { color: #f6e4bd; font-style: italic; }
+.cierre { margin-top: 2.4rem; font-family: var(--display); font-style: italic; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); line-height: 1.35; color: #fbf4e6; text-wrap: balance; }
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--ambar); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ambar); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #05060a; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+@media (max-width: 700px) {
+  .cuarto .vent { left: 46vw; width: 44vw; }
+  .casa .vent { left: 6vw; width: 40vw; }
+  .casa .mesa { left: 10vw; right: 16vw; }
+  .casa .taza { left: 16vw; } .casa .movil-m { left: 38vw; } .casa .libro { left: 54vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rio .agua::before, .rio .reflejo-s, .sueno .hierba i, .parque .hormiga, .hoja svg { animation: none; }
+  .parque .leo-p, .hoja, .sueno .ella { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="capa cuarto" aria-hidden="true">
+  <div class="vent"></div><div class="franja"></div>
+  <div class="cama"></div><div class="almohada"></div>
+  <div class="mesilla"></div><div class="desp">06:58</div><div class="movil-n"></div>
+</div>
+
+<div class="capa rio" aria-hidden="true">
+  <div class="sol"></div>
+  <div class="ciudad-l"></div>
+  <div class="agua"></div><div class="reflejo-s"></div>
+  <div class="arboles lej" id="arbL"></div>
+  <div id="farolasR"></div>
+  <div class="orilla"></div>
+  <div class="arboles cer" id="arbC"></div>
+</div>
+
+<div class="capa sueno" aria-hidden="true" id="sueno">
+  <div id="flores"></div><div class="hierba" id="hierba"></div>
+  <div class="ella">
+    <svg viewBox="0 0 60 120">
+      <circle cx="30" cy="12" r="8" fill="#fff6e6"/>
+      <path d="M22 8 Q8 14 6 36 Q16 22 24 18 Z" fill="#7a5a3a" opacity=".75"/>
+      <path d="M30 22 Q22 30 20 56 L6 112 Q30 120 54 112 L40 56 Q38 30 30 22 Z" fill="#fff9ee"/>
+      <path d="M20 56 Q30 62 40 56" fill="none" stroke="#f1dcb0" stroke-width="2"/>
+    </svg>
+  </div>
+</div>
+
+<div class="capa casa" aria-hidden="true">
+  <div class="vent"></div><div class="rayos"></div>
+  <div class="mesa"></div><div class="taza"></div><div class="movil-m"></div><div class="libro"></div>
+  <div class="aparador"></div>
+  <div class="naranja"></div>
+</div>
+
+<div class="capa parque" aria-hidden="true">
+  <div class="solp"></div><div class="colinas"></div><div class="suelo"></div>
+  <div class="tronco"></div><div class="copa" id="copa"></div>
+  <div id="farolasP"></div>
+  <div class="banco"><i class="pat a"></i><i class="pat b"></i></div>
+  <div class="hormiga"></div>
+  <div class="leo-p">
+    <svg viewBox="0 0 70 100"><circle cx="30" cy="12" r="9"/><path d="M12 30 Q16 20 30 22 Q42 24 44 36 L46 62 L66 66 L66 76 L40 76 L34 62 L24 62 L22 100 L8 100 Z"/><rect class="lib" x="52" y="58" width="16" height="4"/></svg>
+  </div>
+  <div class="hoja"><svg viewBox="0 0 20 20"><path d="M10 1 Q18 6 17 12 Q15 18 10 19 Q5 18 3 12 Q2 6 10 1 Z" fill="#d89a30"/><path d="M10 3 V18" stroke="#8a5a14" stroke-width="1"/></svg></div>
+</div>
+
+<div class="capa velo" aria-hidden="true"></div>
+<div class="capa" aria-hidden="true"><canvas id="particulas"></canvas></div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Leo · el día siguiente</div>
+    <h1>Pasos de hormiga</h1>
+  </header>
+
+  <p>Leo se despertó antes de que sonara la alarma, con esa pesadez dulce que dejan las noches mal dormidas.</p>
+
+  <p class="pausa">Estaba cansado. No de una forma que se arreglara con un café o una siesta, sino de otra más honda, la de quien lleva dos días remando contra una corriente invisible. Solo dos días, pensó, mirando el techo. Dos días. Y le parecían dos semanas, o dos años, o una vida entera cortada por la mitad.</p>
+
+  <p class="pausa">Alargó la mano hacia el móvil, por costumbre, por esa inercia ciega con la que el cuerpo busca lo que quiere. Se detuvo a mitad de camino. Su mano quedó suspendida un segundo en el aire, como un pájaro que duda antes de posarse. Luego, despacio, volvió a la sábana.</p>
+
+  <p class="d pausa v">—Mañana —dijo en voz baja—. Hoy es mañana.</p>
+
+  <p class="pausa" data-movil="0">Se levantó. Se puso las zapatillas viejas, las del fondo del armario, esas que llevaban meses esperando algo mejor que acumular polvo. Dejó el móvil sobre la mesa de la cocina, boca abajo, junto a la taza vacía de ayer, y salió sin mirarlo.</p>
+
+  <p class="pausa" data-s="1" data-sol=".15" data-apaga="0">La ciudad aún no se había despertado del todo. El cielo era de un azul muy pálido, casi blanco, con un borde rosado donde empezaba el sol, y el aire olía a pan y a tierra húmeda. Leo empezó a correr despacio, sin rumbo, siguiendo el río. Al principio le dolieron las piernas y el pecho, y pensó en dar la vuelta. Pero a los diez minutos algo cedió, como cede un nudo cuando uno deja de tirar de él, y el cuerpo encontró su ritmo.</p>
+
+  <p class="pausa" data-sol=".5" data-apaga=".5">Corrió junto al agua, bajo los puentes, entre los plátanos que empezaban a quedarse sin hojas. En cada zancada dejaba algo atrás: una frase que había querido escribir, una pregunta que había querido hacer, un “¿cómo has dormido?” que se quedó sin destinatario. No desaparecían, solo se hacían pequeños, como las farolas que se apagan una a una cuando amanece.</p>
+
+  <p class="pausa" data-sol=".85" data-apaga="1">Y en algún punto, con los pulmones ardiendo y el sol saliendo por fin, ocurrió lo que le pasaba a veces cuando corría y la cabeza se vaciaba de ruido: se le abrió una imagen sin pedir permiso.</p>
+
+  <p class="pausa" data-sueno=".55">Un día lejano, de luz dorada. Un jardín, o una playa, o una plaza con flores, no importaba. Y ella, caminando hacia él con un vestido blanco, sencilla, con el pelo movido por el viento y esa sonrisa tranquila que tenía cuando se olvidaba de tener miedo. Él, parado, sin saber qué hacer con las manos, y llorando. Llorando sin vergüenza, delante de todos, con las lágrimas cayéndole sin que nadie se las secara porque tampoco habría querido que nadie lo hiciera.</p>
+
+  <p class="pausa" data-sueno="1">Y después, la vida: dos personas que cumplen sus sueños una al lado de la otra, sin que los del uno estorben a los del otro. Ella, haciendo lo que siempre había querido. Él, aplaudiendo desde la primera fila. Compañeros de vida, de los que se cogen cuando el otro se cae, y que también se sueltan para dejar que el otro vuele.</p>
+
+  <p class="pausa" data-sueno="0" data-sol="1">Leo frenó de golpe y se quedó quieto en mitad del camino, con las manos en las rodillas, respirando fuerte. Se rio, bajito, a solas, con los ojos mojados. No sabía si era sudor o lágrimas, y le dio igual.</p>
+
+  <p class="d pausa v">—Qué tontería —dijo al aire.</p>
+
+  <p class="pausa">Pero no era una tontería. Era fe. Y la fe, pensó, es eso: querer sin garantías. No saber si ese día llegará, ni cuándo, ni cómo. Seguir queriendo igual, con los pies en el suelo y la mirada un poco más lejos de lo razonable. Y aceptar que, llegue o no llegue, lo único que de verdad le pedía a la vida era que ella fuera feliz, con sus pasos de hormiga y a su hora.</p>
+
+  <p class="pausa" data-s="2">Terminó de correr con las piernas temblando y la cabeza ligera. Cuando llegó a casa eran casi las ocho, y el sol ya entraba por la ventana de la cocina, dorando las motas de polvo que flotaban sobre la mesa. El móvil seguía donde lo había dejado, boca abajo. No lo tocó.</p>
+
+  <p class="pausa" data-libro="1">Se duchó con agua casi fría, se preparó un desayuno de verdad, con tostadas, aceite y un café que olía mejor que ningún otro, y se lo comió sentado frente a la ventana, despacio, mirando cómo se llenaba la calle. Luego cogió un libro del estante, uno que llevaba meses empezado y abandonado, con un marcapáginas a la mitad. Se sentó en el sillón y leyó.</p>
+
+  <p class="pausa">Al principio no entendía nada. Las frases le resbalaban, y cada dos párrafos su mente se escapaba hacia el mismo sitio de siempre. Pero cada vez que se escapaba, la traía de vuelta con suavidad, sin reproche, como quien guía a un perro asustado de vuelta a casa. Una página. Dos. Diez. Hacia mediodía, descubrió que llevaba veinte minutos seguidos sin pensar en nada más que en lo que leía, y le pareció un pequeño milagro.</p>
+
+  <p class="pausa" data-cajon="1">Fue a la cocina a por agua. Pasó junto a la mesa, y el móvil seguía allí. Lo miró, y esta vez le miró con otros ojos: no como a un enemigo ni como a una ventana a la que asomarse, sino como a lo que era, un objeto sobre una mesa. Lo cogió, lo guardó en un cajón y lo cerró con cuidado.</p>
+
+  <p class="d pausa v">—Poco a poco —se dijo.</p>
+
+  <p class="pausa" data-bajon="1" data-cajon="0">Esa tarde tuvo un bajón, claro. Hubo un momento, hacia las seis, cuando la luz se volvió naranja y la casa se llenó de esa tristeza larga que traen los atardeceres, en que abrió el cajón, sacó el móvil, y estuvo a punto. Se quedó con el pulgar sobre su nombre, con el corazón a mil, sintiendo todo el peso de lo que quería decir.</p>
+
+  <p class="pausa">Pero respiró. Una, dos, tres veces.</p>
+
+  <p class="pausa">Y pensó en la imagen de la mañana: el vestido blanco, el jardín, el viento. Pensó que esa escena, si algún día llegaba, no se construiría con mensajes enviados a deshoras ni con insistencias bienintencionadas. Se construiría con respeto. Con confianza. Con tiempo, con ese tiempo que ella necesitaba y que él, con todo lo que le costara, quería darle.</p>
+
+  <p class="pausa" data-bajon="0" data-cajon="1">Guardó el móvil otra vez. Se puso la chaqueta y bajó a la calle a que le diera el aire.</p>
+
+  <p class="pausa" data-s="3" data-ocaso="0">Caminó hasta el parque, se sentó en un banco bajo un árbol de hojas doradas y miró cómo se encendían las primeras farolas. Un niño perseguía a una paloma. Una pareja mayor compartía un bocadillo en silencio. Todo parecía tener su propio ritmo, y ninguno corría.</p>
+
+  <p class="pausa" data-ocaso=".7">Estaba cansado, sí. No sabía cómo acabarían las cosas. Y aun así, mientras el cielo pasaba del naranja al violeta, notó algo suave y cálido instalarse en el pecho, algo que no era certeza, ni esperanza ciega, ni siquiera alivio. Era más sencillo: la sensación de estar, por fin, haciendo lo correcto, aunque no fuera lo fácil.</p>
+
+  <p class="d pausa v" data-ocaso="1">—Que seas feliz —susurró, sin dirigirse a nadie en particular, o a todos, o a ella, que estuviera donde estuviera, quizá mirando el mismo cielo—. Con tus pasos de hormiga. A tu hora.</p>
+
+  <p class="pausa" data-hoja="1">El viento movió las hojas del árbol y una cayó sobre su rodilla, ligera, dorada.</p>
+
+  <p class="pausa" data-hoja="2" data-va="1">Leo la cogió, la miró un momento y la guardó entre las páginas del libro, justo donde se había quedado leyendo. Después se levantó, se sacudió el pantalón y echó a andar de vuelta a casa, sin prisa, con la luz de la tarde tocándole los hombros.</p>
+
+  <p class="cierre">Mañana lo volvería a intentar. Y pasado mañana también.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, cuerpo = document.body;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; var t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function suave(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+  function hex(c) { return [parseInt(c.substr(1, 2), 16), parseInt(c.substr(3, 2), 16), parseInt(c.substr(5, 2), 16)]; }
+  function mezcla(a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); }
+  function rgb(c) { return "rgb(" + c.join(",") + ")"; }
+
+  /* ---------- Generación de escenas ---------- */
+  var r = rng(21), i, k;
+  function arbolesSvg(h, alto, semilla, col, hojaCol) {
+    var q = rng(semilla), s = '<svg viewBox="0 0 1600 ' + h + '" preserveAspectRatio="none">';
+    for (var x = 60; x < 1600; x += 190 + q() * 130) {
+      var a = alto * (.7 + q() * .3), tx = x;
+      s += '<path d="M' + (tx - 7) + ' ' + h + ' L' + (tx - 4) + ' ' + (h - a) + ' L' + (tx + 4) + ' ' + (h - a) + ' L' + (tx + 7) + ' ' + h + ' Z" fill="' + col + '"/>';
+      for (var b = 0; b < 7; b++) {
+        var ang = -Math.PI / 2 + (q() - .5) * 2.2, len = a * (.28 + q() * .3), ex = tx + Math.cos(ang) * len, ey = h - a * (.62 + q() * .3) + Math.sin(ang) * len * .5;
+        s += '<path d="M' + tx + ' ' + (h - a * .55) + ' Q' + ((tx + ex) / 2) + ' ' + (ey + 20) + ' ' + ex + ' ' + ey + '" stroke="' + col + '" stroke-width="' + (2 + q() * 2.4).toFixed(1) + '" fill="none" stroke-linecap="round"/>';
+        for (var l = 0; l < 3; l++) s += '<ellipse cx="' + (ex + (q() - .5) * 46).toFixed(0) + '" cy="' + (ey + (q() - .5) * 36).toFixed(0) + '" rx="' + (9 + q() * 10).toFixed(0) + '" ry="' + (6 + q() * 6).toFixed(0) + '" fill="' + hojaCol + '"/>';
+      }
+    }
+    return s + "</svg>";
+  }
+  function llena(el, svg) { el.innerHTML = svg + svg; var s = el.querySelectorAll("svg"); s[1].style.left = "1600px"; }
+  llena(document.getElementById("arbL"), arbolesSvg(260, 210, 5, "#26364d", "rgba(168, 140, 80, .5)"));
+  llena(document.getElementById("arbC"), arbolesSvg(520, 470, 9, "#0e1420", "rgba(150, 120, 60, .55)"));
+  var arbL = document.getElementById("arbL"), arbC = document.getElementById("arbC");
+
+  var fr = [], html = "";
+  for (i = 0; i < 7; i++) { var xx = 6 + i * 15; html += '<div class="farola-r" style="left:' + xx + 'vw"></div>'; }
+  document.getElementById("farolasR").innerHTML = html;
+  var farolasR = Array.prototype.slice.call(document.querySelectorAll(".farola-r"));
+  html = "";
+  [20, 58, 88].forEach(function (p) { html += '<div class="farola-p" style="left:' + p + 'vw"></div>'; });
+  document.getElementById("farolasP").innerHTML = html;
+  var farolasP = Array.prototype.slice.call(document.querySelectorAll(".farola-p"));
+
+  html = "";
+  var tonos = ["#ffd57a", "#ffffff", "#ffb48a", "#f7e7a0", "#ffc8d8"];
+  for (i = 0; i < 46; i++) { var d = 8 + r() * 22; html += '<i class="flor" style="left:' + (r() * 100).toFixed(1) + '%;top:' + (46 + r() * 40).toFixed(1) + '%;width:' + d.toFixed(0) + 'px;height:' + d.toFixed(0) + 'px;background:' + tonos[Math.floor(r() * tonos.length)] + ';opacity:' + (.35 + r() * .5).toFixed(2) + '"></i>'; }
+  document.getElementById("flores").innerHTML = html;
+  html = "";
+  for (i = 0; i < 70; i++) html += '<i style="left:' + (r() * 100).toFixed(1) + '%;height:' + (5 + r() * 7).toFixed(1) + 'vh;animation-delay:' + (-r() * 4).toFixed(2) + 's"></i>';
+  document.getElementById("hierba").innerHTML = html;
+  html = "";
+  for (i = 0; i < 24; i++) { var w = 9 + r() * 9; html += '<i style="left:' + (r() * 86).toFixed(1) + '%;top:' + (r() * 66).toFixed(1) + '%;width:' + w.toFixed(1) + 'vw;height:' + (w * .9).toFixed(1) + 'vw;max-width:130px;max-height:120px"></i>'; }
+  document.getElementById("copa").innerHTML = html;
+
+  /* ---------- Partículas: hojas (río y parque) y motas de polvo (cocina) ---------- */
+  var cv = document.getElementById("particulas"), cx = cv.getContext("2d"), W = 0, H = 0, hojas = [], motas = [];
+  function medir() { var dpr = Math.min(window.devicePixelRatio || 1, 2); W = window.innerWidth; H = window.innerHeight; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  for (i = 0; i < 26; i++) hojas.push({ x: Math.random(), y: Math.random(), vy: .018 + Math.random() * .03, ph: Math.random() * 6.28, rot: Math.random() * 6.28, s: 3 + Math.random() * 3.4 });
+  for (i = 0; i < 46; i++) motas.push({ x: .08 + Math.random() * .6, y: .1 + Math.random() * .7, ph: Math.random() * 6.28, s: .8 + Math.random() * 1.6, v: .004 + Math.random() * .01 });
+  medir(); window.addEventListener("resize", function () { medir(); pide(); });
+  function pintaParticulas(dt, t, mueve) {
+    cx.clearRect(0, 0, W, H);
+    var fR = V.o_rio * .5, fP = V.o_parque, fC = V.o_casa * (1 - V.bajon), k;
+    if (fR + fP > .02) {
+      var nAct = Math.floor(hojas.length * (fP > .05 ? 1 : .5));
+      for (k = 0; k < nAct; k++) {
+        var h = hojas[k], a = Math.max(fR, fP) * .85, col = fP > fR ? "214,150,50" : "176,146,84";
+        var x = (h.x + Math.sin(t * .0004 + h.ph) * .04) * W, y = h.y * H;
+        cx.save(); cx.translate(x, y); cx.rotate(h.rot + t * .0007); cx.fillStyle = "rgba(" + col + "," + a.toFixed(3) + ")"; cx.beginPath(); cx.ellipse(0, 0, h.s, h.s * .55, 0, 0, 6.2832); cx.fill(); cx.restore();
+        if (mueve) { h.y += h.vy * dt * .001 * 2; h.x += .00001 * dt; if (h.y > 1.04) { h.y = -.04; h.x = Math.random(); } }
+      }
+    }
+    if (fC > .02) {
+      for (k = 0; k < motas.length; k++) {
+        var m = motas[k], mx = (m.x + Math.sin(t * .0003 + m.ph) * .02) * W, my = m.y * H;
+        cx.fillStyle = "rgba(255,228,170," + (fC * (.25 + .35 * Math.abs(Math.sin(t * .0006 + m.ph)))).toFixed(3) + ")"; cx.beginPath(); cx.arc(mx, my, m.s, 0, 6.2832); cx.fill();
+        if (mueve) { m.y -= m.v * dt * .001; if (m.y < .08) { m.y = .8; m.x = .08 + Math.random() * .6; } }
+      }
+    }
+  }
+
+  /* ---------- Estado suavizado ---------- */
+  var V = { s: 0, sueno: 0, sol: 0, apaga: 0, ocaso: 0, bajon: 0, movilN: 1, movilM: 1, libro: 0, o_rio: 0, o_parque: 0, o_casa: 0 };
+  var T = { s: 0, sueno: 0, sol: 0, apaga: 0, ocaso: 0, bajon: 0, movilN: 1, movilM: 0, libro: 0 };
+  var PA = [hex("#7a4526"), hex("#1d1836")], PB = [hex("#d28a4e"), hex("#54407a")];
+  var VA = [hex("#f0d49c"), hex("#c0622a")], VB = [hex("#d9b678"), hex("#8a3c1a")];
+  function aplica() {
+    var s = V.s;
+    V.o_rio = suave(.2, .8, s) * (1 - suave(1.2, 1.8, s)); V.o_casa = suave(1.2, 1.8, s) * (1 - suave(2.2, 2.8, s)); V.o_parque = suave(2.2, 2.8, s);
+    raiz.style.setProperty("--o-cuarto", (1 - suave(.2, .8, s)).toFixed(3));
+    raiz.style.setProperty("--o-rio", V.o_rio.toFixed(3));
+    raiz.style.setProperty("--o-casa", V.o_casa.toFixed(3));
+    raiz.style.setProperty("--o-parque", V.o_parque.toFixed(3));
+    raiz.style.setProperty("--sueno", V.sueno.toFixed(3));
+    raiz.style.setProperty("--sol", V.sol.toFixed(3));
+    raiz.style.setProperty("--bajon", V.bajon.toFixed(3));
+    raiz.style.setProperty("--movilN", V.movilN.toFixed(3));
+    raiz.style.setProperty("--movilM", V.movilM.toFixed(3));
+    raiz.style.setProperty("--libro", V.libro.toFixed(3));
+    raiz.style.setProperty("--ocaso", V.ocaso.toFixed(3));
+    raiz.style.setProperty("--vent-a", rgb(mezcla(VA[0], VA[1], V.bajon))); raiz.style.setProperty("--vent-b", rgb(mezcla(VB[0], VB[1], V.bajon)));
+    raiz.style.setProperty("--psky-a", rgb(mezcla(PA[0], PA[1], V.ocaso))); raiz.style.setProperty("--psky-b", rgb(mezcla(PB[0], PB[1], V.ocaso)));
+    farolasR.forEach(function (f, n) { f.style.setProperty("--on", (1 - suave((n + .2) / 7, (n + 1.1) / 7, V.apaga)).toFixed(3)); });
+    farolasP.forEach(function (f, n) { f.style.setProperty("--on", suave(.15 + n * .25, .35 + n * .25, V.ocaso).toFixed(3)); });
+  }
+  function paralaje() {
+    var y = window.scrollY;
+    arbL.style.transform = "translateX(" + (-((y * .12) % 1600)).toFixed(1) + "px)";
+    arbC.style.transform = "translateX(" + (-((y * .4) % 1600)).toFixed(1) + "px)";
+  }
+  var ultimo = 0;
+  function bucle(t) {
+    var dt = Math.min(50, t - (ultimo || t)); ultimo = t;
+    var f = function (k) { return 1 - Math.pow(1 - k, dt / 16.7); };
+    for (var key in T) V[key] += (T[key] - V[key]) * f(key === "s" ? .03 : .05);
+    aplica(); paralaje(); pintaParticulas(dt, t, true);
+    requestAnimationFrame(bucle);
+  }
+
+  /* ---------- Texto -> estado ---------- */
+  var marcados = Array.prototype.slice.call(document.querySelectorAll("main [data-s],main [data-movil],main [data-sol],main [data-apaga],main [data-sueno],main [data-libro],main [data-cajon],main [data-bajon],main [data-ocaso],main [data-hoja],main [data-va]"));
+  var pendiente = false;
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  function actualiza() {
+    pendiente = false;
+    var linea = window.innerHeight * .55, k, key, v, st = { s: 0, movil: 1, sol: 0, apaga: 0, sueno: 0, libro: 0, cajon: 0, bajon: 0, ocaso: 0, hoja: 0, va: 0 };
+    for (k = 0; k < marcados.length; k++) {
+      if (marcados[k].getBoundingClientRect().top > linea) break;
+      for (key in st) if ((v = num(marcados[k], "data-" + key)) !== null) st[key] = v;
+    }
+    var sMovilEnMesa = st.s >= 1.5 && !st.cajon ? 1 : (st.s >= 1.5 ? 0 : 1);
+    T.s = st.s; T.sueno = st.sueno; T.sol = st.sol; T.apaga = st.apaga; T.ocaso = st.ocaso; T.bajon = st.bajon; T.libro = st.libro;
+    T.movilN = st.movil; T.movilM = st.s >= 1 ? (st.cajon ? 0 : 1) : 0;
+    if (st.s >= 1 && st.s < 1.5) T.movilM = 1;
+    cuerpo.classList.toggle("st-parque", st.s >= 3);
+    cuerpo.classList.toggle("st-hoja1", st.hoja >= 1);
+    cuerpo.classList.toggle("st-hoja2", st.hoja >= 2);
+    cuerpo.classList.toggle("st-va", !!st.va);
+    if (reducir) { for (key in T) V[key] = T[key]; aplica(); paralaje(); pintaParticulas(16, 0, false); }
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  actualiza();
+  if (reducir) { for (var key in T) V[key] = T[key]; aplica(); paralaje(); pintaParticulas(16, 0, false); } else requestAnimationFrame(bucle);
+})();
+</script>
+</body>
+</html>
