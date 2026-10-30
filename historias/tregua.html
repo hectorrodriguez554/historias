@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0706">
+<title>Tregua · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* El cuarto de Leo a las once y media: la lámpara, el móvil, la mancha de humedad en forma de nube.
+   La Voz (su subconsciente) llega en anillos desde el techo. Dos arcos dorados, un paréntesis, se van cerrando
+   alrededor de la luz. Al final se apaga la lámpara y solo queda un hilo de claridad por la persiana. */
+:root {
+  --bg: #0a0706; --fg: #ece3d4; --ambar: #f0b45c; --linea: rgba(236, 227, 212, .15);
+  --lampara: 1; --movil: 1; --par: 0; --cierra: 0; --mancha: 0; --lista: 0; --tic: 0; --hilo: 0;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem); line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+.pared { background:
+  radial-gradient(62vmax 52vmax at 88% 46%, rgba(255, 190, 110, calc(.3 * var(--lampara))), transparent 72%),
+  radial-gradient(40vmax 30vmax at 38% 74%, rgba(150, 195, 250, calc(.14 * var(--movil))), transparent 70%),
+  linear-gradient(180deg, #140e0a, #090605 70%, #060403); }
+.techo { position: absolute; left: 0; right: 0; top: 0; height: 9vh; background: linear-gradient(180deg, #050403, rgba(5, 4, 3, 0)); border-bottom: 1px solid rgba(255, 220, 170, calc(.06 * var(--lampara) + .02)); }
+.mancha { position: absolute; left: 36vw; top: 17vh; width: 22vw; height: 12vh; opacity: calc(.28 + var(--mancha) * .5); filter: blur(2px);
+  background: radial-gradient(ellipse 34% 52% at 24% 62%, rgba(74, 50, 34, .8), transparent), radial-gradient(ellipse 30% 60% at 46% 40%, rgba(74, 50, 34, .85), transparent), radial-gradient(ellipse 28% 50% at 68% 58%, rgba(74, 50, 34, .8), transparent), radial-gradient(ellipse 40% 38% at 50% 70%, rgba(64, 42, 28, .7), transparent); }
+.vent { position: absolute; left: 5vw; top: 8vh; width: 17vw; min-width: 80px; height: 32vh; border: 5px solid #050403; background: linear-gradient(180deg, #0a1018, #0f1724); overflow: hidden; }
+.vent::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, rgba(3, 3, 5, .92) 0 9px, transparent 9px 17px); }
+.vent .hilo { position: absolute; left: 0; right: 0; top: 46%; height: 2px; background: #c8d8f0; box-shadow: 0 0 14px 3px rgba(170, 200, 245, .55); opacity: var(--hilo); }
+
+/* Paréntesis */
+.par { position: absolute; top: 14vh; height: 70vh; width: 12vw; border: 0 solid rgba(255, 214, 150, .75); opacity: var(--par); filter: drop-shadow(0 0 10px rgba(255, 200, 120, .5)); }
+.par.i { left: calc(3vw + var(--cierra) * 12vw); border-left-width: 2px; border-radius: 100% 0 0 100% / 50% 0 0 50%; }
+.par.d { right: calc(3vw + var(--cierra) * 12vw); border-right-width: 2px; border-radius: 0 100% 100% 0 / 0 50% 50% 0; }
+
+/* Anillos de la Voz */
+.anillos { position: absolute; left: 50%; top: 27vh; width: 0; height: 0; }
+.anillos i { position: absolute; left: -90px; top: -90px; width: 180px; height: 180px; border-radius: 50%; border: 1.5px solid rgba(165, 200, 250, .6); box-shadow: 0 0 22px rgba(150, 195, 250, .22); opacity: 0; }
+body.st-voz .anillos i { animation: expande 5.6s ease-out infinite; }
+body.st-voz .anillos i:nth-child(2) { animation-delay: 1.8s; } body.st-voz .anillos i:nth-child(3) { animation-delay: 3.6s; }
+@keyframes expande { 0% { transform: scale(.25); opacity: .5; } 100% { transform: scale(4.6); opacity: 0; } }
+
+/* Faros por el techo */
+.faros { position: absolute; left: -30vw; top: 0; width: 46vw; height: 28vh; opacity: 0; transform: skewX(-22deg); filter: blur(14px);
+  background: linear-gradient(90deg, transparent, rgba(205, 220, 245, .55), transparent); }
+
+/* Cama, mesilla, lámpara */
+.cabecero { position: absolute; left: 0; bottom: 0; width: 7vw; height: 52vh; background: linear-gradient(90deg, #0b0705, #1a110b); border-radius: 0 10px 0 0; }
+.cama { position: absolute; left: 0; bottom: 0; width: 66vw; height: 24vh; background: linear-gradient(180deg, #2a2230 0, #1a141e 40%, #0e0a10); border-top: 3px solid #3a3040; border-radius: 0 18px 0 0; box-shadow: inset 0 14px 30px rgba(150, 195, 250, calc(.05 * var(--movil))); }
+.almohada { position: absolute; left: 6vw; bottom: 24vh; width: 17vw; max-width: 210px; height: 7vh; background: linear-gradient(180deg, #3a3140, #231c28); border-radius: 44% 44% 8px 8px; }
+.cabeza { position: absolute; left: calc(6vw + 4vw); bottom: calc(24vh + 4.4vh); width: 5.4vw; min-width: 28px; max-width: 64px; aspect-ratio: 1; border-radius: 50%; background: #0a0709; box-shadow: 0 0 0 2px rgba(255, 190, 120, calc(.2 * var(--lampara))); animation: respira 6s ease-in-out infinite; transform-origin: bottom center; }
+@keyframes respira { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+.mesilla { position: absolute; right: 6vw; bottom: 0; width: max(112px, 18vw); height: 24vh; background: linear-gradient(180deg, #2a1d14, #120b07); border-top: 4px solid #3f2c1d; }
+.lamp { position: absolute; right: calc(6vw + max(112px, 18vw) / 2 - 30px); bottom: 24vh; width: 60px; height: 130px; }
+.lamp::before { content: ""; position: absolute; left: 27px; bottom: 0; width: 6px; height: 74px; background: #0b0705; }
+.lamp::after { content: ""; position: absolute; left: 14px; bottom: 0; width: 32px; height: 8px; background: #0b0705; border-radius: 4px 4px 0 0; }
+.lamp .pantalla { position: absolute; left: 4px; top: 0; width: 52px; height: 56px; clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%); background: linear-gradient(180deg, color-mix(in srgb, #fff0cc, #2a2018 calc((1 - var(--lampara)) * 100%)), color-mix(in srgb, #f2c27c, #1a120c calc((1 - var(--lampara)) * 100%))); box-shadow: 0 0 30px 12px rgba(255, 195, 120, calc(var(--lampara) * .5)); }
+.lamp .halo { position: absolute; left: -36px; top: -30px; width: 132px; height: 132px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 205, 140, .6), rgba(255, 205, 140, 0) 66%); opacity: var(--lampara); }
+
+/* Móvil y lista de compartir */
+.movil { position: absolute; left: 30vw; bottom: 26.5vh; width: 54px; height: 7px; background: #0a0c10; border-top: 1px solid #78869a; border-radius: 2px; transition: left 1.4s ease, bottom 1.4s ease; transform: rotate(-6deg); }
+.movil::before { content: ""; position: absolute; left: 3px; right: 3px; top: -3px; height: 3px; background: #cfe3ff; opacity: var(--movil); box-shadow: 0 -4px 22px 8px rgba(150, 195, 250, calc(var(--movil) * .55)); border-radius: 2px; }
+body.st-manta .movil { left: 44vw; bottom: 24.6vh; }
+.tic { position: absolute; left: calc(30vw + 62px); bottom: 29vh; opacity: var(--tic); transition: left 1.4s, bottom 1.4s; font-family: var(--mono); font-size: .75rem; color: #8b96a6; letter-spacing: .05em; }
+body.st-manta .tic { left: calc(44vw + 62px); bottom: 27vh; }
+.lista { position: absolute; left: 20vw; bottom: 31vh; width: 150px; padding: 10px 12px; background: rgba(16, 22, 32, .92); border: 1px solid #2c3a4c; border-radius: 14px; opacity: var(--lista); transform: translateY(calc((1 - var(--lista)) * 10px)); box-shadow: 0 0 30px rgba(150, 195, 250, .15); }
+.lista .fila { display: flex; align-items: center; gap: 9px; padding: 5px 0; }
+.lista .fila i { width: 17px; height: 17px; border-radius: 50%; background: #2a3646; flex: none; }
+.lista .fila b { display: block; height: 6px; border-radius: 3px; background: #2a3646; }
+.lista .fila:nth-child(1) b { width: 64%; } .lista .fila:nth-child(2) b { width: 82%; } .lista .fila:nth-child(3) b { width: 48%; } .lista .fila:nth-child(4) b { width: 70%; } .lista .fila:nth-child(5) b { width: 56%; }
+.lista .fila.ella i { background: #f0b45c; box-shadow: 0 0 10px rgba(240, 180, 92, .7); }
+.lista .fila.ella b { background: #f0b45c; opacity: .85; }
+
+/* Lectura */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(5, 3, 2, .95), 0 1px 3px rgba(5, 3, 2, .9); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #cfc4b2; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #050302; }
+.volver:hover, .volver:focus-visible { color: var(--ambar); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--ambar); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #b9ad9a; text-shadow: 0 0 12px #050302; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(4.2rem, 19vw, 9rem); line-height: .94; letter-spacing: -.02em; color: #fbf0dc; text-shadow: 0 0 40px rgba(255, 190, 120, .32), 0 2px 24px #050302; }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.v { color: #cfe0f6; font-style: italic; } .l { color: #f7e2bd; }
+.msg { max-width: 31rem; margin-block: .5rem; align-self: flex-end; }
+.msg .bub { font-family: var(--mono); font-size: .94rem; line-height: 1.6; padding: .9rem 1.15rem; text-shadow: none; background: rgba(38, 29, 18, .92); color: #f2e0bd; border: 1px solid #5a4830; border-radius: 18px 18px 4px 18px; }
+.cierre { margin-top: 2.2rem; }
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--ambar); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ambar); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #050302; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+@media (max-width: 700px) {
+  .lista { left: 4vw; width: 122px; bottom: 33vh; }
+  .vent { left: 4vw; width: 22vw; }
+  .mancha { left: 34vw; width: 30vw; }
+  body.st-manta .movil { left: 38vw; } body.st-manta .tic { left: calc(38vw + 62px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cabeza { animation: none; }
+  body.st-voz .anillos i { animation: none; opacity: .22; transform: scale(2.4); }
+  .movil, .tic { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="capa pared" aria-hidden="true">
+  <div class="techo"></div>
+  <div class="vent"><div class="hilo"></div></div>
+  <div class="mancha"></div>
+  <div class="par i"></div><div class="par d"></div>
+  <div class="anillos"><i></i><i></i><i></i></div>
+  <div class="faros" id="faros"></div>
+  <div class="cabecero"></div><div class="cama"></div><div class="almohada"></div><div class="cabeza"></div>
+  <div class="mesilla"></div>
+  <div class="lamp"><div class="halo"></div><div class="pantalla"></div></div>
+  <div class="lista">
+    <div class="fila ella"><i></i><b></b></div><div class="fila"><i></i><b></b></div><div class="fila"><i></i><b></b></div><div class="fila"><i></i><b></b></div><div class="fila"><i></i><b></b></div>
+  </div>
+  <div class="movil"></div><div class="tic">✓</div>
+</div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Leo · las once y media</div>
+    <h1>Tregua</h1>
+  </header>
+
+  <p>Eran las once y media cuando Leo se quedó mirando la pantalla del móvil con una sonrisa que no tenía permiso para estar ahí.</p>
+
+  <p class="pausa">Llevaba toda la tarde así. Con una sonrisa tonta, de esas que se te ponen en la cara sin que las decidas, y que luego te sorprenden en el espejo del baño. Se tumbó en la cama, con la luz de la mesilla encendida y el móvil sobre el pecho, y sintió algo que llevaba días sin sentir: ligereza.</p>
+
+  <p class="d pausa v">—Bueno —dijo una voz, desde ese lugar de dentro donde viven las voces que no se ven—. ¿Vamos a hablar de hoy?</p>
+
+  <p class="pausa">Leo se rio, bajito.</p>
+
+  <p class="d pausa l">—Hoy ha sido un buen día.</p>
+
+  <p class="d pausa v">—Lo ha sido.</p>
+
+  <p class="d pausa l">—Rompimos la regla. Temporalmente. Por circunstancias especiales.</p>
+
+  <p class="d pausa v">—Lo sé. Estaba ahí.</p>
+
+  <p class="d pausa l">—Y fue… —Buscó la palabra—. Fue como cuando llevas mucho frío y por fin entras en una casa con calefacción. No me lo esperaba hasta dentro de mucho. Pensé que tardaría meses en volver a eso.</p>
+
+  <p class="d pausa v">—¿A qué exactamente?</p>
+
+  <p class="pausa">Leo se quedó callado un momento, sonriendo al techo.</p>
+
+  <p class="d pausa l" data-lista="1">—A mandarle reels de los otros. De los que no son de memes. Uno de esos de amor, de los que te dicen en tres frases lo que llevas semanas sin saber decir. Los de risa siempre se los pude mandar, eso nunca se acabó. Pero esos… —Se le quebró un poco la voz—. Esos llevaban días guardados en un cajón. Y hoy los saqué, y ella los recibió. Y cuando abrí la lista de compartir, ahí estaba ella, la primera. Como si no se hubiera movido nunca.</p>
+
+  <p class="d pausa v">—Y te hizo feliz.</p>
+
+  <p class="d pausa l">—Muchísimo.</p>
+
+  <p class="pausa" data-lista="0">La Voz esperó un poco antes de responder. No tenía prisa. Nunca la tenía.</p>
+
+  <p class="d pausa v">—Me alegro, de verdad. Y no te lo digo por decir. Te lo has ganado: llevas semanas aguantando mucho, y que te dieran un día de aire es un regalo.</p>
+
+  <p class="d pausa l">—Ya.</p>
+
+  <p class="d pausa v">—Pero, Leo.</p>
+
+  <p class="d pausa l">—Ya sé lo que vas a decir.</p>
+
+  <p class="d pausa v">—No, no lo sabes. —La Voz sonó casi divertida—. Dime lo que crees que voy a decir.</p>
+
+  <p class="d pausa l">—Que fue solo hoy. Que mañana se acaba. Que no me emocione.</p>
+
+  <p class="d pausa v">—Esa es una versión. ¿Me dejas decirte la mía?</p>
+
+  <p class="pausa" data-manta="1">Leo se incorporó un poco y apoyó la espalda en el cabecero. Dejó el móvil sobre la manta, con la pantalla hacia arriba, aún encendida.</p>
+
+  <p class="d pausa l">—Dime.</p>
+
+  <p class="d pausa v" data-par=".3" data-cierra=".05">—Mañana no se acaba nada. Lo que se acaba es el paréntesis. Y un paréntesis es bonito justamente porque es un paréntesis. Si lo conviertes en la frase entera, deja de serlo.</p>
+
+  <p class="d pausa l">—Pero es que yo quiero que se quede.</p>
+
+  <p class="d pausa v" data-par=".45" data-cierra=".2">—Claro que quieres. —La Voz bajó el tono, con ternura—. Y no hay nada malo en quererlo. Fíjate: tú no estás haciendo nada mal. Lo único que pasa es que estás en la parte del día en la que todo es luz, y es muy difícil mirar el calendario cuando la luz entra por todos lados. Y fíjate en una cosa: lo de los memes nunca estuvo en juego. Lo que estaba pausado eran los otros, los de amor. Por eso hoy pesó tanto, y por eso es lo que más hay que cuidar.</p>
+
+  <p class="pausa">Leo soltó el aire por la nariz, medio risa, medio suspiro.</p>
+
+  <p class="d pausa l">—Es que si lo mantengo roto, no pasa nada. Seguimos mandándonos cosas, y quizá ella también se siente bien. ¿Y si se acostumbra a que vuelvan los reels de amor y se da cuenta de que me echa de menos?</p>
+
+  <p class="d pausa v">—¿Y si pasa lo contrario?</p>
+
+  <p class="d pausa l">—¿Cómo?</p>
+
+  <p class="d pausa v" data-par=".6" data-cierra=".4">—Que se acostumbre a que la regla ya no existe, y mañana se sienta empujada sin que nadie la haya empujado. —La Voz hizo una pausa—. Ella te dejó acercarte poco a poco, ¿verdad? Esas fueron tus palabras. Poco a poco. Pues “poco a poco” no es lo mismo que “ya no hay regla”. Es ir añadiendo un ladrillo cada vez, y que el siguiente lo ponga ella cuando esté lista.</p>
+
+  <p class="pausa" data-mancha="1">Leo se quedó mirando la pared de enfrente. En la esquina había una mancha de humedad con forma de nube que llevaba allí desde que se mudó, y que nunca había arreglado.</p>
+
+  <p class="d pausa l">—Es que me da miedo —dijo, al fin, muy bajo—. Que si vuelvo a la regla, perdamos lo de hoy. Que esto haya sido un espejismo, que no vuelva a pasar.</p>
+
+  <p class="d pausa v">—Mmm. Eso es lo importante. —La Voz habló despacio—. Tienes miedo de perder lo de hoy si vuelves a cuidar la regla. Pero piensa un momento: ¿por qué crees que ella te dejó la puerta abierta hoy?</p>
+
+  <p class="d pausa l">—Porque se sentía bien. Porque había una circunstancia especial.</p>
+
+  <p class="d pausa v" data-par=".8" data-cierra=".65">—Porque confía en que tú vas a cerrarla otra vez cuando toca. Esa es la verdad. Hoy pudo permitírselo porque sabe que mañana no vas a presentarte con una maleta. Cuanto mejor cumplas, más veces te dejará hacerlo.</p>
+
+  <p class="pausa" data-mancha="0">Leo se quedó quieto. Algo dentro de él, una pieza pequeña, hizo clic.</p>
+
+  <p class="d pausa l">—O sea que cumplir la regla no es perder el día de hoy. Es lo que lo hace posible.</p>
+
+  <p class="d pausa v" data-par="1" data-cierra="1">—Es lo que lo hace repetible. —La Voz sonrió, o eso pareció—. Una tregua que se respeta es una tregua que puede volver a pasar.</p>
+
+  <p class="pausa">Leo tragó saliva. Los ojos le brillaron, pero no era tristeza: era otra cosa, más ligera, más parecida a entender.</p>
+
+  <p class="d pausa l">—Qué difícil —murmuró.</p>
+
+  <p class="d pausa v">—Lo es. Y lo vas a hacer igual. Mañana te despiertas, haces lo que has venido haciendo: sales a correr, lees un rato, llamas a alguien de carne y hueso. Y si en algún momento te entran ganas de abrir la lista de compartir, te acuerdas de cómo te sentiste hoy, y le dices al impulso: gracias, pero esto es para el día en que ella lo abra.</p>
+
+  <p class="d pausa l">—¿Y si me cuesta?</p>
+
+  <p class="d pausa v">—Te va a costar. Y está bien. Los pasos de hormiga también cansan.</p>
+
+  <p class="pausa">Leo se rio. Una risa de verdad, de las que le sacudían el pecho.</p>
+
+  <p class="d pausa l">—Pasos de hormiga —repitió.</p>
+
+  <p class="d pausa v">—Ya ves. Algo que ella dijo y que se te quedó.</p>
+
+  <p class="pausa" data-faros="1" data-lista="1">Se quedaron callados un rato. Fuera, un coche pasó despacio, y la luz de sus faros cruzó el techo como una nube de plata. Leo cogió el móvil y volvió a abrir la lista, esa lista pequeña de nombres, con el suyo arriba del todo. La miró un momento largo.</p>
+
+  <p class="d pausa l">—¿Le digo algo? —preguntó.</p>
+
+  <p class="d pausa v">—¿Qué quieres decirle?</p>
+
+  <p class="d pausa l">—Lo que pensaba decirle. Que me alegra que me dejara acercarme. Que a partir de mañana voy a cumplir mi promesa, porque quiero hacer las cosas bien. Y que la quiero mucho.</p>
+
+  <p class="d pausa v">—Dilo corto —dijo la Voz—. Una sola vez. Sin pedir nada, sin esperar respuesta. Y luego guarda el móvil.</p>
+
+  <p class="pausa">Leo tecleó despacio, con los pulgares un poco torpes por la emoción:</p>
+
+  <div class="msg"><div class="bub">“Hoy me ha hecho muy feliz poder volver a mandarte esos reels, y me alegra que me dejaras acercarme poco a poco. A partir de mañana sigo cumpliendo mi promesa porque quiero hacer las cosas bien. Solo quería que supieras que te quiero mucho y que eres sin duda la persona que más quiero, de veritas de veritas.”</div></div>
+
+  <p class="pausa">Se quedó un segundo con el dedo sobre el botón.</p>
+
+  <p class="d pausa l">—¿Está bien?</p>
+
+  <p class="d pausa v">—Es sincero, es corto y no pide nada. —La Voz sonó tranquila—. Eso es lo más bonito que puedes dar ahora mismo.</p>
+
+  <p class="pausa" data-tic="1" data-lista="0" data-apaga="1" data-par=".4">Leo lo envió. Vio cómo el mensaje subía y se quedaba quieto en la pantalla, pequeño y limpio, con el tic gris al lado. Después apagó la pantalla, dejó el móvil en la mesilla, boca abajo, y apagó la luz.</p>
+
+  <p class="pausa" data-hilo="1">La habitación quedó a oscuras, con el hilo de claridad que entraba por la persiana.</p>
+
+  <p class="d pausa l">—Gracias —dijo.</p>
+
+  <p class="d pausa v">—No me las des. Soy tú. Solo que con un poco menos de prisa.</p>
+
+  <p class="pausa">Leo cerró los ojos. Le dolía un poco el pecho, pero era un dolor bueno, de esos que se parecen más a haber corrido que a haberse caído. Esa noche, pensó, la regla volvía a su sitio. Y él, por primera vez, no sentía que perdiera nada.</p>
+
+  <p class="cierre">Se quedó dormido pensando en el último reel que le había mandado, y en que ese pequeño trozo de hoy nadie se lo iba a quitar.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, cuerpo = document.body;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var V = { lampara: 1, movil: 1, par: 0, cierra: 0, mancha: 0, lista: 0, tic: 0, hilo: 0 };
+  var T = { lampara: 1, movil: 1, par: 0, cierra: 0, mancha: 0, lista: 0, tic: 0, hilo: 0 };
+  function aplica() { for (var k in V) raiz.style.setProperty("--" + k, V[k].toFixed(3)); }
+  var ultimo = 0;
+  function bucle(t) {
+    var dt = Math.min(50, t - (ultimo || t)); ultimo = t;
+    var f = 1 - Math.pow(1 - .04, dt / 16.7);
+    for (var k in T) V[k] += (T[k] - V[k]) * (k === "lampara" ? f * .6 : f);
+    aplica(); requestAnimationFrame(bucle);
+  }
+  var marcados = Array.prototype.slice.call(document.querySelectorAll("main [data-lista],main [data-manta],main [data-par],main [data-cierra],main [data-mancha],main [data-faros],main [data-tic],main [data-apaga],main [data-hilo]"));
+  var parrafos = Array.prototype.slice.call(document.querySelectorAll("main > p"));
+  var faros = document.getElementById("faros"), farosAntes = 0, pendiente = false;
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  function actualiza() {
+    pendiente = false;
+    var linea = window.innerHeight * .55, k, key, v, st = { lista: 0, manta: 0, par: 0, cierra: 0, mancha: 0, faros: 0, tic: 0, apaga: 0, hilo: 0 };
+    for (k = 0; k < marcados.length; k++) {
+      if (marcados[k].getBoundingClientRect().top > linea) break;
+      for (key in st) if ((v = num(marcados[k], "data-" + key)) !== null) st[key] = v;
+    }
+    var voz = false;
+    for (k = 0; k < parrafos.length; k++) { if (parrafos[k].getBoundingClientRect().top > linea) break; voz = parrafos[k].classList.contains("v"); }
+    cuerpo.classList.toggle("st-voz", voz);
+    cuerpo.classList.toggle("st-manta", !!st.manta);
+    T.lista = st.lista; T.par = st.par; T.cierra = st.cierra; T.mancha = st.mancha; T.tic = st.tic; T.hilo = st.hilo;
+    T.lampara = st.apaga ? 0 : 1; T.movil = st.apaga ? 0 : 1;
+    if (st.faros && !farosAntes && !reducir && faros.animate) faros.animate([{ transform: "translateX(0) skewX(-22deg)", opacity: 0 }, { opacity: .9, offset: .3 }, { opacity: .7, offset: .7 }, { transform: "translateX(190vw) skewX(-22deg)", opacity: 0 }], { duration: 5200, easing: "ease-in-out" });
+    farosAntes = st.faros;
+    if (reducir) { for (key in T) V[key] = T[key]; aplica(); }
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  aplica(); actualiza();
+  if (!reducir) requestAnimationFrame(bucle);
+})();
+</script>
+</body>
+</html>
