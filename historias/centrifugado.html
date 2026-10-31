@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c1630">
+<title>Centrifugado · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Un cementerio al atardecer y, detrás de todo, el tambor de una lavadora: un aro tenue con motas de luz pegadas a la pared.
+   Giran deprisa con los pensamientos de Leo, se quedan quietas en el fondo en el recuerdo del abuelo y frenan al final. */
+:root {
+  --bg: #120e20; --fg: #ece4da; --ambar: #f0b45c; --linea: rgba(236, 228, 218, .15);
+  --ca: #2d2450; --cb: #8a6e88; --pa: #a39d94; --pb: #827c76;
+  --o-cem: 1; --o-gar: 0; --o-por: 0; --frio: 0; --flores: 0; --hombre: 0; --verja: 0; --tamb: 0;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem); line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+/* ---------- CEMENTERIO ---------- */
+.cem { opacity: var(--o-cem); background: linear-gradient(180deg, var(--ca) 0%, var(--cb) 58%, var(--cb) 100%); }
+.cem .colinas { position: absolute; left: 0; right: 0; top: 42vh; height: 16vh; background: #251c36; opacity: .8; clip-path: polygon(0 60%, 14% 38%, 30% 54%, 46% 30%, 62% 52%, 78% 34%, 92% 54%, 100% 40%, 100% 100%, 0 100%); }
+.cem .suelo { position: absolute; left: 0; right: 0; top: 52vh; bottom: 0; background: linear-gradient(180deg, #1d1729, #0e0a16); }
+.cem .cipres { position: absolute; bottom: 26vh; }
+.cem .cipres svg { display: block; width: 100%; height: 100%; }
+.cem .lap { position: absolute; background: #17121f; border-radius: 50% 50% 0 0 / 38% 38% 0 0; }
+.cem .lap.cruz { border-radius: 2px; } .cem .lap.cruz::before { content: ""; position: absolute; left: -45%; right: -45%; top: 22%; height: 22%; background: inherit; }
+.cem .camino { position: absolute; left: 0; right: 0; bottom: 0; height: 26vh; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, .06) 0 1px, transparent 1.5px) 0 0/9px 9px, linear-gradient(180deg, #3b3441, #1a1520); border-top: 1px solid rgba(255, 255, 255, .06); }
+.cem .farola-c { position: absolute; bottom: 26vh; width: 4px; height: 21vh; background: #08060d; }
+.cem .farola-c::before { content: ""; position: absolute; left: -4px; top: -3px; width: 12px; height: 5px; background: #ffe2a8; border-radius: 3px; opacity: var(--on); }
+.cem .farola-c::after { content: ""; position: absolute; left: -28px; top: -26px; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 215, 150, .7), rgba(255, 215, 150, 0) 68%); opacity: var(--on); }
+.cem .borde { position: absolute; left: 50vw; bottom: 24vh; width: max(150px, 21vw); height: 3vh; background: linear-gradient(180deg, #77726f, #4c4846); border-radius: 2px; }
+.cem .piedra { position: absolute; left: 54vw; bottom: calc(24vh + 3vh); width: max(104px, 14vw); height: 23vh; background: linear-gradient(180deg, var(--pa), var(--pb)); border-radius: 46% 46% 3px 3px / 20% 20% 3px 3px; box-shadow: inset 0 0 18px rgba(0, 0, 0, .35); }
+.cem .piedra::before { content: ""; position: absolute; left: 22%; right: 22%; top: 34%; height: 5px; background: rgba(40, 36, 44, .55); box-shadow: 0 14px 0 rgba(40, 36, 44, .4), 0 28px 0 -1px rgba(40, 36, 44, .32); border-radius: 2px; }
+.cem .tierra { position: absolute; left: calc(54vw + max(104px, 14vw) * .14); bottom: calc(24vh + 3.2vh); width: calc(max(104px, 14vw) * .72); height: 2.4vh; background: #2b1f16; border-radius: 40%; z-index: 0; }
+.cem .albahaca i { position: absolute; bottom: calc(24vh + 3.9vh); border-radius: 50%; background: radial-gradient(circle, #4f7a36, #2c4a20); width: 20px; height: 17px; }
+.cem .jarron { position: absolute; left: calc(54vw - 5vw); bottom: calc(24vh + 3vh); width: 16px; height: 22px; background: linear-gradient(90deg, #4a4e56, #8a8f98, #3a3d44); border-radius: 2px 2px 5px 5px; }
+.cem .flores { position: absolute; left: calc(54vw - 5vw - 12px); bottom: calc(24vh + 3vh + 20px); width: 40px; height: 30px; opacity: var(--flores); transition: none; }
+.cem .flores i { position: absolute; width: 15px; height: 15px; border-radius: 50%; background: radial-gradient(circle, #ffe27a 0 30%, #f0b830 31% 62%, rgba(240, 184, 48, 0) 70%); }
+.cem .flores i:nth-child(1) { left: 2px; top: 10px; } .cem .flores i:nth-child(2) { left: 14px; top: 0; } .cem .flores i:nth-child(3) { left: 24px; top: 12px; } .cem .flores i:nth-child(4) { left: 12px; top: 14px; }
+.cem .petalo { position: absolute; left: calc(54vw - 4vw); top: calc(100vh - 24vh - 3vh - 62px); width: 8px; height: 5px; border-radius: 50%; background: #f0b830; opacity: 0; }
+body.st-petalos .cem .petalo { animation: cae 5s ease-in forwards; }
+body.st-petalos .cem .petalo:nth-of-type(2) { animation-delay: .6s; } body.st-petalos .cem .petalo:nth-of-type(3) { animation-delay: 1.2s; }
+@keyframes cae { 0% { opacity: 0; transform: translate(0, 0) rotate(0); } 10% { opacity: 1; } 100% { opacity: 1; transform: translate(calc(max(104px, 14vw) * .85), 56px) rotate(280deg); } }
+.cem .leo { position: absolute; left: 41vw; bottom: calc(24vh + 3vh); width: max(46px, 6vw); transition: transform 11s ease-in-out, opacity 9s ease-in 1s; }
+.cem .leo svg { display: block; width: 100%; height: auto; }
+.cem .leo path, .cem .leo circle, .cem .leo rect { fill: #07050d; stroke: rgba(255, 220, 180, .14); stroke-width: 1.5; }
+.cem .leo .sent { display: none; }
+body.st-sentado .cem .leo .sent { display: block; } body.st-sentado .cem .leo .pie { display: none; }
+body.st-va .cem .leo { transform: translateX(-34vw) scale(.7); opacity: 0; }
+.cem .hombre { position: absolute; left: 12vw; bottom: calc(26vh + 1vh); width: 36px; opacity: var(--hombre); animation: ronda 22s ease-in-out infinite alternate; }
+.cem .hombre svg { display: block; width: 100%; height: auto; }
+.cem .hombre i { position: absolute; right: -4px; top: 38%; width: 7px; height: 7px; border-radius: 50%; background: #ffe2a8; box-shadow: 0 0 12px 4px rgba(255, 215, 150, .5); }
+@keyframes ronda { from { transform: translateX(0); } to { transform: translateX(26vw); } }
+.cem .verja { position: absolute; left: 0; right: 0; bottom: 14vh; height: 40vh; clip-path: inset(0 calc((1 - var(--verja)) * 100%) 0 0); background: repeating-linear-gradient(90deg, #06040a 0 4px, transparent 4px 26px); }
+.cem .verja::before, .cem .verja::after { content: ""; position: absolute; left: 0; right: 0; height: 7px; background: #06040a; }
+.cem .verja::before { top: 10%; } .cem .verja::after { bottom: 12%; }
+
+/* ---------- GARAJE ---------- */
+.gar { opacity: var(--o-gar); background: linear-gradient(180deg, #25180f, #0e0805 70%, #060403); }
+.gar .cono { position: absolute; left: 50vw; top: 0; width: 70vmax; height: 90vh; margin-left: -35vmax; background: radial-gradient(ellipse 28% 60% at 50% 12%, rgba(255, 190, 100, .4), transparent 72%); }
+.gar .cable { position: absolute; left: 50vw; top: 0; width: 2px; height: 22vh; background: #070403; }
+.gar .bombilla { position: absolute; left: calc(50vw - 9px); top: 22vh; width: 20px; height: 24px; border-radius: 50% 50% 45% 45%; background: radial-gradient(circle, #fff6d8, #ffd58a 60%, #e0a050); box-shadow: 0 0 50px 22px rgba(255, 190, 100, .55); }
+.gar .estante { position: absolute; left: 3vw; width: 26vw; height: 5px; background: #3a2616; }
+.gar .caja { position: absolute; background: linear-gradient(180deg, #5a4026, #3a2814); border: 1px solid #1c120a; }
+.gar .lavadora { position: absolute; right: 9vw; bottom: 16vh; width: max(120px, 19vw); height: 34vh; background: linear-gradient(90deg, #8f887a, #b5ae9e, #7f786a); border-radius: 6px; box-shadow: inset 0 0 20px rgba(0, 0, 0, .35); }
+.gar .lavadora::before { content: ""; position: absolute; left: 50%; top: 40%; width: 62%; aspect-ratio: 1; margin: -31% 0 0 -31%; border-radius: 50%; background: radial-gradient(circle, #0b0806 0 55%, #5c564a 56% 64%, #9a9384 65%); }
+.gar .lavadora::after { content: ""; position: absolute; left: 6%; right: 6%; top: 4%; height: 6%; background: #2a2620; border-radius: 3px; }
+.gar .cubo { position: absolute; left: 36vw; bottom: 16vh; width: 44px; height: 36px; background: linear-gradient(90deg, #4a4e54, #7a7f86, #3c4046); clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%); }
+.gar .suelo { position: absolute; left: 0; right: 0; bottom: 0; height: 16vh; background: linear-gradient(180deg, #1c130c, #090603); }
+
+/* ---------- PORCHE ---------- */
+.por { opacity: var(--o-por); background: linear-gradient(180deg, #44301f 0%, #a5703c 46%, #5a3b22 70%, #20150a 100%); }
+.por .sol { position: absolute; left: 22vw; top: 38vh; width: 90px; height: 90px; margin-left: -45px; border-radius: 50%; background: radial-gradient(circle, #ffe3b0, #f2a85a 45%, rgba(240, 160, 80, 0) 72%); box-shadow: 0 0 90px 34px rgba(255, 170, 90, .35); }
+.por .huerto { position: absolute; left: 0; right: 0; bottom: 0; height: 34vh; background: repeating-linear-gradient(98deg, rgba(48, 70, 30, .85) 0 6px, transparent 6px 30px), linear-gradient(180deg, #3a2a16, #150e07); }
+.por .baranda { position: absolute; left: 0; right: 0; bottom: 30vh; height: 8px; background: #1b1109; }
+.por .baranda::after { content: ""; position: absolute; left: 0; right: 0; top: 8px; height: 14vh; background: repeating-linear-gradient(90deg, #1b1109 0 6px, transparent 6px 9vw); }
+.por .taza { position: absolute; bottom: calc(30vh + 8px); width: 22px; height: 18px; background: #e2d8c0; border-radius: 0 0 8px 8px; }
+.por .taza::after { content: ""; position: absolute; right: -7px; top: 4px; width: 8px; height: 8px; border: 3px solid #e2d8c0; border-left: 0; border-radius: 0 6px 6px 0; }
+.por .taza i { position: absolute; left: 6px; bottom: 18px; width: 8px; height: 22px; border-radius: 50%; border-left: 2px solid rgba(245, 235, 220, .55); opacity: 0; animation: vapor 4s ease-out infinite; }
+@keyframes vapor { 0% { transform: translateY(0) scale(.7); opacity: 0; } 25% { opacity: .6; } 100% { transform: translateY(-50px) scale(1.3); opacity: 0; } }
+
+.velo { background: rgba(5, 4, 10, .26); }
+#tambor { position: absolute; inset: 0; width: 100%; height: 100%; }
+.frio { position: absolute; right: 10px; bottom: 16vh; width: 3px; height: 48vh; opacity: var(--frio); background: linear-gradient(0deg, transparent, rgba(175, 210, 255, .95), transparent) 0 0/100% 200%; border-radius: 2px; box-shadow: 0 0 12px rgba(160, 200, 255, .5); animation: sube-f 3.4s linear infinite; }
+@keyframes sube-f { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
+.vibra { position: absolute; right: 5vw; bottom: 9vh; width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle, rgba(170, 205, 255, .85), rgba(170, 205, 255, 0) 68%); opacity: 0; }
+
+/* ---------- Lectura ---------- */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(6, 4, 12, .95), 0 1px 3px rgba(6, 4, 12, .9); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #d2c9d8; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #06040c; }
+.volver:hover, .volver:focus-visible { color: var(--ambar); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--ambar); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #bdb2c4; text-shadow: 0 0 12px #06040c; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(2.8rem, 12.2vw, 7rem); line-height: .96; letter-spacing: -.02em; color: #faf0e0; text-shadow: 0 0 40px rgba(200, 160, 255, .32), 0 2px 24px #06040c; overflow-wrap: anywhere; }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.l { color: #f7e2bd; } .a, .h { color: #d3e1f4; }
+.msg { max-width: 29rem; margin-block: .5rem; align-self: flex-start; }
+.msg .bub { font-family: var(--mono); font-size: .94rem; line-height: 1.6; padding: .9rem 1.15rem; text-shadow: none; background: rgba(24, 28, 42, .92); color: #dbe6f4; border: 1px solid #34425c; border-radius: 18px 18px 18px 4px; }
+.cierre { margin-top: 2.4rem; font-family: var(--display); font-style: italic; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); line-height: 1.35; color: #fbf4e6; text-wrap: balance; }
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--ambar); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ambar); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #06040c; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+@media (max-width: 700px) {
+  .cem .leo { left: 30vw; } .cem .borde { left: 40vw; } .cem .piedra { left: 49vw; } .cem .tierra { left: calc(49vw + 14px); } .cem .jarron { left: 41vw; } .cem .flores { left: calc(41vw - 12px); } .cem .petalo { left: 43vw; }
+  .gar .lavadora { right: 4vw; } .gar .cubo { left: 22vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .frio, .cem .hombre, .por .taza i { animation: none; }
+  .por .taza i { opacity: .4; }
+  .cem .leo { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="capa cem" aria-hidden="true">
+  <div class="colinas"></div><div class="suelo"></div>
+  <div id="lapidas"></div>
+  <div class="cipres" style="left:6vw;width:9vw;height:46vh"><svg viewBox="0 0 40 200" preserveAspectRatio="none"><path d="M20 0 Q38 60 36 140 Q34 190 20 200 Q6 190 4 140 Q2 60 20 0Z" fill="#0b0912"/></svg></div>
+  <div class="cipres" style="left:84vw;width:6vw;height:30vh"><svg viewBox="0 0 40 200" preserveAspectRatio="none"><path d="M20 0 Q38 60 36 140 Q34 190 20 200 Q6 190 4 140 Q2 60 20 0Z" fill="#0d0b15"/></svg></div>
+  <div class="camino"></div>
+  <div id="farolasC"></div>
+  <div class="hombre"><svg viewBox="0 0 36 90"><circle cx="18" cy="9" r="7" fill="#07050d"/><path d="M6 90 L8 28 Q18 20 28 28 L30 90 Z" fill="#2a2c38"/><rect x="8" y="26" width="20" height="30" fill="#4a4d5a"/></svg><i></i></div>
+  <div class="borde"></div><div class="tierra"></div>
+  <div class="piedra"></div>
+  <div class="albahaca" id="albahaca"></div>
+  <div class="jarron"></div><div class="flores"><i></i><i></i><i></i><i></i></div>
+  <i class="petalo"></i><i class="petalo"></i><i class="petalo"></i>
+  <div class="leo">
+    <svg class="pie" viewBox="0 0 40 100"><circle cx="20" cy="10" r="8"/><path d="M8 100 L10 30 Q20 22 30 30 L32 100 Z"/></svg>
+    <svg class="sent" viewBox="0 0 70 64"><circle cx="22" cy="10" r="8"/><path d="M8 62 L10 24 Q20 16 32 22 L40 40 L60 42 L60 54 L36 54 L30 62 Z"/></svg>
+  </div>
+  <div class="verja"></div>
+</div>
+
+<div class="capa gar" aria-hidden="true">
+  <div class="cono"></div><div class="cable"></div><div class="bombilla"></div>
+  <div class="estante" style="top:28vh"></div><div class="estante" style="top:44vh"></div>
+  <div class="caja" style="left:5vw;top:calc(28vh - 40px);width:56px;height:40px"></div><div class="caja" style="left:12vw;top:calc(28vh - 30px);width:44px;height:30px"></div><div class="caja" style="left:19vw;top:calc(28vh - 48px);width:62px;height:48px"></div>
+  <div class="caja" style="left:6vw;top:calc(44vh - 34px);width:70px;height:34px"></div><div class="caja" style="left:16vw;top:calc(44vh - 44px);width:48px;height:44px"></div>
+  <div class="lavadora"></div><div class="cubo"></div><div class="suelo"></div>
+</div>
+
+<div class="capa por" aria-hidden="true">
+  <div class="sol"></div><div class="huerto"></div><div class="baranda"></div>
+  <div class="taza" style="left:54vw"><i></i></div><div class="taza" style="left:62vw"><i style="animation-delay:-1.6s"></i></div>
+</div>
+
+<div class="capa velo" aria-hidden="true"></div>
+<div class="capa" aria-hidden="true"><canvas id="tambor"></canvas></div>
+<div class="capa" aria-hidden="true"><div class="frio"></div><div class="vibra" id="vibra"></div></div>
+
+<main class="col">
+  <a class="volver" href="../index.html">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Leo · las siete y media</div>
+    <h1>Centrifugado</h1>
+  </header>
+
+  <p>A las siete y media ya casi era de noche.</p>
+
+  <p class="pausa" data-noche="0">Leo cruzó la verja del cementerio con un ramo de crisantemos envuelto en papel de periódico y las manos frías. A esa hora el sitio estaba casi vacío: una mujer con un cubo regando una lápida lejana, un hombre mayor sentado en un banco con la boina en las rodillas, y esa luz de final de tarde, violeta y quieta, que lo vuelve todo más viejo y más amable.</p>
+
+  <p class="pausa">Se sabía el camino de memoria. Segunda calle a la derecha, pasar el ciprés grande, tercera fila.</p>
+
+  <p class="pausa" data-vibra="1">Estaba a punto de llegar cuando le vibró el móvil en el bolsillo. Lo sacó sin ganas.</p>
+
+  <div class="msg"><div class="bub">“Oye, que él quiere hablar conmigo y esta noche se queda en mi casa. Te lo cuento por si luego no contesto rápido. Besitos.”</div></div>
+
+  <p class="pausa">Lo leyó de pie, en mitad del camino de gravilla. Escribió “Pásalo bien, ya me contarás”, añadió un emoji sonriente, y lo envió sin pensar, de memoria, como quien saluda a un vecino por la escalera. Guardó el móvil.</p>
+
+  <p class="pausa" data-frio="1">Y entonces le subió por la espalda un escalofrío.</p>
+
+  <p class="pausa">No fue un pensamiento, fue una temperatura. Un frío fino que le recorrió la columna de abajo arriba y se le quedó en la nuca. Se quedó quieto un momento, con el ramo contra el pecho, y esperó a que pasara. No pasó del todo.</p>
+
+  <p class="pausa">Llegó a la lápida. Era sencilla, de piedra clara, con el nombre de su abuelo y dos fechas, y un hueco pequeño de tierra donde en verano crecía una mata de albahaca que alguien había plantado y nadie había vuelto a podar. Leo se agachó, quitó con los dedos unas hojas secas que se habían colado, sacó de la mochila un trapo y limpió el polvo de las letras, una por una, despacio.</p>
+
+  <p class="d pausa l">—Hola, abuelo —dijo, en voz baja.</p>
+
+  <p class="pausa" data-flores="1" data-sentado="1">Dejó los crisantemos en el jarroncito de metal. Los colocó una vez, y otra, y otra más, hasta que dejó de importarle cómo quedaban. Después se sentó en el borde de cemento, frente a la piedra, con los codos en las rodillas.</p>
+
+  <p class="d pausa l">—Vengo a decirte que estoy bien —dijo—. Lo digo por costumbre, porque tú siempre preguntabas primero eso, y yo siempre contestaba que sí aunque no.</p>
+
+  <p class="pausa" data-noche=".15">El viento movió las hojas de un árbol cercano. A lo lejos, la mujer del cubo terminó de regar y se alejó con sus pasos lentos.</p>
+
+  <p class="d pausa l">—No estoy bien del todo —admitió.</p>
+
+  <p class="pausa" data-tamb="1" data-giro=".5">Se quedó callado. En su cabeza, mientras tanto, el centrifugado ya había empezado.</p>
+
+  <p class="pausa" data-giro=".8">Se imaginó la conversación. No quiso imaginarla, y la vio entera, con luz, con voz, con los gestos de ella. Una cena, o un paseo, o un sofá. Él diciendo una frase pequeña, de esas que cambian el mapa: me gustaría que lo intentáramos. Ella callada un momento. Y después sonriendo.</p>
+
+  <p class="pausa" data-giro="1">Todo giraba muy deprisa. Cada pensamiento salía disparado hacia la pared del tambor y se quedaba pegado ahí, pesado, empapado, sin caer.</p>
+
+  <p class="d pausa l">—No sé por qué me afecta —dijo, con la voz un poco rota—. No debería. Sé que es normal que hablen. Que se vean. Es verdad que él lo hace todo fácil, que sabe llegar. Y sé que me da ansiedad porque me gusta ella, y que mi cabeza se inventa películas. Que le pide salir. Que se acerca más. Que, si algún día hay que elegir, lo elige a él.</p>
+
+  <p class="pausa">Notó un nudo arriba, en la garganta.</p>
+
+  <p class="d pausa l">—Y lo entendería, abuelo. Esa es la parte que no me gusta. Que lo entendería. Porque con él ha tenido más buenos ratos que malos, y conmigo ha tenido más conversaciones duras que buenos momentos. Siento que hice peor las cosas cuando debí haberlo hecho mejor. Que solo le hice daño.</p>
+
+  <p class="pausa">Se pasó el dorso de la mano por los ojos.</p>
+
+  <p class="d pausa l">—Y no puedo decírselo. Ni lo de la ansiedad ni lo otro. Porque solo soy su amigo. Porque ella me ha pedido que lo sea y yo he dicho que sí. Así que me callo, y le digo “pásalo bien”, y me entra un escalofrío por la espalda que no sé a dónde ir a dejar.</p>
+
+  <p class="pausa" data-noche=".35" data-giro=".8">Nadie contestó, claro. La piedra era piedra, el cielo seguía oscureciéndose, y el único ruido era el de una moto lejana y el de sus propias palabras.</p>
+
+  <p class="pausa" data-giro=".4">Pero algo se le abrió en la memoria, sin que lo llamara.</p>
+
+  <p class="pausa" data-gar="1" data-giro=".2">Era una tarde de hace muchos años, en el garaje de su abuelo. Un garaje con olor a aceite y a metal, lleno de cajas con tornillos y de electrodomésticos a medio arreglar. Su abuelo estaba abriendo el costado de una lavadora vieja, con las gafas en la punta de la nariz y un destornillador entre los dientes, y Leo, de diez años, lo miraba sentado en un cubo al revés.</p>
+
+  <p class="d pausa a">—¿Sabes qué es lo más bonito de una lavadora? —había dicho su abuelo, quitándose el destornillador de la boca.</p>
+
+  <p class="d pausa l">—¿Qué?</p>
+
+  <p class="d pausa a">—El centrifugado. —Y le había hecho un gesto con la mano para que se acercara—. Mira. Cuando gira muy deprisa, todo lo que pesa se pega a la pared. Todo. Tú dirías que se va hacia el centro, pero no: se va hacia fuera, y se queda pegado ahí, y parece que no va a caer nunca.</p>
+
+  <p class="d pausa l">—¿Y cuándo cae?</p>
+
+  <p class="d pausa a" data-giro="0">—Cuando la máquina se para. —Había sonreído—. Entonces todo lo pesado se viene abajo de golpe, y queda en el fondo, tranquilo, donde se puede coger. Pero hay que esperar a que pare. Si intentas sacar la ropa con la máquina en marcha, te haces daño.</p>
+
+  <p class="pausa">Leo, frente a la lápida, cerró los ojos. Casi oía el motor del garaje, el chirrido de una polea, la voz grave y pausada de aquel hombre que arreglaba cosas con las manos y las explicaba con el cuerpo.</p>
+
+  <p class="pausa" data-gar="0">Y luego, sin querer, vino el otro recuerdo. El de los últimos años, cuando las palabras se le escapaban a su abuelo como el agua de entre los dedos. Cuando a veces lo miraba con una cortesía amable, la de quien saluda a un desconocido simpático, y le preguntaba su nombre dos veces en la misma tarde. Cuando lo llamaba por el nombre de su padre.</p>
+
+  <p class="pausa" data-por="1">Leo recordaba una tarde concreta, en el porche, con una taza de café entre las manos de los dos. Su abuelo llevaba un rato callado, mirando el huerto, y de pronto había dicho, muy bajito, sin girarse:</p>
+
+  <p class="d pausa a">—Aquí se está bien contigo.</p>
+
+  <p class="pausa">Y Leo había sabido que no sabía quién era. Que no habría sabido decir su nombre ni de qué lo conocía. Pero algo en él, más hondo que los nombres, sí lo sabía. Algo que no necesitaba la lista de lo dicho ni la de lo vivido para reconocer que a su lado se estaba bien.</p>
+
+  <p class="pausa" data-por="0">Se le escapó una risa mojada.</p>
+
+  <p class="d pausa l">—Tú no te acordabas de mí, abuelo —murmuró—. Al final. Y aun así me querías. No hacía falta que recordaras lo que habíamos hablado ni lo que nos habíamos dicho. Te quedaba otra cosa. Cómo te hacía sentir estar conmigo.</p>
+
+  <p class="pausa" data-giro=".25">Se quedó muy quieto. Algo se le estaba moviendo por dentro, despacio, como el tambor cuando empieza a frenar.</p>
+
+  <p class="d pausa l" data-giro=".35">—Qué tonto soy. —Se limpió la cara con la manga—. Llevo días contando conversaciones. Cuántas duras, cuántas buenas. Como si el cariño fuera una cuenta, y ella fuera a mirar el saldo para elegir. Y tú me estás diciendo, desde donde estés, que no es así. Que lo que se queda no es la suma de lo hablado. Es lo que uno nota cuando está al lado de alguien.</p>
+
+  <p class="pausa" data-petalos="1">Una ráfaga de aire movió los crisantemos, y varios pétalos amarillos cayeron sobre la piedra. Leo los recogió con cuidado y los dejó en el hueco de la albahaca.</p>
+
+  <p class="d pausa l">—Eso no te lo puedo asegurar con ella —dijo, con una sonrisa triste—. No sé qué nota ella cuando está conmigo. No sé si lo que se queda es bonito o doloroso. Pero sé que no es la lista de conversaciones duras. Y que “solo le hice daño” no es una frase tuya. Tú habrías dicho que me equivoqué, y que con el tiempo se arregla.</p>
+
+  <p class="pausa">Se quedó un rato callado, mirando la piedra.</p>
+
+  <p class="d pausa l" data-giro=".5">—Y tú sabías esperar a que la máquina parara. Yo no. Yo quiero meter la mano mientras gira.</p>
+
+  <p class="pausa" data-hombre="1" data-noche=".6">A lo lejos sonó el tintineo de unas llaves. Un hombre con chaleco gris, el de mantenimiento, caminaba despacio por el camino principal, mirando a un lado y a otro.</p>
+
+  <p class="d pausa h">—Buenas noches —dijo al llegar a su altura, sin brusquedad—. Cerramos en diez minutos. No hay prisa, pero por si acaso.</p>
+
+  <p class="d pausa l">—Gracias. Ya me iba.</p>
+
+  <p class="d pausa h">—Tómese el tiempo que necesite.</p>
+
+  <p class="pausa" data-hombre="0" data-sentado="0" data-noche=".75">El hombre siguió su ronda. Leo se levantó, se sacudió el pantalón y se quedó de pie un momento frente a la lápida, con las manos en los bolsillos.</p>
+
+  <p class="d pausa l" data-giro=".3">—Voy a cenar algo caliente —dijo—. Voy a llegar a casa, me voy a poner la tele y no voy a mirar el móvil. Y mañana, si me cuenta cómo ha ido, la escucharé. Y si no me cuenta nada, también.</p>
+
+  <p class="pausa">Cogió aire, y lo soltó despacio.</p>
+
+  <p class="d pausa l" data-giro=".15">—Y mientras la máquina gira, voy a esperar a que pare.</p>
+
+  <p class="pausa">Tocó la piedra con dos dedos, fría y áspera, y los dejó ahí un segundo.</p>
+
+  <p class="d pausa l">—Gracias por lo del centrifugado, abuelo. Y por lo del porche.</p>
+
+  <p class="pausa" data-farolas="1" data-noche="1" data-va="1" data-frio=".25" data-giro=".06">Echó a andar hacia la salida. El cielo ya era de un azul muy oscuro, y las primeras farolas del camino principal se estaban encendiendo, una tras otra, con ese parpadeo tímido de las bombillas viejas. El escalofrío seguía en la nuca, más pequeño, como el eco de una campana que ya casi no suena. Pero había un espacio nuevo entre él y el miedo. No mucho. Lo justo para respirar.</p>
+
+  <p class="pausa" data-vibra="2" data-verja="1">En el bolsillo, el móvil vibró una vez. Leo no lo sacó. Cruzó la verja, oyó cómo el hombre del chaleco la cerraba tras él con un chasquido, y echó a andar calle abajo, con las manos calientes por primera vez en toda la tarde.</p>
+
+  <p class="cierre" data-giro="0" data-frio=".12">Todavía no sabía qué pasaría. Pero en algún punto del camino, sin que se diera cuenta, el tambor empezó a frenar.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, cuerpo = document.body;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; var t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function suave(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
+  function hex(c) { return [parseInt(c.substr(1, 2), 16), parseInt(c.substr(3, 2), 16), parseInt(c.substr(5, 2), 16)]; }
+  function mezcla(a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); }
+  function rgb(c) { return "rgb(" + c.join(",") + ")"; }
+
+  /* Lápidas lejanas, farolas del camino, albahaca */
+  (function () {
+    var q = rng(31), h = "", filas = [[51.5, .5, "#241c33", 17], [56.5, .75, "#1a1428", 14], [62, 1, "#120d1d", 11]], f, i;
+    for (f = 0; f < filas.length; f++) for (i = 0; i < filas[f][3]; i++) {
+      var s = filas[f][1], w = (13 + q() * 6) * s, hh = (20 + q() * 12) * s, x = (i + q() * .7) / filas[f][3] * 100;
+      h += '<i class="lap' + (q() < .22 ? " cruz" : "") + '" style="left:' + x.toFixed(1) + 'vw;top:calc(' + filas[f][0] + 'vh - ' + hh.toFixed(0) + 'px + ' + (f * 8) + 'px);width:' + w.toFixed(0) + 'px;height:' + hh.toFixed(0) + 'px;background:' + filas[f][2] + '"></i>';
+    }
+    document.getElementById("lapidas").innerHTML = h;
+    var fc = "";
+    [12, 34, 72, 92].forEach(function (p) { fc += '<div class="farola-c" style="left:' + p + 'vw"></div>'; });
+    document.getElementById("farolasC").innerHTML = fc;
+    var ab = "", pos = [[0, 0], [14, 4], [28, -2], [40, 3]];
+    pos.forEach(function (p) { ab += '<i style="left:calc(54vw + max(104px, 14vw) + ' + p[0] + 'px - 6px);margin-bottom:' + p[1] + 'px"></i>'; });
+    document.getElementById("albahaca").innerHTML = ab;
+  })();
+  var farolasC = Array.prototype.slice.call(document.querySelectorAll(".farola-c"));
+
+  /* Tambor */
+  var cv = document.getElementById("tambor"), cx = cv.getContext("2d"), W = 0, H = 0, N = 64, mot = [], i;
+  var qq = rng(7);
+  for (i = 0; i < N; i++) mot.push({ a: qq() * 6.2832, r: .86 + qq() * .11, s: 2 + qq() * 2.8, hx: qq() - .5, hy: qq(), warm: qq() < .25 });
+  function medir() { var d = Math.min(window.devicePixelRatio || 1, 2); W = window.innerWidth; H = window.innerHeight; cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0); }
+  medir(); window.addEventListener("resize", function () { medir(); pide(); });
+  var theta = 0, pegado = 0;
+  function pintaTambor() {
+    cx.clearRect(0, 0, W, H);
+    var tb = V.tamb; if (tb < .01) return;
+    var cX = W * .5, cY = H * .44, R = Math.min(W, H) * .46, k;
+    cx.lineWidth = 2; cx.strokeStyle = "rgba(200,180,235," + (.2 * tb).toFixed(3) + ")"; cx.beginPath(); cx.arc(cX, cY, R, 0, 6.2832); cx.stroke();
+    cx.lineWidth = 1; cx.strokeStyle = "rgba(200,180,235," + (.1 * tb).toFixed(3) + ")"; cx.beginPath(); cx.arc(cX, cY, R * .9, 0, 6.2832); cx.stroke();
+    cx.strokeStyle = "rgba(255,255,255," + (.1 * tb).toFixed(3) + ")"; cx.beginPath(); cx.arc(cX, cY, R * .96, 3.6, 4.4); cx.stroke();
+    for (k = 0; k < N; k++) {
+      var m = mot[k], ang = m.a + theta, wx = cX + Math.cos(ang) * R * m.r, wy = cY + Math.sin(ang) * R * m.r;
+      var hxp = cX + m.hx * R * 1.2, hyp = cY + Math.sqrt(Math.max(0, R * R * .8 - (hxp - cX) * (hxp - cX))) - m.hy * R * .1;
+      var x = hxp + (wx - hxp) * pegado, y = hyp + (wy - hyp) * pegado;
+      cx.fillStyle = (m.warm ? "rgba(255,214,160," : "rgba(228,216,255,") + (.6 * tb).toFixed(3) + ")";
+      cx.beginPath(); cx.arc(x, y, m.s, 0, 6.2832); cx.fill();
+    }
+  }
+
+  /* Estado */
+  var V = { noche: 0, gar: 0, por: 0, frio: 0, flores: 0, hombre: 0, verja: 0, tamb: 0, giro: 0, farolas: 0 };
+  var T = { noche: 0, gar: 0, por: 0, frio: 0, flores: 0, hombre: 0, verja: 0, tamb: 0, giro: 0, farolas: 0 };
+  var CA = [hex("#2d2450"), hex("#060a1c")], CB = [hex("#8a6e88"), hex("#14204a")], PA = [hex("#a39d94"), hex("#3a3a48")], PB = [hex("#827c76"), hex("#2a2a36")];
+  function aplica() {
+    var n = V.noche, rec = Math.max(V.gar, V.por);
+    raiz.style.setProperty("--ca", rgb(mezcla(CA[0], CA[1], n))); raiz.style.setProperty("--cb", rgb(mezcla(CB[0], CB[1], n)));
+    raiz.style.setProperty("--pa", rgb(mezcla(PA[0], PA[1], n))); raiz.style.setProperty("--pb", rgb(mezcla(PB[0], PB[1], n)));
+    raiz.style.setProperty("--o-cem", (1 - rec * .96).toFixed(3));
+    raiz.style.setProperty("--o-gar", V.gar.toFixed(3)); raiz.style.setProperty("--o-por", V.por.toFixed(3));
+    raiz.style.setProperty("--frio", V.frio.toFixed(3)); raiz.style.setProperty("--flores", V.flores.toFixed(3));
+    raiz.style.setProperty("--hombre", V.hombre.toFixed(3)); raiz.style.setProperty("--verja", V.verja.toFixed(3)); raiz.style.setProperty("--tamb", V.tamb.toFixed(3));
+    farolasC.forEach(function (f, k) { f.style.setProperty("--on", suave(k * .22, k * .22 + .3, V.farolas).toFixed(3)); });
+  }
+  var ultimo = 0;
+  function bucle(t) {
+    var dt = Math.min(50, t - (ultimo || t)); ultimo = t;
+    var f = function (k) { return 1 - Math.pow(1 - k, dt / 16.7); };
+    for (var key in T) V[key] += (T[key] - V[key]) * f(key === "farolas" ? .01 : key === "verja" ? .015 : .035);
+    pegado += ((V.giro >= .12 ? 1 : 0) - pegado) * f(.022);
+    theta += V.giro * .0072 * dt;
+    aplica(); pintaTambor();
+    requestAnimationFrame(bucle);
+  }
+
+  /* Texto -> estado */
+  var claves = ["noche", "tamb", "giro", "frio", "flores", "sentado", "gar", "por", "petalos", "hombre", "vibra", "verja", "farolas", "va"];
+  var marcados = Array.prototype.slice.call(document.querySelectorAll(claves.map(function (c) { return "main [data-" + c + "]"; }).join(",")));
+  var vibra = document.getElementById("vibra"), vibraAntes = 0, pendiente = false;
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  function actualiza() {
+    pendiente = false;
+    var linea = window.innerHeight * .55, k, key, v, st = { noche: 0, tamb: 0, giro: 0, frio: 0, flores: 0, sentado: 0, gar: 0, por: 0, petalos: 0, hombre: 0, vibra: 0, verja: 0, farolas: 0, va: 0 };
+    for (k = 0; k < marcados.length; k++) {
+      if (marcados[k].getBoundingClientRect().top > linea) break;
+      for (key in st) if ((v = num(marcados[k], "data-" + key)) !== null) st[key] = v;
+    }
+    T.noche = st.noche; T.gar = st.gar; T.por = st.por; T.frio = st.frio; T.flores = st.flores; T.hombre = st.hombre; T.verja = st.verja; T.tamb = st.tamb; T.giro = st.giro; T.farolas = st.farolas;
+    cuerpo.classList.toggle("st-sentado", !!st.sentado);
+    cuerpo.classList.toggle("st-petalos", !!st.petalos);
+    cuerpo.classList.toggle("st-va", !!st.va);
+    if (st.vibra > vibraAntes && !reducir && vibra.animate) vibra.animate([{ opacity: 0 }, { opacity: .9 }, { opacity: .05 }, { opacity: .7 }, { opacity: 0 }], { duration: 1000 });
+    vibraAntes = st.vibra;
+    if (reducir) { for (key in T) V[key] = T[key]; pegado = V.giro >= .12 ? 1 : 0; aplica(); pintaTambor(); }
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  aplica(); actualiza();
+  if (!reducir) requestAnimationFrame(bucle);
+})();
+</script>
+</body>
+</html>
