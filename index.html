@@ -10,8 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
 <style>
-/* Portada: un libro abierto sobre una mesa oscura. La página izquierda está llena y la derecha
-   a medio escribir; con cada historia nueva se escriben más líneas. */
 :root {
   --bg: #14110f;
   --fg: #e6dccb;
@@ -36,8 +34,6 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
 }
-
-/* Libro */
 .book {
   position: fixed; z-index: 0; left: 50%; top: 46%;
   width: clamp(560px, 130vw, 1200px);
@@ -153,14 +149,6 @@ h1 em { font-style: italic; color: var(--tan-hi); }
 </div>
 
 <script>
-/* ============================================================
-   AÑADIR UNA HISTORIA NUEVA
-   1) Sube el archivo de la historia a la carpeta "historias/".
-   2) Copia un bloque { ... }, pégalo al principio de la lista
-      (la primera sale arriba) y cambia sus datos.
-   Cuida las comas entre bloques y las comillas.
-   El libro del fondo escribe dos líneas más por cada historia.
-   ============================================================ */
 var HISTORIAS = [
   {
     titulo: "El punto final",
@@ -239,10 +227,14 @@ var HISTORIAS = [
     resumen: "Un día de aire, una regla en pausa y la voz de dentro que nunca tiene prisa.",
     meta: "Leo · 8 min",
     url: "historias/tregua.html"
+  },
+  {
+    titulo: "Centrifugado",
+    resumen: "Una tarde en el cementerio, un escalofrío y lo que un abuelo enseñó sobre las lavadoras.",
+    meta: "Leo · 9 min",
+    url: "historias/centrifugado.html"
   }
 ];
-
-/* Lista de historias */
 (function () {
   var lista = document.getElementById("lista");
   lista.textContent = "";
@@ -260,8 +252,6 @@ var HISTORIAS = [
   var n = HISTORIAS.length;
   document.getElementById("cuenta").textContent = n + (n === 1 ? " historia" : " historias");
 })();
-
-/* Libro: la página izquierda llena y la derecha a medio escribir */
 (function () {
   var NS = "http://www.w3.org/2000/svg";
   var FILAS = 18, TOTAL = FILAS * 2;
@@ -321,8 +311,6 @@ var HISTORIAS = [
       tinta.style.animationDelay = (escritas * 0.06 + 0.7).toFixed(2) + "s";
     }
   }
-
-  /* El libro se apaga al bajar, para que la lista se lea bien */
   var libro = document.getElementById("book");
   function ajusta() {
     var t = Math.min(1, window.scrollY / (window.innerHeight * 0.7));
