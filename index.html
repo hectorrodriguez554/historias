@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
 <style>
+/* Portada: un libro abierto sobre una mesa oscura. La página izquierda está llena y la derecha
+   a medio escribir; con cada historia nueva se escriben más líneas. */
 :root {
   --bg: #14110f;
   --fg: #e6dccb;
@@ -34,6 +36,8 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
 }
+
+/* Libro */
 .book {
   position: fixed; z-index: 0; left: 50%; top: 46%;
   width: clamp(560px, 130vw, 1200px);
@@ -92,13 +96,26 @@ h1 em { font-style: italic; color: var(--tan-hi); }
 .hist:hover h2, .hist:focus-visible h2 { color: var(--tan-hi); }
 .hist:hover .go, .hist:focus-visible .go { transform: translateX(.35rem); }
 .hist:focus-visible { outline: 2px solid var(--tan); outline-offset: 4px; }
+.cap-fecha { margin: 0 0 1rem; font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; color: var(--tan-hi); }
+.pager { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; }
+.pager[hidden], .cap-fecha[hidden], .pronto[hidden] { display: none; }
+.pager.tabs { padding-top: 1.6rem; }
+#pager-abajo { justify-content: space-between; padding-block: 2rem 0; }
+.pg { font: inherit; font-family: var(--mono); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--tan-hi); background: none; border: 1px solid var(--tan-dim); border-radius: 999px; padding: .6rem 1.1rem; cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+.pg:hover:not(:disabled), .pg:focus-visible { border-color: var(--tan); background: rgba(191, 169, 138, .08); }
+.pg:focus-visible { outline: 2px solid var(--tan); outline-offset: 3px; }
+.pg:disabled { color: var(--tan-dim); border-color: rgba(74, 64, 54, .5); cursor: default; }
+.pg.tab { color: var(--muted); }
+.pg.tab[aria-current="page"] { color: var(--bg); background: var(--tan-hi); border-color: var(--tan-hi); }
+.pg-n { font-family: var(--mono); font-size: .76rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+@media (max-width: 480px) { #pager-abajo { justify-content: center; } .pg-n { order: -1; width: 100%; text-align: center; } }
 .pronto { padding-block: 2rem 0; font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) {
   .book .w { animation: none; stroke-dashoffset: 0; }
   .book .tinta { animation: none; opacity: .8; }
   .cue span { animation: none; }
-  .hist h2, .hist .go { transition: none; }
+  .hist h2, .hist .go, .pg { transition: none; }
 }
 </style>
 </head>
@@ -140,16 +157,33 @@ h1 em { font-style: italic; color: var(--tan-hi); }
   </header>
 
   <main id="historias">
-    <div class="lista-cab"><span>Historias</span><span id="cuenta"></span></div>
+    <nav class="pager tabs" id="pager-arriba" aria-label="Capítulos"></nav>
+    <div class="lista-cab"><span id="cap-titulo">Historias</span><span id="cuenta"></span></div>
+    <p class="cap-fecha" id="cap-fecha" hidden></p>
     <div class="lista" id="lista">
       <noscript><p>Activa JavaScript para ver la lista, o abre directamente <a href="historias/el-punto-final.html">El punto final</a>.</p></noscript>
     </div>
-    <p class="pronto">Más historias en camino.</p>
+    <nav class="pager" id="pager-abajo" aria-label="Cambiar de página"></nav>
+    <p class="pronto" id="pronto">Más historias en camino.</p>
   </main>
 </div>
 
 <script>
-var HISTORIAS = [
+/* ============================================================
+   AÑADIR UNA HISTORIA NUEVA
+   1) Sube el archivo de la historia a la carpeta "historias/".
+   2) Copia un bloque { ... titulo, resumen, meta, url ... } y pégalo
+      AL FINAL de la lista "historias" del capítulo que toque
+      (las más antiguas arriba, las nuevas abajo). Cuida las comas.
+   AÑADIR UN CAPÍTULO NUEVO
+   Copia un bloque entero { titulo, fecha, historias: [ ... ] } al final
+   de CAPITULOS. La fecha sale bajo el título del capítulo (puede ir vacía).
+   ============================================================ */
+var CAPITULOS = [
+{
+  titulo: "Capítulo 1",
+  fecha: "",
+  historias: [
   {
     titulo: "El punto final",
     resumen: "Un mensaje seco, un punto al final y tres horas imaginando lo peor.",
@@ -234,24 +268,93 @@ var HISTORIAS = [
     meta: "Leo · 9 min",
     url: "historias/centrifugado.html"
   }
+  ]
+},
+{
+  titulo: "Capítulo 2",
+  fecha: "5 de noviembre de 2026",
+  historias: [
+  {
+    titulo: "Antes del despertador",
+    resumen: "Un sueño con una bolsa azul, unos padres inoportunos y un chiste que la hizo sonreír, justo antes de sonar la alarma.",
+    meta: "Él · 8 min · 5 nov 2026",
+    url: "historias/antes-del-despertador.html"
+  }
+  ]
+}
 ];
+var HISTORIAS = [];
+CAPITULOS.forEach(function (c) { HISTORIAS = HISTORIAS.concat(c.historias); });
+
+/* Lista de historias, por capítulos (páginas) */
 (function () {
   var lista = document.getElementById("lista");
-  lista.textContent = "";
-  HISTORIAS.forEach(function (h) {
-    var a = document.createElement("a");
-    a.className = "hist";
-    a.href = h.url;
-    var t = document.createElement("h2"); t.textContent = h.titulo;
-    var p = document.createElement("p"); p.textContent = h.resumen;
-    var m = document.createElement("div"); m.className = "meta"; m.textContent = h.meta;
-    var g = document.createElement("span"); g.className = "go"; g.textContent = "Leer →";
-    a.appendChild(t); a.appendChild(p); a.appendChild(m); a.appendChild(g);
-    lista.appendChild(a);
-  });
-  var n = HISTORIAS.length;
-  document.getElementById("cuenta").textContent = n + (n === 1 ? " historia" : " historias");
+  var pagers = [document.getElementById("pager-arriba"), document.getElementById("pager-abajo")];
+  var tit = document.getElementById("cap-titulo"), cuenta = document.getElementById("cuenta"), fecha = document.getElementById("cap-fecha");
+  var actual = 0;
+
+  function desdeHash() {
+    var m = /cap(\d+)/.exec(location.hash);
+    var n = m ? parseInt(m[1], 10) - 1 : actual;
+    return (n >= 0 && n < CAPITULOS.length) ? n : 0;
+  }
+  function boton(txt, destino, clase, desactivado) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = clase; b.textContent = txt;
+    if (desactivado) { b.disabled = true; } else { b.addEventListener("click", function () { ir(destino, true); }); }
+    return b;
+  }
+  function pagina() {
+    var c = CAPITULOS[actual];
+    lista.textContent = "";
+    c.historias.forEach(function (h) {
+      var a = document.createElement("a");
+      a.className = "hist"; a.href = h.url;
+      var t = document.createElement("h2"); t.textContent = h.titulo;
+      var p = document.createElement("p"); p.textContent = h.resumen;
+      var m = document.createElement("div"); m.className = "meta"; m.textContent = h.meta;
+      var g = document.createElement("span"); g.className = "go"; g.textContent = "Leer →";
+      a.appendChild(t); a.appendChild(p); a.appendChild(m); a.appendChild(g);
+      lista.appendChild(a);
+    });
+    tit.textContent = c.titulo;
+    var n = c.historias.length;
+    cuenta.textContent = n + (n === 1 ? " historia" : " historias");
+    fecha.textContent = c.fecha ? "Escrito el " + c.fecha : "";
+    fecha.hidden = !c.fecha;
+    pagers.forEach(function (nav, idx) {
+      nav.textContent = "";
+      nav.hidden = CAPITULOS.length < 2;
+      if (idx === 0) {
+        CAPITULOS.forEach(function (cc, i) {
+          var b = boton(cc.titulo, i, "pg tab", false);
+          if (i === actual) { b.setAttribute("aria-current", "page"); }
+          nav.appendChild(b);
+        });
+      } else {
+        nav.appendChild(boton("← Capítulo anterior", actual - 1, "pg", actual === 0));
+        var s = document.createElement("span"); s.className = "pg-n"; s.textContent = "Página " + (actual + 1) + " de " + CAPITULOS.length;
+        nav.appendChild(s);
+        nav.appendChild(boton("Capítulo siguiente →", actual + 1, "pg", actual === CAPITULOS.length - 1));
+      }
+    });
+    document.getElementById("pronto").hidden = actual !== CAPITULOS.length - 1;
+  }
+  function ir(n, desplaza) {
+    actual = n;
+    try { history.replaceState(null, "", "#cap" + (n + 1)); } catch (e) {}
+    pagina();
+    if (desplaza) document.getElementById("historias").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  actual = desdeHash();
+  pagina();
+  if (/cap\d+/.test(location.hash)) {
+    window.addEventListener("load", function () { document.getElementById("historias").scrollIntoView(); });
+  }
+  window.addEventListener("hashchange", function () { var n = desdeHash(); if (n !== actual) { actual = n; pagina(); } });
 })();
+
+/* Libro: la página izquierda llena y la derecha a medio escribir */
 (function () {
   var NS = "http://www.w3.org/2000/svg";
   var FILAS = 18, TOTAL = FILAS * 2;
@@ -311,6 +414,8 @@ var HISTORIAS = [
       tinta.style.animationDelay = (escritas * 0.06 + 0.7).toFixed(2) + "s";
     }
   }
+
+  /* El libro se apaga al bajar, para que la lista se lea bien */
   var libro = document.getElementById("book");
   function ajusta() {
     var t = Math.min(1, window.scrollY / (window.innerHeight * 0.7));
