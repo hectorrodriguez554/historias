@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1e1626">
+<title>Antes del despertador · Historias jamás contadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Un sueño de tarde dorada (la calle, la puerta, el sofá) que se desvanece cuando suena el despertador.
+   Luego el cuarto gris, una luz de persiana que sube poco a poco, la Voz en anillos, una sonrisa que crece
+   y la cocina con el primer café. */
+:root {
+  --bg: #0a0706; --fg: #ece3d4; --ambar: #f0b45c; --linea: rgba(236, 227, 212, .15);
+  --sv: 1; --desp: 0; --alba: 0; --movil: .2; --sonrisa: 0; --cafe: 0; --fant: 0; --n1: 0; --n2: 0;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body);
+  font-size: clamp(1.06rem, 1rem + .3vw, 1.2rem); line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: calc(2rem + env(safe-area-inset-top, 0px)) calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.capa { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+/* ========== SUEÑO ========== */
+.sueno { background: #2a1a22; filter: saturate(calc(.15 + var(--sv) * .85)) blur(calc((1 - var(--sv)) * 3px)); opacity: calc(.2 + var(--sv) * .8); }
+.sueno::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 5, 7, .34), rgba(8, 5, 7, .5)); }
+.esc { position: absolute; inset: 0; opacity: 0; transition: opacity 1.6s ease; }
+body[data-s="0"] .s0, body[data-s="1"] .s1, body[data-s="2"] .s2, body[data-s="3"] .s3 { opacity: 1; }
+.s0, .s1 { background: linear-gradient(180deg, #1e1626 0%, #4d2f3f 36%, #a85f3c 72%, #e0a35d 100%); }
+.s2 { background: linear-gradient(180deg, #3a2a40 0%, #8a5040 40%, #d89455 80%, #f0c27a 100%); }
+.s3 { background: linear-gradient(180deg, #2c1b20, #1b1013); }
+.suelo { position: absolute; left: 0; right: 0; bottom: 0; height: 17vh; background: linear-gradient(180deg, #1a0f12, #0c0709); border-top: 1px solid rgba(255, 200, 140, .18); }
+.cielo-ciu { position: absolute; left: 0; right: 0; bottom: 17vh; height: 46vh; overflow: hidden; }
+.tira { position: absolute; left: 0; bottom: 0; width: 200vw; height: 100%; animation: pasea 90s linear infinite; }
+.tira.rapida { animation-duration: 55s; }
+@keyframes pasea { to { transform: translateX(-100vw); } }
+.ed { position: absolute; bottom: 0; background: linear-gradient(180deg, #24141a, #170c10); }
+.ed i { position: absolute; width: 3px; height: 4px; background: #ffd08a; box-shadow: 0 0 6px rgba(255, 200, 120, .8); }
+
+.fig { position: absolute; fill: currentColor; height: 100%; width: auto; filter: drop-shadow(0 0 5px rgba(255, 190, 120, .38)); overflow: visible; }
+.el0 { position: absolute; left: 34vw; bottom: 16vh; height: 26vh; width: 9.2vh; color: #0d070a; animation: paso 1.1s ease-in-out infinite; }
+@keyframes paso { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-.6vh); } }
+.bolsa { position: absolute; left: calc(100% - 1.6vh); top: 47%; width: 11vh; transform-origin: 50% 0; animation: balancea 2.2s ease-in-out infinite; transition: opacity 1.6s; }
+.bolsa svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 0 4px rgba(120, 170, 230, .35)); }
+@keyframes balancea { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+body.st-bolsa .bolsa { opacity: 0; }
+
+.puerta { position: absolute; left: 56vw; bottom: 17vh; width: max(90px, 16vw); height: 38vh; background: #140a0b; border: 5px solid #0a0506; border-bottom: 0; overflow: hidden; }
+.puerta .luz { position: absolute; inset: 0; background: linear-gradient(180deg, #ffe0aa, #f2ae62); transform: scaleX(.05); transform-origin: left; transition: transform 1.4s ease .6s; box-shadow: 0 0 60px 20px rgba(255, 190, 110, .5); }
+body[data-s="1"] .puerta .luz { transform: scaleX(1); }
+.derrame { position: absolute; left: calc(56vw - 6vw); bottom: 14vh; width: max(210px, 36vw); height: 14vh; background: radial-gradient(ellipse at 50% 20%, rgba(255, 200, 130, .55), transparent 70%); }
+.ella1 { position: absolute; left: calc(56vw + max(90px, 16vw) / 2 - 4vh); bottom: 17vh; height: 23vh; width: 8vh; color: #170c10; }
+.el1 { position: absolute; left: 18vw; bottom: 16vh; height: 26vh; width: 9.2vh; color: #0d070a; transition: left 3.6s ease-in-out; }
+body.st-abrazo .el1 { left: calc(56vw + max(90px, 16vw) / 2 - 11vh); }
+
+.trio { position: absolute; left: 27vw; bottom: 15vh; height: 26vh; display: flex; gap: 2.2vh; align-items: flex-end; }
+.trio .p { position: relative; height: 100%; width: 9.2vh; animation: paso 1.1s ease-in-out infinite; }
+.trio .p:nth-child(2) { animation-delay: -.4s; } .trio .p:nth-child(3) { animation-delay: -.8s; }
+.trio .p .fig { height: 100%; }
+.trio .alv { color: #1a0e12; } .trio .ell { color: #170c10; } .trio .elp { color: #0d070a; height: 94%; align-self: flex-end; }
+.brazo { transform-box: fill-box; transform-origin: top center; animation: gesto 1.6s ease-in-out infinite; }
+@keyframes gesto { 0%, 100% { transform: rotate(-34deg); } 50% { transform: rotate(26deg); } }
+.vibra { position: absolute; left: 50%; top: 58%; width: 5vh; height: 5vh; margin: -2.5vh 0 0 -2.5vh; border-radius: 50%; border: 2px solid rgba(255, 230, 190, .9); opacity: 0; }
+.bokeh { position: absolute; border-radius: 50%; filter: blur(5px); animation: flota 9s ease-in-out infinite alternate; }
+@keyframes flota { from { transform: translate(0, 0); } to { transform: translate(2.4vw, -1.6vh); } }
+
+.sala-ventana { position: absolute; left: 7vw; top: 12vh; width: 22vw; min-width: 90px; height: 34vh; border: 5px solid #0a0506; background: linear-gradient(180deg, #e6a76a, #a85f3c); box-shadow: 0 0 80px 20px rgba(255, 170, 100, .22); }
+.sala-ventana::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; margin-left: -2px; background: #0a0506; }
+.pie { position: absolute; right: 9vw; bottom: 16vh; width: 5px; height: 30vh; background: #0a0506; }
+.pie::before { content: ""; position: absolute; left: -17px; top: -4px; width: 39px; height: 30px; clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%); background: #ffdca3; box-shadow: 0 0 40px 14px rgba(255, 190, 110, .55); }
+.pie::after { content: ""; position: absolute; left: -90px; top: -60px; width: 190px; height: 190px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 200, 130, .4), transparent 66%); }
+.sofa { position: absolute; left: 50%; bottom: 14vh; width: min(70vw, 560px); height: 13vh; margin-left: calc(min(70vw, 560px) / -2); background: linear-gradient(180deg, #5a3036, #3a1d22); border-radius: 22px 22px 8px 8px; box-shadow: inset 0 3vh 0 -1vh #4a2830; }
+.sofa::before { content: ""; position: absolute; left: 3%; right: 3%; top: -11vh; height: 12vh; background: linear-gradient(180deg, #4a2830, #3a1d22); border-radius: 26px 26px 0 0; }
+.sf { position: absolute; bottom: 20vh; width: 7vh; height: 18vh; }
+.sf.el { left: calc(50% - min(70vw, 560px) / 2 + 2vh); color: #0d070a; }
+.sf.ella { left: calc(50% + min(70vw, 560px) / 2 - 9vh); color: #170c10; }
+.sf.padre { left: calc(50% - min(70vw, 560px) / 2 - 12vh); height: 27vh; width: 9.4vh; bottom: 14vh; color: #1b1014; }
+.sf.madre { left: calc(50% + min(70vw, 560px) / 2 + 4vh); height: 23vh; width: 8vh; bottom: 14vh; color: #20131a; }
+.sf .fig { height: 100%; }
+.corbata { position: absolute; left: 50%; top: 17%; width: 3px; height: 28%; margin-left: -1.5px; background: #6a7890; opacity: .8; }
+.chispa { opacity: 0; transition: opacity 1.4s; fill: #ffe0a8; filter: drop-shadow(0 0 5px #ffd089) drop-shadow(0 0 12px #ffbd66); }
+body.st-chispa .chispa { opacity: 1; animation: late 1.8s ease-in-out infinite; }
+@keyframes late { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+/* ========== DESPERTAR ========== */
+.desp { opacity: var(--desp); }
+.hab, .coc { position: absolute; inset: 0; opacity: 0; transition: opacity 1.8s ease; }
+body[data-s="4"] .hab, body[data-s="5"] .coc { opacity: 1; }
+.hab { background:
+  radial-gradient(54vmax 46vmax at 14% 26%, rgba(255, 205, 150, calc(.28 * var(--alba))), transparent 70%),
+  radial-gradient(40vmax 30vmax at 82% 78%, rgba(150, 195, 250, calc(.18 * var(--movil))), transparent 70%),
+  linear-gradient(180deg, #1a1d22, #101216 70%, #0b0c0f); }
+.techo { position: absolute; left: 0; right: 0; top: 0; height: 9vh; background: linear-gradient(180deg, #08090b, rgba(8, 9, 11, 0)); }
+.vent { position: absolute; left: 5vw; top: 8vh; width: 17vw; min-width: 80px; height: 32vh; border: 5px solid #07080a; overflow: hidden;
+  background: linear-gradient(180deg, color-mix(in srgb, #f4cf98, #27303c calc((1 - var(--alba)) * 100%)), color-mix(in srgb, #ffe3b6, #323c4a calc((1 - var(--alba)) * 100%))); }
+.vent::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, rgba(5, 6, 8, .9) 0 9px, transparent 9px 17px); }
+.rayas { position: absolute; left: 0; top: 0; width: 72vw; height: 100%; opacity: calc(var(--alba) * .3); background: repeating-linear-gradient(104deg, transparent 0 30px, rgba(255, 215, 160, .55) 30px 44px); -webkit-mask-image: linear-gradient(90deg, #000, transparent 86%); mask-image: linear-gradient(90deg, #000, transparent 86%); }
+.anillos { position: absolute; left: 50%; top: 27vh; width: 0; height: 0; }
+.anillos i { position: absolute; left: -90px; top: -90px; width: 180px; height: 180px; border-radius: 50%; border: 1.5px solid rgba(165, 200, 250, .6); box-shadow: 0 0 22px rgba(150, 195, 250, .22); opacity: 0; }
+body.st-voz .anillos i { animation: expande 5.6s ease-out infinite; }
+body.st-voz .anillos i:nth-child(2) { animation-delay: 1.8s; } body.st-voz .anillos i:nth-child(3) { animation-delay: 3.6s; }
+@keyframes expande { 0% { transform: scale(.25); opacity: .5; } 100% { transform: scale(4.6); opacity: 0; } }
+.cabecero { position: absolute; left: 0; bottom: 0; width: 7vw; height: 46vh; background: linear-gradient(90deg, #0a0b0d, #17191d); border-radius: 0 10px 0 0; }
+.cama { position: absolute; left: 0; bottom: 0; width: 66vw; height: 24vh; background: linear-gradient(180deg, #262a33 0, #191c23 40%, #0d0e12); border-top: 3px solid #343a46; border-radius: 0 18px 0 0; }
+.almohada { position: absolute; left: 6vw; bottom: 24vh; width: 17vw; max-width: 210px; height: 7vh; background: linear-gradient(180deg, #353a46, #20242d); border-radius: 44% 44% 8px 8px; }
+.torso { position: absolute; left: calc(6vw + 3.4vw); bottom: 24vh; width: 8vw; min-width: 40px; max-width: 90px; height: 17vh; background: #0a0709; border-radius: 22px 22px 0 0; transform: scaleY(0); transform-origin: bottom; transition: transform 1.6s ease; }
+body.st-sent .torso { transform: scaleY(1); }
+.cabeza { position: absolute; left: calc(6vw + 4vw); bottom: calc(24vh + 4.4vh); width: 5.4vw; min-width: 28px; max-width: 64px; aspect-ratio: 1; border-radius: 50%; background: #0a0709; box-shadow: 0 0 0 2px rgba(255, 190, 120, calc(.1 + var(--alba) * .2)); animation: respira 6s ease-in-out infinite; transition: bottom 1.6s ease; }
+body.st-sent .cabeza { bottom: calc(24vh + 17vh); animation: none; }
+@keyframes respira { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+.mesilla { position: absolute; right: 6vw; bottom: 0; width: max(112px, 18vw); height: 24vh; background: linear-gradient(180deg, #23262d, #0f1115); border-top: 4px solid #2d323c; }
+.movil2 { position: absolute; right: calc(6vw + 26px); bottom: calc(24vh + 4px); width: 54px; height: 7px; background: #0a0c10; border-top: 1px solid #78869a; border-radius: 2px; transform: rotate(-5deg); }
+.movil2::before { content: ""; position: absolute; left: 3px; right: 3px; top: -3px; height: 3px; background: #cfe3ff; opacity: var(--movil); box-shadow: 0 -4px 22px 8px rgba(150, 195, 250, calc(var(--movil) * .55)); border-radius: 2px; }
+body.st-alarma .movil2 { animation: vibrando .22s linear infinite; }
+body.st-alarma .movil2::before { animation: pip 1s steps(2) infinite; }
+@keyframes vibrando { 0%, 100% { transform: rotate(-5deg) translateX(0); } 25% { transform: rotate(-3deg) translateX(-2px); } 75% { transform: rotate(-7deg) translateX(2px); } }
+@keyframes pip { 0% { opacity: 1; } 50% { opacity: .2; } }
+.aro { position: absolute; right: calc(6vw + 50px); bottom: calc(24vh + 6px); width: 0; height: 0; }
+.aro i { position: absolute; left: -40px; top: -40px; width: 80px; height: 80px; border-radius: 50%; border: 1.5px solid rgba(235, 240, 255, .7); opacity: 0; }
+body.st-alarma .aro i { animation: aro 1.4s ease-out infinite; } body.st-alarma .aro i:nth-child(2) { animation-delay: .7s; }
+@keyframes aro { 0% { transform: scale(.3); opacity: .7; } 100% { transform: scale(3.6); opacity: 0; } }
+.fant { position: absolute; left: 48vw; bottom: 17vh; width: 90px; height: 52px; border: 2px dashed rgba(130, 170, 220, .8); border-radius: 14px; opacity: calc(var(--fant) * .7); }
+.fant::before { content: ""; position: absolute; left: 22px; right: 22px; top: -16px; height: 14px; border: 2px dashed rgba(130, 170, 220, .8); border-bottom: 0; border-radius: 12px 12px 0 0; }
+.nota { position: absolute; left: 26vw; bottom: 38vh; width: 150px; padding: 10px 12px; background: rgba(16, 22, 32, .92); border: 1px solid #2c3a4c; border-radius: 14px; opacity: var(--n1); transform: translateY(calc((1 - var(--n1)) * 10px)); box-shadow: 0 0 30px rgba(150, 195, 250, .15); }
+.nota b { display: block; height: 6px; border-radius: 3px; background: #2a3646; margin-block: 8px; }
+.nota b:nth-child(1) { width: 78%; background: #4a5a70; } .nota b:nth-child(2) { width: 90%; } .nota b:nth-child(3) { width: 62%; } .nota b:nth-child(4) { width: 82%; }
+.nota b.nueva { width: 92%; background: #f0b45c; box-shadow: 0 0 12px rgba(240, 180, 92, .65); opacity: var(--n2); }
+
+.coc { background: linear-gradient(180deg, #1c1f26, #12141a 72%, #0c0d11); }
+.v5 { position: absolute; left: 70vw; top: 9vh; width: 24vw; min-width: 150px; height: 40vh; border: 6px solid #07080a; overflow: hidden;
+  background: linear-gradient(180deg, color-mix(in srgb, #a8895c, #26303c calc((1 - var(--alba)) * 100%)), color-mix(in srgb, #c4a578, #3a4452 calc((1 - var(--alba)) * 100%))); box-shadow: 0 0 70px 6px rgba(255, 210, 150, calc(var(--alba) * .12)); }
+.v5 .sk { position: absolute; left: 0; right: 0; bottom: 0; height: 60%; }
+.barra { position: absolute; left: 0; right: 0; bottom: 0; height: 24vh; background: linear-gradient(180deg, #23262d, #0f1115); border-top: 4px solid #30353f; }
+.cafetera { position: absolute; left: 14vw; bottom: 24vh; width: max(70px, 11vw); height: 17vh; background: linear-gradient(90deg, #14161a, #23262d); border-radius: 8px 8px 2px 2px; }
+.cafetera::before { content: ""; position: absolute; left: 22%; right: 22%; top: 14%; height: 20%; background: #07080a; border-radius: 3px; }
+.cafetera::after { content: ""; position: absolute; left: 40%; width: 20%; top: 40%; height: 18%; background: #3a2a1c; opacity: var(--cafe); box-shadow: 0 8px 14px 2px rgba(255, 170, 90, calc(var(--cafe) * .45)); }
+.taza { position: absolute; left: calc(14vw + max(70px, 11vw) * .5 - 17px); bottom: 24vh; width: 34px; height: 24px; background: #d9cfbe; border-radius: 3px 3px 12px 12px; }
+.taza::after { content: ""; position: absolute; right: -9px; top: 4px; width: 12px; height: 12px; border: 3px solid #d9cfbe; border-left: 0; border-radius: 0 10px 10px 0; }
+.vapor { position: absolute; left: calc(14vw + max(70px, 11vw) * .5 - 14px); bottom: calc(24vh + 24px); width: 28px; height: 12vh; opacity: calc(var(--cafe) * .55); }
+.vapor i { position: absolute; bottom: 0; width: 10px; height: 100%; border-radius: 50%; background: linear-gradient(0deg, rgba(255, 245, 225, .75), transparent); filter: blur(4px); animation: sube 4.2s ease-in infinite; opacity: 0; }
+.vapor i:nth-child(1) { left: 0; } .vapor i:nth-child(2) { left: 9px; animation-delay: 1.4s; } .vapor i:nth-child(3) { left: 18px; animation-delay: 2.8s; }
+@keyframes sube { 0% { transform: translateY(0) scaleX(1); opacity: 0; } 25% { opacity: .9; } 100% { transform: translateY(-9vh) scaleX(2.2); opacity: 0; } }
+
+.sonrisa { position: absolute; left: 50%; top: 15vh; width: calc(9vmin + var(--sonrisa) * 20vmin); aspect-ratio: 2 / 1; margin-left: calc((9vmin + var(--sonrisa) * 20vmin) / -2); border-bottom: 4px solid rgba(255, 216, 160, .95); border-radius: 0 0 50% 50% / 0 0 100% 100%; opacity: var(--sonrisa); filter: drop-shadow(0 0 10px rgba(255, 200, 120, .6)); }
+
+/* ========== LECTURA ========== */
+.col { position: relative; z-index: 1; max-width: 40rem; margin-inline: auto; display: flex; flex-direction: column; gap: 1.3rem; }
+p { margin: 0; text-shadow: 0 0 16px rgba(5, 3, 2, .95), 0 1px 3px rgba(5, 3, 2, .9); }
+.volver { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #cfc4b2; text-decoration: none; align-self: flex-start; padding-block: .4rem; text-shadow: 0 0 12px #050302; }
+.volver:hover, .volver:focus-visible { color: var(--ambar); }
+.volver:focus-visible, .otra:focus-visible { outline: 2px solid var(--ambar); outline-offset: 4px; }
+header { display: flex; flex-direction: column; gap: 1rem; min-height: 60svh; justify-content: flex-end; padding-bottom: 3.5rem; }
+.kicker { font-family: var(--mono); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #cdbfa9; text-shadow: 0 0 12px #050302; }
+.fecha { font-family: var(--mono); font-size: .8rem; letter-spacing: .12em; color: var(--ambar); text-shadow: 0 0 12px #050302; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(3rem, 13vw, 7.4rem); line-height: .96; letter-spacing: -.02em; color: #fbf0dc; text-wrap: balance; text-shadow: 0 0 40px rgba(255, 190, 120, .32), 0 2px 24px #050302; }
+.pausa { margin-top: 1.5rem; }
+.d { padding-left: 1.1em; text-indent: -1.1em; }
+.e { color: #f7e2bd; } .o { color: #d3e1f4; } .v { color: #cfe0f6; font-style: italic; }
+.escrito { max-width: 31rem; margin-block: .5rem; align-self: flex-end; }
+.escrito .bub { font-family: var(--mono); font-size: .94rem; line-height: 1.6; padding: .9rem 1.15rem; text-shadow: none; background: rgba(38, 29, 18, .92); color: #f2e0bd; border: 1px solid #5a4830; border-radius: 18px 18px 4px 18px; }
+.cierre { margin-top: 2.2rem; }
+.fin { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--linea); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.fin p { font-family: var(--display); font-style: italic; font-size: 1.7rem; color: var(--ambar); }
+.otra { font-family: var(--mono); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ambar); text-decoration: none; padding-block: .4rem; text-shadow: 0 0 10px #050302; }
+.otra:hover { text-decoration: underline; text-underline-offset: .35em; }
+
+@media (max-width: 700px) {
+  .nota { left: 4vw; width: 122px; bottom: 40vh; }
+  .vent { left: 4vw; width: 22vw; }
+  .sf.padre { left: 2vw; } .sf.madre { left: auto; right: 2vw; }
+  .fant { left: 44vw; }
+  .v5 { left: 52vw; width: 42vw; opacity: .8; }
+  .cafetera { left: 8vw; } .taza { left: calc(8vw + max(70px, 11vw) * .5 - 17px); } .vapor { left: calc(8vw + max(70px, 11vw) * .5 - 14px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tira, .el0, .bolsa, .trio .p, .brazo, .bokeh, .cabeza { animation: none; }
+  body.st-voz .anillos i { animation: none; opacity: .22; transform: scale(2.4); }
+  body.st-alarma .movil2, body.st-alarma .movil2::before, body.st-alarma .aro i, body.st-chispa .chispa { animation: none; }
+  .vapor i { animation: none; opacity: .5; }
+  .esc, .hab, .coc, .el1, .torso, .cabeza, .puerta .luz { transition: none; }
+}
+</style>
+</head>
+<body data-s="0">
+
+<!-- SUEÑO -->
+<div class="capa sueno" aria-hidden="true">
+  <div class="esc s0">
+    <div class="cielo-ciu"><div class="tira" data-ciudad="11" data-lejos="1"></div></div>
+    <div class="suelo"></div>
+    <div class="el0">
+      <svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="12"/><rect x="12" y="32" width="36" height="70" rx="16"/><rect x="15" y="96" width="13" height="70" rx="6"/><rect x="32" y="96" width="13" height="70" rx="6"/></svg>
+      <div class="bolsa"><svg viewBox="0 0 90 70"><path d="M32 12 Q45 -6 58 12" fill="none" stroke="#1d2f44" stroke-width="4" stroke-linecap="round"/><rect x="4" y="12" width="82" height="52" rx="18" fill="#34506e" stroke="#1d2f44" stroke-width="2"/><rect x="4" y="34" width="82" height="7" fill="#2a425e"/><path d="M14 22 H76" stroke="#8aa6c4" stroke-width="1.6" stroke-dasharray="3 3" opacity=".7"/></svg></div>
+    </div>
+  </div>
+
+  <div class="esc s1">
+    <div class="cielo-ciu"><div class="tira" data-ciudad="23" data-lejos="1"></div></div>
+    <div class="suelo"></div>
+    <div class="derrame"></div>
+    <div class="puerta"><div class="luz"></div></div>
+    <div class="ella1"><svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="12"/><path d="M14 34 Q30 26 46 34 L52 112 L8 112 Z"/><rect x="17" y="106" width="10" height="60" rx="5"/><rect x="33" y="106" width="10" height="60" rx="5"/></svg></div>
+    <div class="el1">
+      <svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="12"/><rect x="12" y="32" width="36" height="70" rx="16"/><rect x="15" y="96" width="13" height="70" rx="6"/><rect x="32" y="96" width="13" height="70" rx="6"/></svg>
+      <div class="bolsa"><svg viewBox="0 0 90 70"><path d="M32 12 Q45 -6 58 12" fill="none" stroke="#1d2f44" stroke-width="4" stroke-linecap="round"/><rect x="4" y="12" width="82" height="52" rx="18" fill="#34506e" stroke="#1d2f44" stroke-width="2"/><rect x="4" y="34" width="82" height="7" fill="#2a425e"/><path d="M14 22 H76" stroke="#8aa6c4" stroke-width="1.6" stroke-dasharray="3 3" opacity=".7"/></svg></div>
+    </div>
+  </div>
+
+  <div class="esc s2">
+    <div class="cielo-ciu"><div class="tira rapida" data-ciudad="37"></div></div>
+    <div class="suelo"></div>
+    <div id="bokeh"></div>
+    <div class="trio">
+      <div class="p elp"><svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="12"/><rect x="12" y="32" width="36" height="70" rx="16"/><rect x="15" y="96" width="13" height="70" rx="6"/><rect x="32" y="96" width="13" height="70" rx="6"/></svg></div>
+      <div class="p alv"><svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="12"/><rect x="12" y="32" width="36" height="70" rx="16"/><rect x="15" y="96" width="13" height="70" rx="6"/><rect x="32" y="96" width="13" height="70" rx="6"/><rect class="brazo" x="44" y="38" width="9" height="46" rx="4.5"/></svg></div>
+      <div class="p ell"><svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="12"/><path d="M14 34 Q30 26 46 34 L52 112 L8 112 Z"/><rect x="17" y="106" width="10" height="60" rx="5"/><rect x="33" y="106" width="10" height="60" rx="5"/></svg><div class="vibra" id="vibra"></div></div>
+    </div>
+  </div>
+
+  <div class="esc s3">
+    <div class="sala-ventana"></div>
+    <div class="pie"></div>
+    <div class="suelo"></div>
+    <div class="sf padre"><svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="12"/><rect x="10" y="32" width="40" height="76" rx="12"/><rect x="14" y="102" width="14" height="64" rx="6"/><rect x="32" y="102" width="14" height="64" rx="6"/></svg><div class="corbata"></div></div>
+    <div class="sf madre"><svg class="fig" viewBox="0 0 60 170"><circle cx="30" cy="16" r="11"/><path d="M12 34 Q30 26 48 34 L54 120 L6 120 Z"/><rect x="17" y="114" width="10" height="52" rx="5"/><rect x="33" y="114" width="10" height="52" rx="5"/></svg></div>
+    <div class="sofa"></div>
+    <div class="sf el"><svg class="fig" viewBox="0 0 60 120"><circle cx="30" cy="16" r="12"/><rect x="12" y="32" width="36" height="78" rx="16"/></svg></div>
+    <div class="sf ella"><svg class="fig" viewBox="0 0 60 120"><circle cx="30" cy="16" r="12"/><path d="M14 34 Q30 26 46 34 L52 112 L8 112 Z"/><circle class="chispa" cx="38" cy="21" r="2.6"/></svg></div>
+  </div>
+</div>
+
+<!-- DESPERTAR -->
+<div class="capa desp" aria-hidden="true">
+  <div class="hab">
+    <div class="techo"></div>
+    <div class="vent"></div>
+    <div class="rayas"></div>
+    <div class="anillos"><i></i><i></i><i></i></div>
+    <div class="cabecero"></div><div class="cama"></div><div class="almohada"></div><div class="torso"></div><div class="cabeza"></div>
+    <div class="fant"></div>
+    <div class="mesilla"></div>
+    <div class="aro"><i></i><i></i></div>
+    <div class="movil2"></div>
+    <div class="nota"><b></b><b></b><b></b><b></b><b class="nueva"></b></div>
+  </div>
+  <div class="coc">
+    <div class="v5"><div class="sk" data-ciudad="53" data-fija="1"></div></div>
+    <div class="barra"></div>
+    <div class="cafetera"></div><div class="taza"></div>
+    <div class="vapor"><i></i><i></i><i></i></div>
+  </div>
+  <div class="sonrisa"></div>
+</div>
+
+<main class="col">
+  <a class="volver" href="../index.html#cap2">← Historias jamás contadas</a>
+
+  <header>
+    <div class="kicker">Él · un sueño</div>
+    <h1>Antes del despertador</h1>
+    <time class="fecha" datetime="2026-11-05">5 de noviembre de 2026</time>
+  </header>
+
+  <p data-s="0">En el sueño, Él llevaba la bolsa azul militar en una mano.</p>
+
+  <p class="pausa">Era una de esas bolsas de deporte, de lona gruesa, con un asa que se clava en la palma, y pesaba lo justo para que el camino hasta su casa se sintiera como un viaje de verdad. Caminaba sin prisa. Conocía la calle de memoria, aunque no la hubiera pisado nunca, como se conocen los sitios en los sueños, por una certeza que no pide pruebas.</p>
+
+  <p class="pausa" data-s="1">Ella abrió la puerta antes de que llamara.</p>
+
+  <p class="pausa" data-abrazo="1">No dijeron nada. Se abrazaron en el umbral, con la bolsa colgando entre los dos, y el abrazo fue largo y tranquilo, de los de quien no tiene que demostrar nada. Ella olía a lo de siempre. Él apoyó la cara en su hombro y pensó, con una claridad rarísima: ya está, ya estoy aquí. Nadie había dicho la palabra, y sin embargo la sabía: eran pareja. Lo eran desde hacía tiempo, y esa certeza era lo más ligero que había sentido nunca.</p>
+
+  <p class="pausa" data-bolsa="1">Dejó la bolsa en su cuarto, al lado de la cama, con la naturalidad de quien deja sus cosas en un sitio que también es suyo.</p>
+
+  <p class="d pausa o">—He quedado con un amigo —dijo ella, asomándose a la puerta—. Álvaro. Te va a caer genial. ¿Salimos a dar una vuelta?</p>
+
+  <p class="d pausa e">—Claro.</p>
+
+  <p class="pausa" data-s="2">Salieron los tres. Álvaro resultó ser uno de esos tipos que hablan con las manos, que se ríen antes de que acabe el chiste, y la tarde se fue con un ritmo suave de calles, cafés y conversaciones sin importancia. Él caminaba un poco detrás de ella, mirándola reírse, con esa felicidad boba que se le había puesto en la cara y que no sabía esconder.</p>
+
+  <p class="pausa" data-vibra="1">Estaban a mitad de la tarde cuando a ella le vibró el móvil. Lo miró, y cambió la cara.</p>
+
+  <p class="d pausa o">—Mis padres —dijo—. Han venido. De sorpresa. Están en casa.</p>
+
+  <p class="d pausa e">—¿Ahora?</p>
+
+  <p class="d pausa o">—Ahora. Tenemos que volver.</p>
+
+  <p class="pausa">Volvieron deprisa. En el sueño no hubo explicación: simplemente era así, los padres habían llegado de visita sin avisar, y la tarde se había torcido. No pasaba nada malo. Era solo ese pequeño pánico absurdo de quien se ve de repente en un sitio donde no sabe cómo comportarse.</p>
+
+  <p class="pausa" data-s="3">Cuando llegaron, los dos estaban en el salón.</p>
+
+  <p class="pausa">Su padre llevaba traje, de esos que parecen recién planchados, con el pelo engominado hacia atrás y un aire de gimnasio y reunión de empresa. Su madre, a su lado, era más bajita, de pelo corto, con una ropa cómoda de domingo, mucho más casual que él, como si hubieran venido a la misma visita desde dos mundos distintos. Los dos se levantaron a la vez, sonriendo.</p>
+
+  <p class="pausa">Él se quedó en la puerta con las manos vacías. No sabía qué hacer con ellas.</p>
+
+  <p class="pausa">Y lo peor, lo más divertido: sus padres no sabían que eran pareja.</p>
+
+  <p class="pausa">Se sentaron en el sofá, cada uno en un extremo, con esa corrección fingida de quien está intentando no mirarse demasiado. Ella le lanzó una mirada de "por favor, compórtate". Él puso cara de inocente. Y entonces, como casi siempre, no pudo evitarlo.</p>
+
+  <p class="d pausa e">—Qué bien vivís aquí —comentó, con aire casual—. Se está muy a gusto. Yo ya había dejado mis cosas en el cuarto, ¿eh?</p>
+
+  <p class="pausa">Ella se atragantó con su propia saliva.</p>
+
+  <p class="d pausa e">—O sea —corrigió él, con los ojos muy abiertos—, en el cuarto de invitados. Que no hay otro.</p>
+
+  <p class="d pausa o">—No hay cuarto de invitados —dijo la madre, con una sonrisa curiosa.</p>
+
+  <p class="d pausa e">—Pues entonces no sé. —Se encogió de hombros—. El sofá.</p>
+
+  <p class="pausa">Ella cerró los ojos un segundo. Él sintió, desde el otro lado del sofá, cómo se le contraía la sonrisa de la risa que intentaba no soltar.</p>
+
+  <p class="pausa">Siguió así un rato. Un comentario por aquí, otra frase ambigua por allá, y cada uno de ellos le subía a ella un poco más el color de las mejillas. Se lo estaba pasando mejor que nunca, y también un poco más expuesto, porque sabía que estaba tirando de un hilo que podía romperse. Pero no podía parar. Esa mezcla de nervios y de felicidad era lo mejor que le había pasado en meses.</p>
+
+  <p class="d pausa o">—Y tú, ¿a qué te dedicas? —preguntó por fin el padre, cruzando las piernas y mirándolo con interés—. ¿Qué estudias? ¿Qué te gusta hacer?</p>
+
+  <p class="pausa">Él tragó saliva. Ella se tensó a su lado, preparada para el desastre.</p>
+
+  <p class="d pausa e">—Estudio informática —respondió, con la voz más seria que pudo—. Me gustan los ordenadores, la música... —Hizo una pausa teatral—. Y llevar la contraria. Es un deporte de alto riesgo.</p>
+
+  <p class="d pausa o">—¿Cómo así?</p>
+
+  <p class="d pausa e">—Porque lo practico con mi novia.</p>
+
+  <p class="pausa">Hubo un silencio.</p>
+
+  <p class="pausa">Él no dijo quién. No miró a nadie en concreto. Lo dejó caer, con una media sonrisa, como quien deja una moneda sobre la mesa y no mira si alguien la recoge. Pero, de reojo, sin mover la cabeza, la miró a ella.</p>
+
+  <p class="pausa" data-chispa="1">Ella tenía los ojos abiertos de par en par y la boca apretada con fuerza. Pero en la comisura de los labios, en ese rinconcito donde se le escapaba siempre la sonrisa, había algo que se estaba rompiendo despacio. No de miedo. De algo mucho más bonito.</p>
+
+  <p class="pausa" data-fino=".6">Y justo entonces el sueño se hizo más fino. El salón perdió color. Las voces se volvieron lejanas.</p>
+
+  <p class="pausa" data-s="4" data-fino="1" data-alarma="1">Sonó el despertador.</p>
+
+  <p class="pausa">Abrió los ojos.</p>
+
+  <p class="pausa" data-alarma="0" data-alba=".08">El techo de su habitación, la luz gris de la persiana, el pitido insistente del móvil. Lo apagó con una mano y se quedó boca arriba, sin moverse, con el corazón todavía yendo deprisa.</p>
+
+  <p class="pausa" data-fant="1">Tardó unos segundos en entender dónde estaba. Y cuando lo entendió, llegó el golpe, pequeño y limpio, de esos que no duelen en el momento sino un poco después: no había bolsa azul. No había salón, ni padres con traje, ni nadie a quien guiñarle el ojo. Había una cama, una habitación, una mañana cualquiera.</p>
+
+  <p class="pausa">Notó la boca seca, con ese regusto amargo que deja despertar de algo bueno. Como cuando se acaba una canción que no querías que terminara. Apretó los ojos, y le salió un suspiro largo, más parecido a una queja.</p>
+
+  <p class="d pausa e">—Qué mierda —murmuró.</p>
+
+  <p class="d pausa v" data-fant="0">—Ya has vuelto —dijo la Voz.</p>
+
+  <p class="pausa">Él no se sobresaltó. La conocía bien: esa parte de sí que hablaba cuando todo estaba en silencio.</p>
+
+  <p class="d pausa e">—Era mejor el sueño que esto —dijo—. Justo ahí. Justo cuando iba a ver cómo acababa.</p>
+
+  <p class="d pausa v">—Lo sé.</p>
+
+  <p class="d pausa e">—Me da rabia. No sé con quién. Con el despertador, con la vida. Con todo.</p>
+
+  <p class="d pausa v">—Normal. —La Voz no intentó consolarlo con prisa—. Nadie se levanta contento de dejar un sitio donde era feliz. Déjate sentir el mal sabor. No hace falta que lo quites de golpe.</p>
+
+  <p class="pausa" data-alba=".16">Se quedó un rato quieto, dejándolo estar. Fuera, un coche arrancó. En alguna parte, un vecino abrió un grifo. La habitación seguía gris, sin ninguna prisa por convertirse en mañana.</p>
+
+  <p class="d pausa v">—¿Sabes qué te ha pasado mientras hablábamos? —dijo la Voz, pasado un rato.</p>
+
+  <p class="d pausa e">—¿Qué?</p>
+
+  <p class="d pausa v">—Tócate la cara.</p>
+
+  <p class="pausa" data-sonrisa=".35" data-alba=".24">Él levantó una mano y se tocó la boca. Y se dio cuenta, con una sorpresa tonta, de que estaba sonriendo. No mucho. Una sonrisa pequeña, a medio hacer, de esas que se quedan pegadas aunque la cabeza ya haya empezado a lamentarse.</p>
+
+  <p class="d pausa v">—La cabeza se ha quejado —dijo la Voz—. Pero tu cara no se ha enterado todavía. Se acuerda del chiste. De cómo te ha mirado de reojo.</p>
+
+  <p class="pausa" data-sonrisa=".6">Él soltó una risa por la nariz, corta, y la sonrisa se hizo un poquito más grande.</p>
+
+  <p class="d pausa e">—Es ridículo —murmuró—. Lo del deporte de alto riesgo.</p>
+
+  <p class="d pausa v">—Es lo más tú que tienes.</p>
+
+  <p class="pausa">Se quedó callado. Después, bajito, sin planearlo, empezó a hablar.</p>
+
+  <p class="d pausa e" data-alba=".34">—Es que la quiero —dijo—. De una forma que no sabía que existía. Me da vuelcos el corazón cuando oigo su nombre. Cuando hablo con ella me pasa algo en la cabeza, como una inyección de dopamina, y me dan ganas de mandarle fotos de todo lo que hago, hasta de lo más tonto, solo porque me gusta que sepa de mí.</p>
+
+  <p class="pausa">La Voz no dijo nada. Lo dejó seguir.</p>
+
+  <p class="d pausa e">—Es mi reflejo de Oesed. Es lo que veo cuando miro lo que más deseo. Es el recuerdo feliz con el que podría espantar a mil dementores. Es la luna, lo que más me gusta mirar después de ella. —Tragó saliva—. Y no la quiero para que me haga feliz. Me hace feliz saber que existe. Aunque no pase nunca como en el sueño. Aunque el sueño sea solo eso.</p>
+
+  <p class="d pausa v">—No ha sido un sueño cualquiera, ¿te das cuenta?</p>
+
+  <p class="d pausa e">—¿Por qué?</p>
+
+  <p class="d pausa v">—Porque no has soñado con una boda, ni con una declaración de película. Has soñado con un día normal. Con una bolsa en el cuarto, un amigo que habla con las manos y unos padres inoportunos. Lo que quieres de verdad es lo corriente. Poder dejar tus cosas en un sitio como quien llega a casa.</p>
+
+  <p class="pausa">Él cerró los ojos. Sintió algo tibio y doloroso en el pecho, las dos cosas a la vez.</p>
+
+  <p class="d pausa v">—Eso es amor —dijo la Voz—. Del que no necesita un escenario.</p>
+
+  <p class="d pausa e">—Y no sé si pasará.</p>
+
+  <p class="d pausa v" data-alba=".46">—No lo sé yo tampoco. El sueño no es una promesa. Es un dato. Te dice lo que deseas, no lo que va a ocurrir. Y con ese dato tienes dos opciones: guardarlo como una herida o guardarlo como una brújula. —La Voz hizo una pausa—. Antes querías un final. Querías la llave en la cerradura, la respuesta, la fecha. Ahora sabes que lo que quieres es un modo de estar. La ligereza, la risa, el dejar las cosas sin pedir permiso. Y eso se practica ya, por dentro, sin esperar a que nadie lo autorice.</p>
+
+  <p class="d pausa e">—Antes y después —dijo él, con una media sonrisa.</p>
+
+  <p class="d pausa v">—Antes y después. —La Voz se rio—. Aunque sea un mal chiste.</p>
+
+  <p class="pausa" data-sent="1" data-nota="1" data-alba=".55">Se incorporó despacio. Puso los pies en el suelo frío, y el frío le subió por las piernas como una pequeña bofetada amable. Cogió el móvil y abrió la aplicación de notas, y buscó aquel borrador que tenía guardado desde hacía días, el que se titulaba Para cuando pueda decirlo tranquilo. Debajo de todo, en una línea nueva, escribió:</p>
+
+  <div class="escrito pausa" data-nota="2"><p class="bub">Hoy soñé que dejaba mi bolsa en tu cuarto. No sé cómo habría acabado, pero fue muy bonito.</p></div>
+
+  <p class="pausa" data-nota="3">Lo leyó una vez. No lo envió. No hacía falta.</p>
+
+  <p class="pausa" data-s="5" data-cafe="1" data-alba=".8" data-sent="0">Fue a la cocina, puso la cafetera y se apoyó en la encimera mientras esperaba. Por la ventana entraba la luz de la mañana, todavía fría, todavía sin ganas. El café subió con su ruido de siempre. Lo sirvió, le dio un sorbo, y le supo amargo: el mismo amargor de al despertar, ahora con un poco de calor.</p>
+
+  <p class="pausa" data-sonrisa="1">No se lo quitó con azúcar. Se lo bebió así, despacio, con el mal sabor y la sonrisa pequeña conviviendo en la misma boca. Una cosa no borraba a la otra. Las dos eran verdad.</p>
+
+  <p class="cierre" data-alba="1">Y mientras la ciudad se desperezaba al otro lado del cristal, pensó que en el fondo el sueño había acabado en el mejor momento posible: cuando él decía el chiste, y ella lo miraba.</p>
+
+  <footer class="fin">
+    <p>Fin.</p>
+    <a class="otra" href="../index.html#cap2">← Elegir otra historia</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var raiz = document.documentElement, cuerpo = document.body;
+  var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var NS = "http://www.w3.org/1999/xhtml";
+
+  /* --- Generadores --- */
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function ciudad(cont) {
+    var seed = parseInt(cont.getAttribute("data-ciudad"), 10), fija = cont.getAttribute("data-fija");
+    var mitades = fija ? 1 : 2, anchoVw = fija ? 100 : 100;
+    for (var m = 0; m < mitades; m++) {
+      var r = rng(seed), x = 0;
+      while (x < anchoVw) {
+        var w = 5 + r() * 7, h = 22 + r() * 62;
+        var e = document.createElement("div");
+        e.className = "ed";
+        e.style.left = fija ? x + "%" : (x + m * 100) + "vw";
+        e.style.width = fija ? w + "%" : w + "vw";
+        e.style.height = h + "%";
+        var nv = 3 + Math.floor(r() * 7);
+        for (var k = 0; k < nv; k++) {
+          var v = document.createElement("i");
+          v.style.left = (10 + r() * 78) + "%"; v.style.top = (8 + r() * 82) + "%";
+          v.style.opacity = (.35 + r() * .65).toFixed(2);
+          e.appendChild(v);
+        }
+        cont.appendChild(e);
+        x += w + .3 + r() * 1.2;
+      }
+    }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-ciudad]"), ciudad);
+  var bk = document.getElementById("bokeh"), rb = rng(77), cols = ["255,214,150", "255,180,110", "255,235,190", "255,160,120"];
+  for (var i = 0; i < 16; i++) {
+    var b = document.createElement("i");
+    b.className = "bokeh";
+    var s = 14 + rb() * 38;
+    b.style.cssText = "left:" + (rb() * 96).toFixed(1) + "vw;top:" + (14 + rb() * 40).toFixed(1) + "vh;width:" + s.toFixed(0) + "px;height:" + s.toFixed(0) + "px;background:rgba(" + cols[i % 4] + "," + (.12 + rb() * .25).toFixed(2) + ");animation-delay:-" + (rb() * 9).toFixed(1) + "s;animation-duration:" + (7 + rb() * 6).toFixed(1) + "s";
+    bk.appendChild(b);
+  }
+
+  /* --- Estado --- */
+  var V = { sv: 1, desp: 0, alba: 0, movil: .2, sonrisa: 0, cafe: 0, fant: 0, n1: 0, n2: 0 };
+  var T = { sv: 1, desp: 0, alba: 0, movil: .2, sonrisa: 0, cafe: 0, fant: 0, n1: 0, n2: 0 };
+  function aplica() { for (var k in V) raiz.style.setProperty("--" + k, V[k].toFixed(3)); }
+  var ultimo = 0;
+  function bucle(t) {
+    var dt = Math.min(50, t - (ultimo || t)); ultimo = t;
+    var f = 1 - Math.pow(1 - .04, dt / 16.7);
+    for (var k in T) V[k] += (T[k] - V[k]) * (k === "desp" || k === "sv" ? f * .8 : f);
+    aplica(); requestAnimationFrame(bucle);
+  }
+  var marcados = Array.prototype.slice.call(document.querySelectorAll("main [data-s],main [data-abrazo],main [data-bolsa],main [data-vibra],main [data-chispa],main [data-fino],main [data-alarma],main [data-alba],main [data-fant],main [data-sonrisa],main [data-sent],main [data-nota],main [data-cafe]"));
+  var parrafos = Array.prototype.slice.call(document.querySelectorAll("main > p"));
+  var vibra = document.getElementById("vibra"), vibraAntes = 0, pendiente = false;
+  function num(p, a) { var v = p.getAttribute(a); return v === null ? null : parseFloat(v); }
+  function actualiza() {
+    pendiente = false;
+    var linea = window.innerHeight * .55, k, key, v;
+    var st = { s: 0, abrazo: 0, bolsa: 0, vibra: 0, chispa: 0, fino: 0, alarma: 0, alba: 0, fant: 0, sonrisa: 0, sent: 0, nota: 0, cafe: 0 };
+    for (k = 0; k < marcados.length; k++) {
+      if (marcados[k].getBoundingClientRect().top > linea) break;
+      for (key in st) if ((v = num(marcados[k], "data-" + key)) !== null) st[key] = v;
+    }
+    var voz = false;
+    for (k = 0; k < parrafos.length; k++) { if (parrafos[k].getBoundingClientRect().top > linea) break; voz = parrafos[k].classList.contains("v"); }
+    cuerpo.setAttribute("data-s", st.s);
+    cuerpo.classList.toggle("st-voz", voz && st.s === 4);
+    cuerpo.classList.toggle("st-abrazo", !!st.abrazo);
+    cuerpo.classList.toggle("st-bolsa", !!st.bolsa);
+    cuerpo.classList.toggle("st-chispa", !!st.chispa);
+    cuerpo.classList.toggle("st-alarma", !!st.alarma);
+    cuerpo.classList.toggle("st-sent", !!st.sent);
+    var sueno = st.s <= 3;
+    T.sv = sueno ? 1 - st.fino : 0;
+    T.desp = sueno ? 0 : 1;
+    T.alba = st.alba; T.sonrisa = st.sonrisa; T.cafe = st.cafe; T.fant = st.s === 4 ? st.fant : 0;
+    T.movil = st.nota === 1 || st.nota === 2 ? 1 : st.nota === 3 ? .3 : .22;
+    T.n1 = st.s === 4 ? (st.nota === 3 ? .4 : st.nota >= 1 ? 1 : 0) : 0;
+    T.n2 = st.nota >= 2 ? 1 : 0;
+    if (st.vibra && !vibraAntes && !reducir && vibra && vibra.animate) vibra.animate([{ transform: "scale(.3)", opacity: .9 }, { transform: "scale(3)", opacity: 0 }, { transform: "scale(.3)", opacity: .9, offset: .5 }, { transform: "scale(3)", opacity: 0 }], { duration: 1600, easing: "ease-out" });
+    vibraAntes = st.vibra;
+    if (reducir) { for (key in T) V[key] = T[key]; aplica(); }
+  }
+  function pide() { if (!pendiente) { pendiente = true; requestAnimationFrame(actualiza); } }
+  window.addEventListener("scroll", pide, { passive: true });
+  window.addEventListener("resize", pide);
+  aplica(); actualiza();
+  if (!reducir) requestAnimationFrame(bucle);
+})();
+</script>
+</body>
+</html>
